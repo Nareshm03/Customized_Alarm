@@ -1,0 +1,255 @@
+{
+    "checksum": "0621e2170d51f7ff31309bb1eb12d029a7ce90c9e04c510d12f8e9c182200d42",
+    "data": {
+    "id": "443b6e05-2bf6-4712-8311-7e233b341768",
+    "createdAt": 1748158898262,
+    "updatedAt": 1748158898687,
+    "title": "Repository.kt C:\\Users\\nares\\StudioProjects\\Tea...",
+    "messages": [
+        {
+            "id": "bad76a08-0fb2-4dfd-bb92-2bdbd21dd534",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Repository.kt C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example teacherscheduler\\data 23 problems"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Argument type mismatch: actual type is 'kotlin.Int', but 'kotlin.Boolean' was expected. :272"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Argument type mismatch: actual type is 'kotlin.Int', but 'kotlin.Boolean' was expected. :283"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Argument type mismatch: actual type is 'kotlin.Int', but 'kotlin.Boolean' was expected. :294 ▲ Unused import directive :16"
+                },
+                {
+                    "type": "text",
+                    "text": "▲ Unused import directive :17"
+                },
+                {
+                    "type": "text",
+                    "text": "A Unused import directive :18"
+                },
+                {
+                    "type": "text",
+                    "text": "▲ Unused import directive :19"
+                },
+                {
+                    "type": "text",
+                    "text": "A Constructor parameter is never used as a property :23"
+                },
+                {
+                    "type": "text",
+                    "text": "A Property \"settings Dao\" is never used :28"
+                },
+                {
+                    "type": "text",
+                    "text": "▲ Function \"getAllActiveClasses Sync\" is never used:69 ▲ Function \"getAllActive Meetings Sync\" is never used :116 A Function \"getAllActiveSemesters Sync\" is never used :181 A Function \"getSemesterByld\" is never used :185"
+                },
+                {
+                    "type": "text",
+                    "text": "A Function \"getCurrentSemesterSync\" is never used :193"
+                },
+                {
+                    "type": "text",
+                    "text": "▲ Redundant 'suspend' modifier :215"
+                },
+                {
+                    "type": "text",
+                    "text": "▲ Redundant 'suspend' modifier :219"
+                },
+                {
+                    "type": "text",
+                    "text": "▲ Redundant 'suspend' modifier :229"
+                },
+                {
+                    "type": "text",
+                    "text": "A Condition 'cloudld > O' is always false :272 ▲ Condition 'cloudld > O' is always false :283 ▲ Condition 'cloudld > O' is always false :294 Typo: In word 'unsynchronized' :269 Typo: In word 'unsynchronized' :280"
+                },
+                {
+                    "type": "text",
+                    "text": "Typo: In word 'unsynchronized' :291"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748158898264,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Repository.kt C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example teacherscheduler\\data 23 problems"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Argument type mismatch: actual type is 'kotlin.Int', but 'kotlin.Boolean' was expected. :272"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Argument type mismatch: actual type is 'kotlin.Int', but 'kotlin.Boolean' was expected. :283"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Argument type mismatch: actual type is 'kotlin.Int', but 'kotlin.Boolean' was expected. :294 ▲ Unused import directive :16"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "▲ Unused import directive :17"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Unused import directive :18"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "▲ Unused import directive :19"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Constructor parameter is never used as a property :23"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Property \"settings Dao\" is never used :28"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "▲ Function \"getAllActiveClasses Sync\" is never used:69 ▲ Function \"getAllActive Meetings Sync\" is never used :116 A Function \"getAllActiveSemesters Sync\" is never used :181 A Function \"getSemesterByld\" is never used :185"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Function \"getCurrentSemesterSync\" is never used :193"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "▲ Redundant 'suspend' modifier :215"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "▲ Redundant 'suspend' modifier :219"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "▲ Redundant 'suspend' modifier :229"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Condition 'cloudld > O' is always false :272 ▲ Condition 'cloudld > O' is always false :283 ▲ Condition 'cloudld > O' is always false :294 Typo: In word 'unsynchronized' :269 Typo: In word 'unsynchronized' :280"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Typo: In word 'unsynchronized' :291"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "f885b393-ba56-49bf-acd0-5ddf4e126ffd",
+            "role": "system",
+            "content": [
+                {
+                    "type": "errorText",
+                    "text": "Rate limit exceeded. You can try again on May 25 at 19:59.",
+                    "allowRegenerate": true
+                }
+            ],
+            "createdAt": 1748158898687,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "autoApply": false
+}
+}

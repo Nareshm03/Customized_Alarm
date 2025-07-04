@@ -1,0 +1,671 @@
+{
+    "checksum": "d199d486bdef49321d019d08511964cb3a3a76bd8ff1c2aadd4b0c8abfca3189",
+    "data": {
+    "id": "0cf52451-7f5b-4695-8b1d-b4d027e8b7b0",
+    "createdAt": 1748162105606,
+    "updatedAt": 1748162284316,
+    "title": "SemesterAdapter.kt C:\\Users\\nares\\Studio Projec...",
+    "messages": [
+        {
+            "id": "77dc9dff-7ddc-4a69-8c49-e4ec81780a74",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "SemesterAdapter.kt C:\\Users\\nares\\Studio"
+                },
+                {
+                    "type": "text",
+                    "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 3 problems"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'textViewSemesterName'. :59"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'textViewSemesterDuration'. :60 ● Unresolved reference 'textViewCurrentSemester'. :63"
+                },
+                {
+                    "type": "text",
+                    "text": "SemesterFragment.kt C:\\Users\\nares\\Studio"
+                },
+                {
+                    "type": "text",
+                    "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 20 problems"
+                },
+                {
+                    "type": "text",
+                    "text": "• No value passed for parameter 'onDeleteClick'. :54"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :84"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'AlertDialog'. :98"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :109"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :129"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Unresolved reference 'AlertDialog'. :145"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :148"
+                },
+                {
+                    "type": "text",
+                    "text": "● Cannot infer type for this parameter. Please specify it explicitly. :148"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :156 • Cannot infer type for this parameter. Please specify it explicitly. :170"
+                },
+                {
+                    "type": "text",
+                    "text": "• Cannot infer type for this parameter. Please specify it explicitly. :170 • Unresolved reference 'FragmentSemesterDialogBinding'. :180"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'editTextStartDate'. :185"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'editTextStartDate'. :192"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'editTextEndDate'. :201"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'editTextEndDate'. :208 ▲ Unused import directive :17"
+                },
+                {
+                    "type": "text",
+                    "text": "A Property \"calendar\" is never used :27"
+                },
+                {
+                    "type": "text",
+                    "text": "SemesterSelectorActivity.kt C:\\Users\\nares\\Studio Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 1 problem → No value passed for parameter 'onDeleteClick'. :55"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748162273824,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SemesterAdapter.kt C:\\Users\\nares\\Studio"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 3 problems"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'textViewSemesterName'. :59"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'textViewSemesterDuration'. :60 ● Unresolved reference 'textViewCurrentSemester'. :63"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SemesterFragment.kt C:\\Users\\nares\\Studio"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 20 problems"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• No value passed for parameter 'onDeleteClick'. :54"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :84"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'AlertDialog'. :98"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :109"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :129"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Unresolved reference 'AlertDialog'. :145"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :148"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Cannot infer type for this parameter. Please specify it explicitly. :148"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :156 • Cannot infer type for this parameter. Please specify it explicitly. :170"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Cannot infer type for this parameter. Please specify it explicitly. :170 • Unresolved reference 'FragmentSemesterDialogBinding'. :180"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'editTextStartDate'. :185"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'editTextStartDate'. :192"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'editTextEndDate'. :201"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'editTextEndDate'. :208 ▲ Unused import directive :17"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Property \"calendar\" is never used :27"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SemesterSelectorActivity.kt C:\\Users\\nares\\Studio Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 1 problem → No value passed for parameter 'onDeleteClick'. :55"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "fd5b373d-e58e-4a61-8413-3fc288bf76e0",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "SemesterAdapter.kt C:\\Users\\nares\\Studio"
+                },
+                {
+                    "type": "text",
+                    "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 3 problems"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'textViewSemesterName'. :59"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'textViewSemesterDuration'. :60 ● Unresolved reference 'textViewCurrentSemester'. :63"
+                },
+                {
+                    "type": "text",
+                    "text": "SemesterFragment.kt C:\\Users\\nares\\Studio"
+                },
+                {
+                    "type": "text",
+                    "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 20 problems"
+                },
+                {
+                    "type": "text",
+                    "text": "• No value passed for parameter 'onDeleteClick'. :54"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :84"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'AlertDialog'. :98"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :109"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :129"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Unresolved reference 'AlertDialog'. :145"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :148"
+                },
+                {
+                    "type": "text",
+                    "text": "● Cannot infer type for this parameter. Please specify it explicitly. :148"
+                },
+                {
+                    "type": "text",
+                    "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :156 • Cannot infer type for this parameter. Please specify it explicitly. :170"
+                },
+                {
+                    "type": "text",
+                    "text": "• Cannot infer type for this parameter. Please specify it explicitly. :170 • Unresolved reference 'FragmentSemesterDialogBinding'. :180"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'editTextStartDate'. :185"
+                },
+                {
+                    "type": "text",
+                    "text": "• Unresolved reference 'editTextStartDate'. :192"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'editTextEndDate'. :201"
+                },
+                {
+                    "type": "text",
+                    "text": "● Unresolved reference 'editTextEndDate'. :208 ▲ Unused import directive :17"
+                },
+                {
+                    "type": "text",
+                    "text": "A Property \"calendar\" is never used :27"
+                },
+                {
+                    "type": "text",
+                    "text": "SemesterSelectorActivity.kt C:\\Users\\nares\\Studio Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 1 problem → No value passed for parameter 'onDeleteClick'. :55"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748162284315,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SemesterAdapter.kt C:\\Users\\nares\\Studio"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 3 problems"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'textViewSemesterName'. :59"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'textViewSemesterDuration'. :60 ● Unresolved reference 'textViewCurrentSemester'. :63"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SemesterFragment.kt C:\\Users\\nares\\Studio"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 20 problems"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• No value passed for parameter 'onDeleteClick'. :54"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :84"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'AlertDialog'. :98"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :101"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :109"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'FragmentSemesterDialogBinding'. :129"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Unresolved reference 'AlertDialog'. :145"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Cannot infer type for this parameter. Please specify it explicitly. :148"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Cannot infer type for this parameter. Please specify it explicitly. :148"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "→ Return type mismatch: expected 'ERROR CLASS: Cannot infer type variable TypeVariable(_L)', actual 'kotlin.Unit'. :156 • Cannot infer type for this parameter. Please specify it explicitly. :170"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Cannot infer type for this parameter. Please specify it explicitly. :170 • Unresolved reference 'FragmentSemesterDialogBinding'. :180"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'editTextStartDate'. :185"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "• Unresolved reference 'editTextStartDate'. :192"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'editTextEndDate'. :201"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "● Unresolved reference 'editTextEndDate'. :208 ▲ Unused import directive :17"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "A Property \"calendar\" is never used :27"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SemesterSelectorActivity.kt C:\\Users\\nares\\Studio Projects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui 1 problem → No value passed for parameter 'onDeleteClick'. :55"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "isAgent": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "autoApply": false
+}
+}

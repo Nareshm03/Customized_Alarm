@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- School icon centered and scaled appropriately for app icon -->
+    <group
+        android:translateX="54"
+        android:translateY="54">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M-10,-2.82v8L0,9l14,-7.64v-8L0,1l-14,-6.64zM0,-15L-22,-6l22,12 18,-9.82V10h4V-6L0,-15z"
+            android:strokeWidth="2"
+            android:strokeColor="#FFFFFF" />
+    </group>
+</vector>

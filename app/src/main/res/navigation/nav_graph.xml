@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.teacherscheduler.ui.DashboardFragment"
+        android:label="@string/menu_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_classes"
+            app:destination="@id/classesFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_meetings"
+            app:destination="@id/meetingsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_classDetailFragment"
+            app:destination="@id/classDetailFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_meetingDetailFragment"
+            app:destination="@id/meetingDetailFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_addEditClassFragment"
+            app:destination="@id/addEditClassFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_addEditMeetingFragment"
+            app:destination="@id/addEditMeetingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/classesFragment"
+        android:name="com.example.teacherscheduler.ui.ClassesFragment"
+        android:label="@string/menu_classes"
+        tools:layout="@layout/fragment_classes">
+        <action
+            android:id="@+id/action_classes_to_add_edit_class"
+            app:destination="@id/addEditClassFragment" />
+        <action
+            android:id="@+id/action_classes_to_class_detail"
+            app:destination="@id/classDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meetingsFragment"
+        android:name="com.example.teacherscheduler.ui.MeetingsFragment"
+        android:label="@string/menu_meetings"
+        tools:layout="@layout/fragment_meetings">
+        <action
+            android:id="@+id/action_meetings_to_add_edit_meeting"
+            app:destination="@id/addEditMeetingFragment" />
+        <action
+            android:id="@+id/action_meetings_to_meeting_detail"
+            app:destination="@id/meetingDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/classDetailFragment"
+        android:name="com.example.teacherscheduler.ui.ClassDetailFragment"
+        android:label="Class Details"
+        tools:layout="@layout/fragment_class_detail">
+        <argument
+            android:name="classId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_classDetailFragment_to_addEditClassFragment"
+            app:destination="@id/addEditClassFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meetingDetailFragment"
+        android:name="com.example.teacherscheduler.ui.MeetingDetailFragment"
+        android:label="Meeting Details"
+        tools:layout="@layout/fragment_meeting_detail">
+        <argument
+            android:name="meetingId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_meetingDetailFragment_to_addEditMeetingFragment"
+            app:destination="@id/addEditMeetingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditClassFragment"
+        android:name="com.example.teacherscheduler.ui.AddEditClassFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_edit_class">
+        <argument
+            android:name="classId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="Add Class" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditMeetingFragment"
+        android:name="com.example.teacherscheduler.ui.AddEditMeetingFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_edit_meeting">
+        <argument
+            android:name="meetingId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="Add Meeting" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.teacherscheduler.ui.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

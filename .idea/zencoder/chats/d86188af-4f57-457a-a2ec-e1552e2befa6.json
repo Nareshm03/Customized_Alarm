@@ -1,0 +1,733 @@
+{
+    "checksum": "9c711e74915e8142819b7a366e6dec5390ec03a1e879c312c2e82b10d30684f7",
+    "data": {
+    "id": "d86188af-4f57-457a-a2ec-e1552e2befa6",
+    "createdAt": 1749966763826,
+    "updatedAt": 1749967368128,
+    "title": "Profile Management Instructions",
+    "messages": [
+        {
+            "id": "0df33833-0295-43eb-8086-7b8384bb6a8f",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "remove the old profile and keep only the new one"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1749966763833,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "remove the old profile and keep only the new one"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "d6d5964d-ede7-4403-a031-6ec9654358e8",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "remove the old profile and keep only the new one"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1749966804583,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "remove the old profile and keep only the new one"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "eaae2525-898a-4053-ac06-4d6ae4a79f00",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "remove the old profile and keep only the new one"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1749966827674,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "remove the old profile and keep only the new one"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "397a76be-b09e-409e-8d4c-95ff9c417afd",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "remove the old profile and keep only the new one"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1749966892714,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "remove the old profile and keep only the new one"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "0025a1de-8ed7-4136-9386-45cfc96a0a86",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "remove the old profile and keep only the new one"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1749966998713,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "remove the old profile and keep only the new one"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "f0a41a99-2eed-4375-9b20-7ad87b44f938",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": ""
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_0132MWEHiXW9P8BX99bWM1Sh",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\."
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I understand you want to remove the old profile and keep only the new one. Let me explore the app structure to locate the profile-related files."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Xsdis85nNZpLnMizAuioNs",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01QBXDQ8L8ic8b9DnKU1mvh1",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01H3WVvVeXUgRjbxibZBCFuE",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01A2GLuwc6aWy5Cwx6vkwF5q",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I can see there are two profile-related activities: `ProfileActivity.kt` and `EnhancedProfileActivity.kt`. Let me examine both to understand which is the old one and which is the new one."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01BCLro1mkHTqoByMzBW6gyj",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/ProfileActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\ProfileActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01DYQmfz1UWjuT2UhY3Ryyoo",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/EnhancedProfileActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\EnhancedProfileActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check the layout files to see which profile activities are being referenced:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01A9EDkKnbAC7CEsyB8gy88j",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/layout",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\layout"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check the AndroidManifest.xml to see which activities are registered:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WWQRaLi6TMn3G7hURW2U7J",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/AndroidManifest.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\AndroidManifest.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check where these profile activities are referenced in the code to understand how they're being used:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01EPjQEq2EPai35gNAM6BU8i",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/MainActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\MainActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me look at the navigation drawer or other places where profile might be referenced:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01NWx1VXtPNwUoboGRsTxTbE",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/menu",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\menu"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01YAXCm1Zuc3PRPvFjmDi6ur",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/menu/main_menu.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\menu\\main_menu.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Perfect! Now I can see the situation clearly. Based on the code analysis:\n\n1. **EnhancedProfileActivity** is the NEW profile (it shows as \"My Profile\" in the main menu and is the primary option)\n2. **ProfileActivity** is the OLD profile (it shows as \"Profile (Classic)\" in the menu and is hidden in the overflow menu)\n\nThe old profile (ProfileActivity.kt) should be removed and only the new enhanced profile should remain. Let me proceed with removing the old profile:\n\n## Step 1: Remove the old ProfileActivity.kt file"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_016jBwJrAWTYYqe2qJsS1CgR",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/ProfileActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\ProfileActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I'll delete the old ProfileActivity.kt file:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WaExknNtNxxJnTVP6gc6F7",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/ProfileActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\ProfileActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/java/com/example/teacherscheduler/ui/ProfileActivity.kt\n+++ app/src/main/java/com/example/teacherscheduler/ui/ProfileActivity.kt\n@@ -1,313 +0,0 @@\n-package com.example.teacherscheduler.ui\n-\n-import android.app.Activity\n-import android.content.Intent\n-import android.net.Uri\n-import android.os.Bundle\n-import android.provider.MediaStore\n-import android.view.View\n-import android.widget.ArrayAdapter\n-import android.widget.Toast\n-import androidx.activity.result.contract.ActivityResultContracts\n-import androidx.appcompat.app.AppCompatActivity\n-import androidx.lifecycle.lifecycleScope\n-import com.example.teacherscheduler.R\n-import com.example.teacherscheduler.data.DataManager\n-import com.example.teacherscheduler.data.FirestoreManager\n-import com.example.teacherscheduler.data.ProfileManager\n-import com.example.teacherscheduler.databinding.ActivityProfileBinding\n-import com.example.teacherscheduler.model.UserProfile\n-import com.google.firebase.auth.FirebaseAuth\n-import kotlinx.coroutines.Dispatchers\n-import kotlinx.coroutines.launch\n-import kotlinx.coroutines.withContext\n-\n-// Extension function to capitalize first letter of a string\n-fun String.capitalize(): String {\n-    return if (this.isNotEmpty()) {\n-        this[0].uppercase() + this.substring(1)\n-    } else {\n-        this\n-    }\n-}\n-\n-class ProfileActivity : AppCompatActivity() {\n-    private lateinit var binding: ActivityProfileBinding\n-    private lateinit var profileManager: ProfileManager\n-    private var selectedImageUri: Uri? = null\n-\n-    // Register for activity result to handle image selection\n-    private val pickImageLauncher = registerForActivityResult(\n-        ActivityResultContracts.StartActivityForResult()\n-    ) { result ->\n-        if (result.resultCode == Activity.RESULT_OK) {\n-            result.data?.data?.let { uri ->\n-                selectedImageUri = uri\n-                try {\n-                    // Take persistent URI permission to maintain access\n-                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION\n-                    contentResolver.takePersistableUriPermission(uri, takeFlags)\n-                    binding.imageViewProfile.setImageURI(uri)\n-                } catch (e: SecurityException) {\n-                    // Handle security exception\n-                    e.printStackTrace()\n-                    Toast.makeText(this, \"Unable to access the selected image\", Toast.LENGTH_SHORT).show()\n-                    selectedImageUri = null\n-                } catch (e: Exception) {\n-                    // Handle other exceptions\n-                    e.printStackTrace()\n-                    Toast.makeText(this, \"Error loading image\", Toast.LENGTH_SHORT).show()\n-                }\n-            }\n-        }\n-    }\n-\n-    override fun onCreate(savedInstanceState: Bundle?) {\n-        super.onCreate(savedInstanceState)\n-        binding = ActivityProfileBinding.inflate(layoutInflater)\n-        setContentView(binding.root)\n-\n-        // Initialize managers\n-        profileManager = ProfileManager(this)\n-\n-        // Set up toolbar\n-        setSupportActionBar(binding.toolbar)\n-        supportActionBar?.setDisplayHomeAsUpEnabled(true)\n-        supportActionBar?.setDisplayShowHomeEnabled(true)\n-        supportActionBar?.title = \"My Profile\"\n-\n-        binding.toolbar.setNavigationOnClickListener {\n-            finish()\n-        }\n-\n-        // Set up gender spinner\n-        setupGenderSpinner()\n-\n-        // Set up profile picture change\n-        binding.fabChangePicture.setOnClickListener {\n-            openImagePicker()\n-        }\n-\n-        // Load user profile\n-        loadUserProfile()\n-\n-        // Set up save button\n-        binding.buttonSave.setOnClickListener {\n-            // Save profile data\n-            saveUserProfile()\n-            Toast.makeText(this, \"Profile saved\", Toast.LENGTH_SHORT).show()\n-            finish()\n-        }\n-    }\n-\n-    private fun setupGenderSpinner() {\n-        val genders = arrayOf(\"Male\", \"Female\", \"Transgender\", \"Non-binary\", \"Prefer not to say\")\n-        val adapter = ArrayAdapter(this, R.layout.dropdown_item, genders)\n-        binding.spinnerGender.setAdapter(adapter)\n-        \n-        // Set click listener to show dropdown when the field is clicked\n-        binding.spinnerGender.setOnClickListener {\n-            binding.spinnerGender.showDropDown()\n-        }\n-    }\n-\n-    private fun openImagePicker() {\n-        try {\n-            // Use ACTION_OPEN_DOCUMENT instead of ACTION_PICK for better compatibility\n-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {\n-                addCategory(Intent.CATEGORY_OPENABLE)\n-                type = \"image/*\"\n-            }\n-            pickImageLauncher.launch(intent)\n-        } catch (e: Exception) {\n-            e.printStackTrace()\n-            Toast.makeText(this, \"Unable to open image picker\", Toast.LENGTH_SHORT).show()\n-        }\n-    }\n-\n-    private fun loadUserProfile() {\n-        // Check if user is logged in to Firebase\n-        val currentUser = FirebaseAuth.getInstance().currentUser\n-        \n-        if (currentUser != null) {\n-            // Show progress indicator\n-            binding.progressBar.visibility = View.VISIBLE\n-            \n-            // Try to load profile from Firestore first\n-            lifecycleScope.launch {\n-                try {\n-                    val firestoreManager = FirestoreManager(this@ProfileActivity)\n-                    val cloudProfile = firestoreManager.getUserProfile()\n-                    \n-                    if (cloudProfile != null) {\n-                        // Update DataManager with cloud profile\n-                        DataManager.updateUserProfile(cloudProfile)\n-                        \n-                        // Update local storage\n-                        profileManager.saveUserProfile(cloudProfile)\n-                        \n-                        // Display the cloud profile\n-                        withContext(Dispatchers.Main) {\n-                            displayProfile(cloudProfile)\n-                            binding.progressBar.visibility = View.GONE\n-                        }\n-                    } else {\n-                        // If no cloud profile, load from local storage\n-                        withContext(Dispatchers.Main) {\n-                            val localProfile = profileManager.getUserProfile()\n-                            displayProfile(localProfile)\n-                            binding.progressBar.visibility = View.GONE\n-                        }\n-                    }\n-                } catch (e: Exception) {\n-                    // If there's an error, fall back to local profile\n-                    withContext(Dispatchers.Main) {\n-                        val localProfile = profileManager.getUserProfile()\n-                        displayProfile(localProfile)\n-                        binding.progressBar.visibility = View.GONE\n-                        Toast.makeText(this@ProfileActivity, \"Error loading cloud profile: ${e.message}\", Toast.LENGTH_SHORT).show()\n-                    }\n-                }\n-            }\n-        } else {\n-            // If not logged in, just load from local storage\n-            val localProfile = profileManager.getUserProfile()\n-            displayProfile(localProfile)\n-        }\n-    }\n-    \n-    private fun displayProfile(profile: UserProfile) {\n-        // Set header information\n-        binding.textViewName.text = profile.name\n-        binding.textViewEmail.text = profile.email\n-        \n-        // Set form fields\n-        binding.editTextName.setText(profile.name)\n-        binding.editTextEmail.setText(profile.email)\n-        binding.editTextPhone.setText(profile.phone)\n-        binding.editTextTeacherId.setText(profile.teacherId)\n-        binding.editTextDesignation.setText(profile.designation)\n-        binding.editTextDepartment.setText(profile.department)\n-        binding.editTextOffice.setText(profile.officeLocation)\n-        \n-        // Set the gender text\n-        if (profile.gender.isEmpty()) {\n-            // If no gender is set, don't show any text\n-            binding.spinnerGender.setText(\"\", false)\n-        } else {\n-            binding.spinnerGender.setText(profile.gender, false)\n-        }\n-        \n-        // Load profile picture if available\n-        val pictureUrl = profile.profilePictureUrl\n-        if (pictureUrl.isNotEmpty()) {\n-            try {\n-                val uri = Uri.parse(pictureUrl)\n-                // Use try-catch to handle potential security exceptions\n-                try {\n-                    binding.imageViewProfile.setImageURI(uri)\n-                    selectedImageUri = uri\n-                } catch (e: SecurityException) {\n-                    // If there's a security exception, log it and use the default image\n-                    e.printStackTrace()\n-                    Toast.makeText(this, \"Unable to access the selected image\", Toast.LENGTH_SHORT).show()\n-                    // Clear the invalid URI\n-                    selectedImageUri = null\n-                }\n-            } catch (e: Exception) {\n-                // If there's an error loading the image, use the default\n-                e.printStackTrace()\n-            }\n-        }\n-    }\n-    \n-    private fun saveUserProfile() {\n-        val name = binding.editTextName.text.toString().trim()\n-        val email = binding.editTextEmail.text.toString().trim()\n-        val phone = binding.editTextPhone.text.toString().trim()\n-        val teacherId = binding.editTextTeacherId.text.toString().trim()\n-        val gender = binding.spinnerGender.text.toString()\n-        val designation = binding.editTextDesignation.text.toString().trim()\n-        val department = binding.editTextDepartment.text.toString().trim()\n-        val office = binding.editTextOffice.text.toString().trim()\n-\n-        // Validate required fields\n-        if (name.isEmpty() || email.isEmpty()) {\n-            Toast.makeText(this, \"Name and email are required\", Toast.LENGTH_SHORT).show()\n-            return\n-        }\n-\n-        // Get current user ID from Firebase Auth\n-        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: \"\"\n-        val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: email\n-        \n-        // Create and save profile\n-        val profile = UserProfile(\n-            id = userId,\n-            name = name,\n-            email = userEmail,\n-            phone = phone,\n-            teacherId = teacherId,\n-            gender = gender,\n-            designation = designation,\n-            department = department,\n-            officeLocation = office,\n-            profilePictureUrl = selectedImageUri?.toString() ?: \"\"\n-        )\n-        \n-        // Save to local storage\n-        profileManager.saveUserProfile(profile)\n-        \n-        // Update DataManager with the new profile\n-        DataManager.updateUserProfile(profile)\n-        \n-        // Sync to Firestore if user is logged in\n-        if (FirebaseAuth.getInstance().currentUser != null) {\n-            // Show progress indicator\n-            binding.buttonSave.isEnabled = false\n-            binding.progressBar.visibility = View.VISIBLE\n-            \n-            // Launch coroutine to sync profile\n-            lifecycleScope.launch {\n-                try {\n-                    // Sync profile to Firestore\n-                    val firestoreManager = FirestoreManager(this@ProfileActivity)\n-                    val success = firestoreManager.syncUserProfile(profile)\n-                    \n-                    // Update UI on main thread\n-                    withContext(Dispatchers.Main) {\n-                        if (success) {\n-                            Toast.makeText(this@ProfileActivity, \"Profile saved and synced to cloud\", Toast.LENGTH_SHORT).show()\n-                        } else {\n-                            Toast.makeText(this@ProfileActivity, \"Profile saved locally but sync failed\", Toast.LENGTH_SHORT).show()\n-                        }\n-                        \n-                        // Update header\n-                        binding.textViewName.text = name\n-                        binding.textViewEmail.text = email\n-                        \n-                        // Hide progress indicator\n-                        binding.buttonSave.isEnabled = true\n-                        binding.progressBar.visibility = View.GONE\n-                        \n-                        finish()\n-                    }\n-                } catch (e: Exception) {\n-                    // Handle any exceptions\n-                    withContext(Dispatchers.Main) {\n-                        Toast.makeText(this@ProfileActivity, \"Error during sync: ${e.message}\", Toast.LENGTH_SHORT).show()\n-                        binding.buttonSave.isEnabled = true\n-                        binding.progressBar.visibility = View.GONE\n-                    }\n-                }\n-            }\n-        } else {\n-            // Just update the UI if not logged in\n-            binding.textViewName.text = name\n-            binding.textViewEmail.text = email\n-            \n-            Toast.makeText(this, \"Profile saved locally\", Toast.LENGTH_SHORT).show()\n-            finish()\n-        }\n-    }\n-}",
+                    "refToolCallId": "toolu_01WaExknNtNxxJnTVP6gc6F7"
+                },
+                {
+                    "type": "text",
+                    "text": "## Step 2: Remove the old profile layout file"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01SoEgyKnvAGEnKcvT6AKiq3",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/layout/activity_profile.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\layout\\activity_profile.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01L5gCMJvhh54ooWiQemHPnY",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/layout/activity_profile.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\layout\\activity_profile.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I'll delete the old profile layout file:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015rswc9SzP5pKQhnpNNvGj2",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/layout/activity_profile.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\layout\\activity_profile.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/res/layout/activity_profile.xml\n+++ app/src/main/res/layout/activity_profile.xml\n@@ -1,233 +1 @@\n-<?xml version=\"1.0\" encoding=\"utf-8\"?>\n-<ScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\"\n-    xmlns:tools=\"http://schemas.android.com/tools\"\n-    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n-    android:id=\"@+id/scrollView\"\n-    android:layout_width=\"match_parent\"\n-    android:layout_height=\"match_parent\"\n-    android:padding=\"16dp\"\n-    android:fillViewport=\"true\"\n-    tools:context=\".ui.ProfileActivity\">\n \n-    <LinearLayout\n-        android:layout_width=\"match_parent\"\n-        android:layout_height=\"wrap_content\"\n-        android:orientation=\"vertical\"\n-        android:gravity=\"center_horizontal\">\n-\n-        <!-- Toolbar -->\n-        <androidx.appcompat.widget.Toolbar\n-            android:id=\"@+id/toolbar\"\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"?attr/actionBarSize\"\n-            android:background=\"?attr/colorPrimary\"\n-            android:elevation=\"4dp\"\n-            android:theme=\"@style/ThemeOverlay.AppCompat.Dark.ActionBar\"\n-            app:popupTheme=\"@style/ThemeOverlay.AppCompat.Light\" />\n-\n-        <!-- Header with name and email -->\n-        <LinearLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:orientation=\"vertical\"\n-            android:gravity=\"center\"\n-            android:padding=\"8dp\">\n-\n-            <TextView\n-                android:id=\"@+id/textViewName\"\n-                android:layout_width=\"wrap_content\"\n-                android:layout_height=\"wrap_content\"\n-                android:textSize=\"18sp\"\n-                android:textStyle=\"bold\"\n-                tools:text=\"John Doe\" />\n-\n-            <TextView\n-                android:id=\"@+id/textViewEmail\"\n-                android:layout_width=\"wrap_content\"\n-                android:layout_height=\"wrap_content\"\n-                android:textSize=\"14sp\"\n-                tools:text=\"john.doe@example.com\" />\n-        </LinearLayout>\n-\n-        <!-- Profile Image with Change Button -->\n-        <FrameLayout\n-            android:layout_width=\"120dp\"\n-            android:layout_height=\"120dp\"\n-            android:layout_marginBottom=\"24dp\">\n-\n-            <ImageView\n-                android:id=\"@+id/imageViewProfile\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"match_parent\"\n-                android:src=\"@drawable/ic_person_placeholder\"\n-                android:scaleType=\"centerCrop\"\n-                android:background=\"@drawable/circle_background\"\n-                android:contentDescription=\"@string/profile_image_description\" />\n-\n-            <FrameLayout\n-                android:id=\"@+id/fabChangePicture\"\n-                android:layout_width=\"48dp\"\n-                android:layout_height=\"48dp\"\n-                android:layout_gravity=\"bottom|end\"\n-                android:layout_margin=\"4dp\"\n-                android:background=\"@drawable/circle_accent_background\"\n-                android:clickable=\"true\"\n-                android:focusable=\"true\"\n-                android:contentDescription=\"@string/change_profile_picture\">\n-\n-                <ImageView\n-                    android:layout_width=\"24dp\"\n-                    android:layout_height=\"24dp\"\n-                    android:layout_gravity=\"center\"\n-                    android:src=\"@drawable/ic_edit\"\n-                    app:tint=\"@android:color/white\"\n-                    android:contentDescription=\"@string/edit_icon\" />\n-            </FrameLayout>\n-        </FrameLayout>\n-\n-        <!-- Name -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/full_name\"\n-            android:layout_marginBottom=\"12dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextName\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"textPersonName\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Email -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/email\"\n-            android:layout_marginBottom=\"12dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextEmail\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"textEmailAddress\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Phone Number -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/phone_number\"\n-            android:layout_marginBottom=\"12dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextPhone\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"phone\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Designation -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/designation\"\n-            android:layout_marginBottom=\"12dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextDesignation\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"text\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Teacher ID -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/teacher_id\"\n-            android:layout_marginBottom=\"12dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextTeacherId\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"text\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Gender Dropdown -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/gender\"\n-            style=\"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu\"\n-            android:layout_marginBottom=\"12dp\">\n-\n-            <AutoCompleteTextView\n-                android:id=\"@+id/spinnerGender\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"none\"\n-                android:minHeight=\"48dp\"\n-                android:maxWidth=\"400dp\"\n-                android:contentDescription=\"@string/select_gender\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Department -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/department\"\n-            android:layout_marginBottom=\"24dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextDepartment\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"text\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Office Location -->\n-        <com.google.android.material.textfield.TextInputLayout\n-            android:layout_width=\"match_parent\"\n-            android:layout_height=\"wrap_content\"\n-            android:hint=\"@string/office_location\"\n-            android:layout_marginBottom=\"24dp\">\n-\n-            <com.google.android.material.textfield.TextInputEditText\n-                android:id=\"@+id/editTextOffice\"\n-                android:layout_width=\"match_parent\"\n-                android:layout_height=\"wrap_content\"\n-                android:inputType=\"text\"\n-                android:maxWidth=\"400dp\" />\n-        </com.google.android.material.textfield.TextInputLayout>\n-\n-        <!-- Save Button -->\n-        <Button\n-            android:id=\"@+id/buttonSave\"\n-            android:layout_width=\"wrap_content\"\n-            android:layout_height=\"wrap_content\"\n-            android:text=\"@string/save\"\n-            android:backgroundTint=\"?attr/colorPrimary\"\n-            android:textColor=\"@android:color/white\"\n-            android:padding=\"12dp\"\n-            android:minHeight=\"48dp\"\n-            android:minWidth=\"200dp\"\n-            android:textAllCaps=\"false\" />\n-            \n-        <!-- Progress Bar -->\n-        <ProgressBar\n-            android:id=\"@+id/progressBar\"\n-            android:layout_width=\"wrap_content\"\n-            android:layout_height=\"wrap_content\"\n-            android:layout_marginTop=\"16dp\"\n-            android:visibility=\"gone\" />\n-\n-    </LinearLayout>\n-</ScrollView>",
+                    "refToolCallId": "toolu_015rswc9SzP5pKQhnpNNvGj2"
+                },
+                {
+                    "type": "text",
+                    "text": "## Step 3: Remove references to the old ProfileActivity from MainActivity.kt"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Tx6b3LpSZPXChD28cS3fd2",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/MainActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\MainActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/java/com/example/teacherscheduler/MainActivity.kt\n+++ app/src/main/java/com/example/teacherscheduler/MainActivity.kt\n@@ -18,7 +18,6 @@\n import com.example.teacherscheduler.ui.MeetingsFragment\n import com.example.teacherscheduler.ui.ModernAddEditClassActivity\n import com.example.teacherscheduler.ui.NotificationSettingsActivity\n-import com.example.teacherscheduler.ui.ProfileActivity\n import com.example.teacherscheduler.ui.EnhancedProfileActivity\n import com.example.teacherscheduler.ui.SettingsFragment\n import com.example.teacherscheduler.ui.TestNotificationActivity",
+                    "refToolCallId": "toolu_01Tx6b3LpSZPXChD28cS3fd2"
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me fix the menu item handling by making the \"My Profile\" launch the enhanced profile directly:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_014VoniwoM9QSNxwH9a1iCJB",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/MainActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\MainActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/java/com/example/teacherscheduler/MainActivity.kt\n+++ app/src/main/java/com/example/teacherscheduler/MainActivity.kt\n@@ -94,9 +94,6 @@\n                 startActivity(intent)\n                 true\n             }\n-            R.id.action_enhanced_profile -> {\n-                val intent = Intent(this, ProfileActivity::class.java)\n-                startActivity(intent)\n                 true\n             }\n             R.id.action_logout -> {",
+                    "refToolCallId": "toolu_014VoniwoM9QSNxwH9a1iCJB"
+                },
+                {
+                    "type": "text",
+                    "text": "I need to fix the syntax error I just created:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01HT5wRvig2oYsk7QCVnnHmb",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/MainActivity.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\MainActivity.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/java/com/example/teacherscheduler/MainActivity.kt\n+++ app/src/main/java/com/example/teacherscheduler/MainActivity.kt\n@@ -94,8 +94,6 @@\n                 startActivity(intent)\n                 true\n             }\n-                true\n-            }\n             R.id.action_logout -> {\n                 logout()\n                 true",
+                    "refToolCallId": "toolu_01HT5wRvig2oYsk7QCVnnHmb"
+                },
+                {
+                    "type": "text",
+                    "text": "## Step 4: Remove the old profile activity from AndroidManifest.xml"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01FmtyZ59Zhx2WqSQriE9JMz",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/AndroidManifest.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\AndroidManifest.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/AndroidManifest.xml\n+++ app/src/main/AndroidManifest.xml\n@@ -136,15 +136,9 @@\n             android:theme=\"@style/Theme.TeacherScheduler\" />\n             \n         <activity\n-            android:name=\".ui.ProfileActivity\"\n+            android:name=\".ui.EnhancedProfileActivity\"\n             android:exported=\"false\"\n             android:label=\"My Profile\"\n-            android:theme=\"@style/AppTheme\" />\n-            \n-        <activity\n-            android:name=\".ui.EnhancedProfileActivity\"\n-            android:exported=\"false\"\n-            android:label=\"Enhanced Profile\"\n             android:theme=\"@style/Theme.TeacherScheduler\" />\n \n     </application>",
+                    "refToolCallId": "toolu_01FmtyZ59Zhx2WqSQriE9JMz"
+                },
+                {
+                    "type": "text",
+                    "text": "## Step 5: Update the menu to remove the old profile option"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Bk9ERext4eSALSbpzpVrsV",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/menu/main_menu.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\menu\\main_menu.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- app/src/main/res/menu/main_menu.xml\n+++ app/src/main/res/menu/main_menu.xml\n@@ -7,12 +7,6 @@\n         android:title=\"My Profile\"\n         android:icon=\"@drawable/ic_person\"\n         app:showAsAction=\"ifRoom\" />\n-\n-    <item\n-        android:id=\"@+id/action_enhanced_profile\"\n-        android:title=\"Profile (Classic)\"\n-        android:icon=\"@drawable/ic_person\"\n-        app:showAsAction=\"never\" />\n \n     <item\n         android:id=\"@+id/action_settings\"",
+                    "refToolCallId": "toolu_01Bk9ERext4eSALSbpzpVrsV"
+                },
+                {
+                    "type": "text",
+                    "text": "## Step 6: Check if there are any other references to the old ProfileActivity\n\nLet me search for any remaining references to the old ProfileActivity in the code:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018qKWYNjk8k4RvbbDjJiFdX",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/SettingsFragment.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\SettingsFragment.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me continue checking the SettingsFragment to see if it references ProfileActivity:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01C5DwB7BW8HQQCZHYCt7Rfq",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/SettingsFragment.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\SettingsFragment.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check if there are any remaining references to ProfileActivity in the codebase by searching other files:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01BH7tvywGrmUG1rDbf6rQXn",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/java/com/example/teacherscheduler/ui/EnhancedDashboardFragment.kt",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\java\\com\\example\\teacherscheduler\\ui\\EnhancedDashboardFragment.kt"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check if there's any reference to ProfileActivity in the nav header or other layout files:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018U5i5nm2FcBjvhZecxFNNA",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/layout/nav_header.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\layout\\nav_header.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me also check the string references to make sure we're not missing anything:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01M3x9Trr93qd7bHcRz6zxuH",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "app/src/main/res/values/strings.xml",
+                                "fsPath": "C:\\Users\\nares\\StudioProjects\\TeacherScheduler\\app\\src\\main\\res\\values\\strings.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "app/src/main/java/com/example/teacherscheduler/MainActivity.kt",
+                            "patch": "@@ -973,63 +973,8 @@\n ity%0A\n-import com.example.teacherscheduler.ui.ProfileActivity%0A\n impo\n@@ -3813,198 +3813,8 @@\n   %7D%0A\n-            R.id.action_enhanced_profile -%3E %7B%0A                val intent = Intent(this, ProfileActivity::class.java)%0A                startActivity(intent)%0A                true%0A            %7D%0A\n     \n",
+                            "isNew": false,
+                            "isApplied": true
+                        },
+                        {
+                            "path": "app/src/main/res/menu/main_menu.xml",
+                            "patch": "@@ -326,190 +326,8 @@\n /%3E%0A%0A\n-    %3Citem%0A        android:id=%22@+id/action_enhanced_profile%22%0A        android:title=%22Profile (Classic)%22%0A        android:icon=%22@drawable/ic_person%22%0A        app:showAsAction=%22never%22 /%3E%0A%0A\n     \n",
+                            "isNew": false,
+                            "isApplied": true
+                        },
+                        {
+                            "path": "app/src/main/java/com/example/teacherscheduler/ui/ProfileActivity.kt",
+                            "patch": "@@ -1,13117 +0,0 @@\n-package com.example.teacherscheduler.ui%0D%0A%0D%0Aimport android.app.Activity%0D%0Aimport android.content.Intent%0D%0Aimport android.net.Uri%0D%0Aimport android.os.Bundle%0D%0Aimport android.provider.MediaStore%0D%0Aimport android.view.View%0D%0Aimport android.widget.ArrayAdapter%0D%0Aimport android.widget.Toast%0D%0Aimport androidx.activity.result.contract.ActivityResultContracts%0D%0Aimport androidx.appcompat.app.AppCompatActivity%0D%0Aimport androidx.lifecycle.lifecycleScope%0D%0Aimport com.example.teacherscheduler.R%0D%0Aimport com.example.teacherscheduler.data.DataManager%0D%0Aimport com.example.teacherscheduler.data.FirestoreManager%0D%0Aimport com.example.teacherscheduler.data.ProfileManager%0D%0Aimport com.example.teacherscheduler.databinding.ActivityProfileBinding%0D%0Aimport com.example.teacherscheduler.model.UserProfile%0D%0Aimport com.google.firebase.auth.FirebaseAuth%0D%0Aimport kotlinx.coroutines.Dispatchers%0D%0Aimport kotlinx.coroutines.launch%0D%0Aimport kotlinx.coroutines.withContext%0D%0A%0D%0A// Extension function to capitalize first letter of a string%0D%0Afun String.capitalize(): String %7B%0D%0A    return if (this.isNotEmpty()) %7B%0D%0A        this%5B0%5D.uppercase() + this.substring(1)%0D%0A    %7D else %7B%0D%0A        this%0D%0A    %7D%0D%0A%7D%0D%0A%0D%0Aclass ProfileActivity : AppCompatActivity() %7B%0D%0A    private lateinit var binding: ActivityProfileBinding%0D%0A    private lateinit var profileManager: ProfileManager%0D%0A    private var selectedImageUri: Uri? = null%0D%0A%0D%0A    // Register for activity result to handle image selection%0D%0A    private val pickImageLauncher = registerForActivityResult(%0D%0A        ActivityResultContracts.StartActivityForResult()%0D%0A    ) %7B result -%3E%0D%0A        if (result.resultCode == Activity.RESULT_OK) %7B%0D%0A            result.data?.data?.let %7B uri -%3E%0D%0A                selectedImageUri = uri%0D%0A                try %7B%0D%0A                    // Take persistent URI permission to maintain access%0D%0A                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION%0D%0A                    contentResolver.takePersistableUriPermission(uri, takeFlags)%0D%0A                    binding.imageViewProfile.setImageURI(uri)%0D%0A                %7D catch (e: SecurityException) %7B%0D%0A                    // Handle security exception%0D%0A                    e.printStackTrace()%0D%0A                    Toast.makeText(this, %22Unable to access the selected image%22, Toast.LENGTH_SHORT).show()%0D%0A                    selectedImageUri = null%0D%0A                %7D catch (e: Exception) %7B%0D%0A                    // Handle other exceptions%0D%0A                    e.printStackTrace()%0D%0A                    Toast.makeText(this, %22Error loading image%22, Toast.LENGTH_SHORT).show()%0D%0A                %7D%0D%0A            %7D%0D%0A        %7D%0D%0A    %7D%0D%0A%0D%0A    override fun onCreate(savedInstanceState: Bundle?) %7B%0D%0A        super.onCreate(savedInstanceState)%0D%0A        binding = ActivityProfileBinding.inflate(layoutInflater)%0D%0A        setContentView(binding.root)%0D%0A%0D%0A        // Initialize managers%0D%0A        profileManager = ProfileManager(this)%0D%0A%0D%0A        // Set up toolbar%0D%0A        setSupportActionBar(binding.toolbar)%0D%0A        supportActionBar?.setDisplayHomeAsUpEnabled(true)%0D%0A        supportActionBar?.setDisplayShowHomeEnabled(true)%0D%0A        supportActionBar?.title = %22My Profile%22%0D%0A%0D%0A        binding.toolbar.setNavigationOnClickListener %7B%0D%0A            finish()%0D%0A        %7D%0D%0A%0D%0A        // Set up gender spinner%0D%0A        setupGenderSpinner()%0D%0A%0D%0A        // Set up profile picture change%0D%0A        binding.fabChangePicture.setOnClickListener %7B%0D%0A            openImagePicker()%0D%0A        %7D%0D%0A%0D%0A        // Load user profile%0D%0A        loadUserProfile()%0D%0A%0D%0A        // Set up save button%0D%0A        binding.buttonSave.setOnClickListener %7B%0D%0A            // Save profile data%0D%0A            saveUserProfile()%0D%0A            Toast.makeText(this, %22Profile saved%22, Toast.LENGTH_SHORT).show()%0D%0A            finish()%0D%0A        %7D%0D%0A    %7D%0D%0A%0D%0A    private fun setupGenderSpinner() %7B%0D%0A        val genders = arrayOf(%22Male%22, %22Female%22, %22Transgender%22, %22Non-binary%22, %22Prefer not to say%22)%0D%0A        val adapter = ArrayAdapter(this, R.layout.dropdown_item, genders)%0D%0A        binding.spinnerGender.setAdapter(adapter)%0D%0A        %0D%0A        // Set click listener to show dropdown when the field is clicked%0D%0A        binding.spinnerGender.setOnClickListener %7B%0D%0A            binding.spinnerGender.showDropDown()%0D%0A        %7D%0D%0A    %7D%0D%0A%0D%0A    private fun openImagePicker() %7B%0D%0A        try %7B%0D%0A            // Use ACTION_OPEN_DOCUMENT instead of ACTION_PICK for better compatibility%0D%0A            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply %7B%0D%0A                addCategory(Intent.CATEGORY_OPENABLE)%0D%0A                type = %22image/*%22%0D%0A            %7D%0D%0A            pickImageLauncher.launch(intent)%0D%0A        %7D catch (e: Exception) %7B%0D%0A            e.printStackTrace()%0D%0A            Toast.makeText(this, %22Unable to open image picker%22, Toast.LENGTH_SHORT).show()%0D%0A        %7D%0D%0A    %7D%0D%0A%0D%0A    private fun loadUserProfile() %7B%0D%0A        // Check if user is logged in to Firebase%0D%0A        val currentUser = FirebaseAuth.getInstance().currentUser%0D%0A        %0D%0A        if (currentUser != null) %7B%0D%0A            // Show progress indicator%0D%0A            binding.progressBar.visibility = View.VISIBLE%0D%0A            %0D%0A            // Try to load profile from Firestore first%0D%0A            lifecycleScope.launch %7B%0D%0A                try %7B%0D%0A                    val firestoreManager = FirestoreManager(this@ProfileActivity)%0D%0A                    val cloudProfile = firestoreManager.getUserProfile()%0D%0A                    %0D%0A                    if (cloudProfile != null) %7B%0D%0A                        // Update DataManager with cloud profile%0D%0A                        DataManager.updateUserProfile(cloudProfile)%0D%0A                        %0D%0A                        // Update local storage%0D%0A                        profileManager.saveUserProfile(cloudProfile)%0D%0A                        %0D%0A                        // Display the cloud profile%0D%0A                        withContext(Dispatchers.Main) %7B%0D%0A                            displayProfile(cloudProfile)%0D%0A                            binding.progressBar.visibility = View.GONE%0D%0A                        %7D%0D%0A                    %7D else %7B%0D%0A                        // If no cloud profile, load from local storage%0D%0A                        withContext(Dispatchers.Main) %7B%0D%0A                            val localProfile = profileManager.getUserProfile()%0D%0A                            displayProfile(localProfile)%0D%0A                            binding.progressBar.visibility = View.GONE%0D%0A                        %7D%0D%0A                    %7D%0D%0A                %7D catch (e: Exception) %7B%0D%0A                    // If there's an error, fall back to local profile%0D%0A                    withContext(Dispatchers.Main) %7B%0D%0A                        val localProfile = profileManager.getUserProfile()%0D%0A                        displayProfile(localProfile)%0D%0A                        binding.progressBar.visibility = View.GONE%0D%0A                        Toast.makeText(this@ProfileActivity, %22Error loading cloud profile: $%7Be.message%7D%22, Toast.LENGTH_SHORT).show()%0D%0A                    %7D%0D%0A                %7D%0D%0A            %7D%0D%0A        %7D else %7B%0D%0A            // If not logged in, just load from local storage%0D%0A            val localProfile = profileManager.getUserProfile()%0D%0A            displayProfile(localProfile)%0D%0A        %7D%0D%0A    %7D%0D%0A    %0D%0A    private fun displayProfile(profile: UserProfile) %7B%0D%0A        // Set header information%0D%0A        binding.textViewName.text = profile.name%0D%0A        binding.textViewEmail.text = profile.email%0D%0A        %0D%0A        // Set form fields%0D%0A        binding.editTextName.setText(profile.name)%0D%0A        binding.editTextEmail.setText(profile.email)%0D%0A        binding.editTextPhone.setText(profile.phone)%0D%0A        binding.editTextTeacherId.setText(profile.teacherId)%0D%0A        binding.editTextDesignation.setText(profile.designation)%0D%0A        binding.editTextDepartment.setText(profile.department)%0D%0A        binding.editTextOffice.setText(profile.officeLocation)%0D%0A        %0D%0A        // Set the gender text%0D%0A        if (profile.gender.isEmpty()) %7B%0D%0A            // If no gender is set, don't show any text%0D%0A            binding.spinnerGender.setText(%22%22, false)%0D%0A        %7D else %7B%0D%0A            binding.spinnerGender.setText(profile.gender, false)%0D%0A        %7D%0D%0A        %0D%0A        // Load profile picture if available%0D%0A        val pictureUrl = profile.profilePictureUrl%0D%0A        if (pictureUrl.isNotEmpty()) %7B%0D%0A            try %7B%0D%0A                val uri = Uri.parse(pictureUrl)%0D%0A                // Use try-catch to handle potential security exceptions%0D%0A                try %7B%0D%0A                    binding.imageViewProfile.setImageURI(uri)%0D%0A                    selectedImageUri = uri%0D%0A                %7D catch (e: SecurityException) %7B%0D%0A                    // If there's a security exception, log it and use the default image%0D%0A                    e.printStackTrace()%0D%0A                    Toast.makeText(this, %22Unable to access the selected image%22, Toast.LENGTH_SHORT).show()%0D%0A                    // Clear the invalid URI%0D%0A                    selectedImageUri = null%0D%0A                %7D%0D%0A            %7D catch (e: Exception) %7B%0D%0A                // If there's an error loading the image, use the default%0D%0A                e.printStackTrace()%0D%0A            %7D%0D%0A        %7D%0D%0A    %7D%0D%0A    %0D%0A    private fun saveUserProfile() %7B%0D%0A        val name = binding.editTextName.text.toString().trim()%0D%0A        val email = binding.editTextEmail.text.toString().trim()%0D%0A        val phone = binding.editTextPhone.text.toString().trim()%0D%0A        val teacherId = binding.editTextTeacherId.text.toString().trim()%0D%0A        val gender = binding.spinnerGender.text.toString()%0D%0A        val designation = binding.editTextDesignation.text.toString().trim()%0D%0A        val department = binding.editTextDepartment.text.toString().trim()%0D%0A        val office = binding.editTextOffice.text.toString().trim()%0D%0A%0D%0A        // Validate required fields%0D%0A        if (name.isEmpty() %7C%7C email.isEmpty()) %7B%0D%0A            Toast.makeText(this, %22Name and email are required%22, Toast.LENGTH_SHORT).show()%0D%0A            return%0D%0A        %7D%0D%0A%0D%0A        // Get current user ID from Firebase Auth%0D%0A        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: %22%22%0D%0A        val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: email%0D%0A        %0D%0A        // Create and save profile%0D%0A        val profile = UserProfile(%0D%0A            id = userId,%0D%0A            name = name,%0D%0A            email = userEmail,%0D%0A            phone = phone,%0D%0A            teacherId = teacherId,%0D%0A            gender = gender,%0D%0A            designation = designation,%0D%0A            department = department,%0D%0A            officeLocation = office,%0D%0A            profilePictureUrl = selectedImageUri?.toString() ?: %22%22%0D%0A        )%0D%0A        %0D%0A        // Save to local storage%0D%0A        profileManager.saveUserProfile(profile)%0D%0A        %0D%0A        // Update DataManager with the new profile%0D%0A        DataManager.updateUserProfile(profile)%0D%0A        %0D%0A        // Sync to Firestore if user is logged in%0D%0A        if (FirebaseAuth.getInstance().currentUser != null) %7B%0D%0A            // Show progress indicator%0D%0A            binding.buttonSave.isEnabled = false%0D%0A            binding.progressBar.visibility = View.VISIBLE%0D%0A            %0D%0A            // Launch coroutine to sync profile%0D%0A            lifecycleScope.launch %7B%0D%0A                try %7B%0D%0A                    // Sync profile to Firestore%0D%0A                    val firestoreManager = FirestoreManager(this@ProfileActivity)%0D%0A                    val success = firestoreManager.syncUserProfile(profile)%0D%0A                    %0D%0A                    // Update UI on main thread%0D%0A                    withContext(Dispatchers.Main) %7B%0D%0A                        if (success) %7B%0D%0A                            Toast.makeText(this@ProfileActivity, %22Profile saved and synced to cloud%22, Toast.LENGTH_SHORT).show()%0D%0A                        %7D else %7B%0D%0A                            Toast.makeText(this@ProfileActivity, %22Profile saved locally but sync failed%22, Toast.LENGTH_SHORT).show()%0D%0A                        %7D%0D%0A                        %0D%0A                        // Update header%0D%0A                        binding.textViewName.text = name%0D%0A                        binding.textViewEmail.text = email%0D%0A                        %0D%0A                        // Hide progress indicator%0D%0A                        binding.buttonSave.isEnabled = true%0D%0A                        binding.progressBar.visibility = View.GONE%0D%0A                        %0D%0A                        finish()%0D%0A                    %7D%0D%0A                %7D catch (e: Exception) %7B%0D%0A                    // Handle any exceptions%0D%0A                    withContext(Dispatchers.Main) %7B%0D%0A                        Toast.makeText(this@ProfileActivity, %22Error during sync: $%7Be.message%7D%22, Toast.LENGTH_SHORT).show()%0D%0A                        binding.buttonSave.isEnabled = true%0D%0A                        binding.progressBar.visibility = View.GONE%0D%0A                    %7D%0D%0A                %7D%0D%0A            %7D%0D%0A        %7D else %7B%0D%0A            // Just update the UI if not logged in%0D%0A            binding.textViewName.text = name%0D%0A            binding.textViewEmail.text = email%0D%0A            %0D%0A            Toast.makeText(this, %22Profile saved locally%22, Toast.LENGTH_SHORT).show()%0D%0A            finish()%0D%0A        %7D%0D%0A    %7D%0D%0A%7D\n",
+                            "isNew": false,
+                            "isApplied": true
+                        },
+                        {
+                            "path": "app/src/main/AndroidManifest.xml",
+                            "patch": "@@ -5798,215 +5798,8 @@\n ty%0D%0A\n-            android:name=%22.ui.ProfileActivity%22%0D%0A            android:exported=%22false%22%0D%0A            android:label=%22My Profile%22%0D%0A            android:theme=%22@style/AppTheme%22 /%3E%0D%0A            %0D%0A        %3Cactivity%0D%0A\n     \n@@ -5915,24 +5915,18 @@\n :label=%22\n-Enhanced\n+My\n  Profile\n",
+                            "isNew": false,
+                            "isApplied": true
+                        },
+                        {
+                            "path": "app/src/main/res/layout/activity_profile.xml",
+                            "patch": "@@ -1,9966 +1,2 @@\n-%3C?xml version=%221.0%22 encoding=%22utf-8%22?%3E%0D%0A%3CScrollView xmlns:android=%22http://schemas.android.com/apk/res/android%22%0D%0A    xmlns:tools=%22http://schemas.android.com/tools%22%0D%0A    xmlns:app=%22http://schemas.android.com/apk/res-auto%22%0D%0A    android:id=%22@+id/scrollView%22%0D%0A    android:layout_width=%22match_parent%22%0D%0A    android:layout_height=%22match_parent%22%0D%0A    android:padding=%2216dp%22%0D%0A    android:fillViewport=%22true%22%0D%0A    tools:context=%22.ui.ProfileActivity%22%3E%0D%0A%0D%0A    %3CLinearLayout%0D%0A        android:layout_width=%22match_parent%22%0D%0A        android:layout_height=%22wrap_content%22%0D%0A        android:orientation=%22vertical%22%0D%0A        android:gravity=%22center_horizontal%22%3E%0D%0A%0D%0A        %3C!-- Toolbar --%3E%0D%0A        %3Candroidx.appcompat.widget.Toolbar%0D%0A            android:id=%22@+id/toolbar%22%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22?attr/actionBarSize%22%0D%0A            android:background=%22?attr/colorPrimary%22%0D%0A            android:elevation=%224dp%22%0D%0A            android:theme=%22@style/ThemeOverlay.AppCompat.Dark.ActionBar%22%0D%0A            app:popupTheme=%22@style/ThemeOverlay.AppCompat.Light%22 /%3E%0D%0A%0D%0A        %3C!-- Header with name and email --%3E%0D%0A        %3CLinearLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:orientation=%22vertical%22%0D%0A            android:gravity=%22center%22%0D%0A            android:padding=%228dp%22%3E%0D%0A%0D%0A            %3CTextView%0D%0A                android:id=%22@+id/textViewName%22%0D%0A                android:layout_width=%22wrap_content%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:textSize=%2218sp%22%0D%0A                android:textStyle=%22bold%22%0D%0A                tools:text=%22John Doe%22 /%3E%0D%0A%0D%0A            %3CTextView%0D%0A                android:id=%22@+id/textViewEmail%22%0D%0A                android:layout_width=%22wrap_content%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:textSize=%2214sp%22%0D%0A                tools:text=%22john.doe@example.com%22 /%3E%0D%0A        %3C/LinearLayout%3E%0D%0A%0D%0A        %3C!-- Profile Image with Change Button --%3E%0D%0A        %3CFrameLayout%0D%0A            android:layout_width=%22120dp%22%0D%0A            android:layout_height=%22120dp%22%0D%0A            android:layout_marginBottom=%2224dp%22%3E%0D%0A%0D%0A            %3CImageView%0D%0A                android:id=%22@+id/imageViewProfile%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22match_parent%22%0D%0A                android:src=%22@drawable/ic_person_placeholder%22%0D%0A                android:scaleType=%22centerCrop%22%0D%0A                android:background=%22@drawable/circle_background%22%0D%0A                android:contentDescription=%22@string/profile_image_description%22 /%3E%0D%0A%0D%0A            %3CFrameLayout%0D%0A                android:id=%22@+id/fabChangePicture%22%0D%0A                android:layout_width=%2248dp%22%0D%0A                android:layout_height=%2248dp%22%0D%0A                android:layout_gravity=%22bottom%7Cend%22%0D%0A                android:layout_margin=%224dp%22%0D%0A                android:background=%22@drawable/circle_accent_background%22%0D%0A                android:clickable=%22true%22%0D%0A                android:focusable=%22true%22%0D%0A                android:contentDescription=%22@string/change_profile_picture%22%3E%0D%0A%0D%0A                %3CImageView%0D%0A                    android:layout_width=%2224dp%22%0D%0A                    android:layout_height=%2224dp%22%0D%0A                    android:layout_gravity=%22center%22%0D%0A                    android:src=%22@drawable/ic_edit%22%0D%0A                    app:tint=%22@android:color/white%22%0D%0A                    android:contentDescription=%22@string/edit_icon%22 /%3E%0D%0A            %3C/FrameLayout%3E%0D%0A        %3C/FrameLayout%3E%0D%0A%0D%0A        %3C!-- Name --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/full_name%22%0D%0A            android:layout_marginBottom=%2212dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextName%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22textPersonName%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Email --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/email%22%0D%0A            android:layout_marginBottom=%2212dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextEmail%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22textEmailAddress%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Phone Number --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/phone_number%22%0D%0A            android:layout_marginBottom=%2212dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextPhone%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22phone%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Designation --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/designation%22%0D%0A            android:layout_marginBottom=%2212dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextDesignation%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22text%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Teacher ID --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/teacher_id%22%0D%0A            android:layout_marginBottom=%2212dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextTeacherId%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22text%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Gender Dropdown --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/gender%22%0D%0A            style=%22@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu%22%0D%0A            android:layout_marginBottom=%2212dp%22%3E%0D%0A%0D%0A            %3CAutoCompleteTextView%0D%0A                android:id=%22@+id/spinnerGender%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22none%22%0D%0A                android:minHeight=%2248dp%22%0D%0A                android:maxWidth=%22400dp%22%0D%0A                android:contentDescription=%22@string/select_gender%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Department --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/department%22%0D%0A            android:layout_marginBottom=%2224dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextDepartment%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22text%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Office Location --%3E%0D%0A        %3Ccom.google.android.material.textfield.TextInputLayout%0D%0A            android:layout_width=%22match_parent%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:hint=%22@string/office_location%22%0D%0A            android:layout_marginBottom=%2224dp%22%3E%0D%0A%0D%0A            %3Ccom.google.android.material.textfield.TextInputEditText%0D%0A                android:id=%22@+id/editTextOffice%22%0D%0A                android:layout_width=%22match_parent%22%0D%0A                android:layout_height=%22wrap_content%22%0D%0A                android:inputType=%22text%22%0D%0A                android:maxWidth=%22400dp%22 /%3E%0D%0A        %3C/com.google.android.material.textfield.TextInputLayout%3E%0D%0A%0D%0A        %3C!-- Save Button --%3E%0D%0A        %3CButton%0D%0A            android:id=%22@+id/buttonSave%22%0D%0A            android:layout_width=%22wrap_content%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:text=%22@string/save%22%0D%0A            android:backgroundTint=%22?attr/colorPrimary%22%0D%0A            android:textColor=%22@android:color/white%22%0D%0A            android:padding=%2212dp%22%0D%0A            android:minHeight=%2248dp%22%0D%0A            android:minWidth=%22200dp%22%0D%0A            android:textAllCaps=%22false%22 /%3E%0D%0A            %0D%0A        %3C!-- Progress Bar --%3E%0D%0A        %3CProgressBar%0D%0A            android:id=%22@+id/progressBar%22%0D%0A            android:layout_width=%22wrap_content%22%0D%0A            android:layout_height=%22wrap_content%22%0D%0A            android:layout_marginTop=%2216dp%22%0D%0A            android:visibility=%22gone%22 /%3E%0D%0A%0D%0A    %3C/LinearLayout%3E%0D%0A%3C/ScrollView%3E\n %0D%0A\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "426578fc-5e0d-436c-a36c-e089c0ca16f4"
+            },
+            "createdAt": 1749967123552,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}
