@@ -1,4 +1,4 @@
-# 🎓 TeacherScheduler - PROJECT SUMMARY
+# 🎓 Customized Alarm - PROJECT SUMMARY
 
 ## 📱 **COMPLETE MODERN ANDROID APPLICATION**
 
