@@ -2,11 +2,19 @@
 package com.example.teacherscheduler.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity(tableName = "meetings")
+@Entity(
+    tableName = "meetings",
+    indices = [
+        Index(value = ["isActive", "startTime"]),
+        Index(value = ["startDate"]),
+        Index(value = ["lastSyncTimestamp"])
+    ]
+)
 data class Meeting(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

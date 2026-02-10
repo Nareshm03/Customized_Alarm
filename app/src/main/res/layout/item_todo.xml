@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/colorSurfaceVariant"
+    app:cardBackgroundColor="@color/surface_light"
+    android:clickable="true"
+    android:focusable="true"
+    app:rippleColor="@color/ripple_color"
+    android:stateListAnimator="@animator/card_state_list_anim"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="12dp"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/checkboxComplete"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:button="@null"
+                android:background="?android:attr/listChoiceIndicatorMultiple"
+                android:contentDescription="Mark as complete" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary_light"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    tools:text="Grade midterm exams" />
+
+                <TextView
+                    android:id="@+id/textCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/text_secondary_light"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    tools:text="Grading"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/priorityIndicator"
+                android:layout_width="4dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:background="@color/colorPrimary"
+                tools:background="@android:color/holo_red_light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iconDueDate"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_menu_today"
+                app:tint="@color/text_secondary_light"
+                android:layout_marginEnd="6dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textDueDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_secondary_light"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="Due: Feb 10, 2026"
+                tools:visibility="visible" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPriority"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="High"
+                android:textSize="11sp"
+                app:chipMinHeight="28dp"
+                app:chipBackgroundColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/text_secondary_light"
+            android:textSize="13sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:visibility="gone"
+            tools:text="Review all exam papers and enter grades in the system"
+            tools:visibility="visible" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/actionButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Edit"
+                app:icon="@android:drawable/ic_menu_edit" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete"
+                app:icon="@android:drawable/ic_menu_delete"
+                android:textColor="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

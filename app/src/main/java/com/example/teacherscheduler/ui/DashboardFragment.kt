@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.teacherscheduler.MainActivity
 import com.example.teacherscheduler.R
+import com.example.teacherscheduler.ui.calendar.EnhancedCalendarView
 import com.example.teacherscheduler.viewmodel.DashboardViewModel
 import com.example.teacherscheduler.viewmodel.SharedViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -24,7 +27,7 @@ class DashboardFragment : Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
     
     private lateinit var textViewDate: TextView
-    private lateinit var calendarView: CalendarView
+    private lateinit var enhancedCalendarView: EnhancedCalendarView
     private lateinit var recyclerViewClasses: RecyclerView
     private lateinit var recyclerViewMeetings: RecyclerView
     private lateinit var textViewNoClasses: TextView
@@ -41,7 +44,7 @@ class DashboardFragment : Fragment() {
         
         // Initialize views
         textViewDate = root.findViewById(R.id.textViewDate)
-        calendarView = root.findViewById(R.id.calendarView)
+        enhancedCalendarView = root.findViewById(R.id.enhancedCalendarView)
         recyclerViewClasses = root.findViewById(R.id.recyclerViewClasses)
         recyclerViewMeetings = root.findViewById(R.id.recyclerViewMeetings)
         textViewNoClasses = root.findViewById(R.id.textViewNoClasses)
@@ -52,9 +55,7 @@ class DashboardFragment : Fragment() {
         recyclerViewMeetings.layoutManager = LinearLayoutManager(context)
         
         // Set up calendar date change listener
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = Calendar.getInstance()
-            calendar.set(year, month, dayOfMonth)
+        enhancedCalendarView.setOnDateSelectedListener { calendar ->
             dashboardViewModel.setSelectedDate(calendar.time)
         }
         
@@ -73,64 +74,63 @@ class DashboardFragment : Fragment() {
         sharedViewModel.setFabAction(SharedViewModel.FabAction.ADD_CLASS)
         
         // Observe selected date
-        dashboardViewModel.selectedDate.observe(viewLifecycleOwner) { date ->
-            updateDateDisplay(date)
-        }
-        
-        // Observe classes for selected date
-        dashboardViewModel.classesForSelectedDate.observe(viewLifecycleOwner) { classes ->
-            // Update classes adapter
-            if (classes.isEmpty()) {
-                textViewNoClasses.visibility = View.VISIBLE
-                recyclerViewClasses.visibility = View.GONE
-            } else {
-                textViewNoClasses.visibility = View.GONE
-                recyclerViewClasses.visibility = View.VISIBLE
-                // Set adapter for recyclerViewClasses
-                recyclerViewClasses.adapter = com.example.teacherscheduler.ui.adapter.ClassAdapter(
-                    onEditClick = { classItem ->
-                        // Handle class click
-                        sharedViewModel.navigateToClassDetail(classItem.id)
-                    },
-                    onDeleteClick = { classItem ->
-                        // Handle delete click - you can implement this later if needed
-                        dashboardViewModel.deleteClass(classItem)
-                    }
-                ).apply {
-                    submitList(classes)
-                }
+        lifecycleScope.launch {
+            dashboardViewModel.selectedDate.collect { date ->
+                updateDateDisplay(date)
             }
         }
         
-        // Observe meetings for selected date
-        dashboardViewModel.meetingsForSelectedDate.observe(viewLifecycleOwner) { meetings ->
-            // Update meetings adapter
-            if (meetings.isEmpty()) {
-                textViewNoMeetings.visibility = View.VISIBLE
-                recyclerViewMeetings.visibility = View.GONE
-            } else {
-                textViewNoMeetings.visibility = View.GONE
-                recyclerViewMeetings.visibility = View.VISIBLE
-                // Set adapter for recyclerViewMeetings
-                recyclerViewMeetings.adapter = com.example.teacherscheduler.ui.adapter.MeetingAdapter(
-                    onEditClick = { meeting ->
-                        // Handle meeting click
-                        sharedViewModel.navigateToMeetingDetail(meeting.id)
-                    },
-                    onDeleteClick = { meeting ->
-                        // Handle delete click - you can implement this later if needed
-                        dashboardViewModel.deleteMeeting(meeting)
+        // Observe classes and meetings
+        lifecycleScope.launch {
+            dashboardViewModel.dashboardState.collect { state ->
+                // Update classes
+                val classes = state.todayClasses
+                if (classes.isEmpty()) {
+                    textViewNoClasses.visibility = View.VISIBLE
+                    recyclerViewClasses.visibility = View.GONE
+                } else {
+                    textViewNoClasses.visibility = View.GONE
+                    recyclerViewClasses.visibility = View.VISIBLE
+                    recyclerViewClasses.adapter = com.example.teacherscheduler.ui.adapter.ClassAdapter(
+                        onEditClick = { classItem ->
+                            sharedViewModel.navigateToClassDetail(classItem.id)
+                        },
+                        onDeleteClick = { classItem ->
+                            dashboardViewModel.deleteClass(classItem)
+                        }
+                    ).apply {
+                        submitList(classes)
                     }
-                ).apply {
-                    submitList(meetings)
+                }
+                
+                // Update meetings
+                val meetings = state.upcomingMeetings
+                if (meetings.isEmpty()) {
+                    textViewNoMeetings.visibility = View.VISIBLE
+                    recyclerViewMeetings.visibility = View.GONE
+                } else {
+                    textViewNoMeetings.visibility = View.GONE
+                    recyclerViewMeetings.visibility = View.VISIBLE
+                    recyclerViewMeetings.adapter = com.example.teacherscheduler.ui.adapter.MeetingAdapter(
+                        onEditClick = { meeting ->
+                            sharedViewModel.navigateToMeetingDetail(meeting.id)
+                        },
+                        onDeleteClick = { meeting ->
+                            dashboardViewModel.deleteMeeting(meeting)
+                        }
+                    ).apply {
+                        submitList(meetings)
+                    }
                 }
             }
         }
     }
     
     private fun updateDateDisplay(date: Date) {
-        val today = dashboardViewModel.getTodayDate()
-        val tomorrow = dashboardViewModel.getTomorrowDate()
+        val today = Date()
+        val tomorrow = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 1)
+        }.time
         
         val calendar1 = Calendar.getInstance()
         calendar1.time = date

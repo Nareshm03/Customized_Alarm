@@ -7,6 +7,12 @@
         android:title="My Profile"
         android:icon="@drawable/ic_person"
         app:showAsAction="ifRoom" />
+    
+    <item
+        android:id="@+id/action_dark_mode"
+        android:title="Dark Mode"
+        android:icon="@drawable/ic_dark_mode"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_settings"
@@ -24,6 +30,12 @@
         android:id="@+id/action_test_notifications"
         android:title="Test Notifications"
         android:icon="@drawable/ic_notification"
+        app:showAsAction="never" />
+    
+    <item
+        android:id="@+id/action_backup"
+        android:title="Backup &amp; Restore"
+        android:icon="@drawable/ic_backup"
         app:showAsAction="never" />
         
     <item

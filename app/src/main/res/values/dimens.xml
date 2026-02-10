@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================ -->
+    <!-- GLOBAL SPACING RULES -->
+    <!-- ============================================ -->
+
+    <!-- Screen Padding -->
+    <dimen name="screen_padding">16dp</dimen>
+    <dimen name="screen_padding_horizontal">16dp</dimen>
+    <dimen name="screen_padding_vertical">16dp</dimen>
+
+    <!-- Card Padding -->
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_padding_large">20dp</dimen>
+    <dimen name="card_padding_small">12dp</dimen>
+
+    <!-- Gap Between Sections -->
+    <dimen name="section_gap">24dp</dimen>
+    <dimen name="section_gap_small">16dp</dimen>
+    <dimen name="section_gap_large">32dp</dimen>
+
+    <!-- Icon + Text Gap -->
+    <dimen name="icon_text_gap">12dp</dimen>
+    <dimen name="icon_text_gap_small">8dp</dimen>
+
+    <!-- Button Dimensions -->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_height_large">52dp</dimen>
+    <dimen name="button_height_small">40dp</dimen>
+    <dimen name="button_padding_horizontal">24dp</dimen>
+    <dimen name="button_padding_vertical">12dp</dimen>
+
+    <!-- Card Spacing -->
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_margin_horizontal">16dp</dimen>
+    <dimen name="card_margin_vertical">8dp</dimen>
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+
+    <!-- Text Spacing -->
+    <dimen name="text_spacing_small">4dp</dimen>
+    <dimen name="text_spacing_medium">8dp</dimen>
+    <dimen name="text_spacing_large">12dp</dimen>
+
+    <!-- List Item Spacing -->
+    <dimen name="list_item_padding">16dp</dimen>
+    <dimen name="list_item_spacing">8dp</dimen>
+
+    <!-- Empty State -->
+    <dimen name="empty_state_padding">24dp</dimen>
+    <dimen name="empty_state_illustration_size">140dp</dimen>
+    <dimen name="empty_state_illustration_margin_top">40dp</dimen>
+    <dimen name="empty_state_title_margin_top">16dp</dimen>
+    <dimen name="empty_state_button_margin_top">20dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="fab_corner_radius">28dp</dimen>
+
+    <!-- Tabs -->
+    <dimen name="tab_padding_horizontal">16dp</dimen>
+    <dimen name="tab_padding_vertical">12dp</dimen>
+    <dimen name="tab_indicator_height">3dp</dimen>
+
+    <!-- Dashboard Cards -->
+    <dimen name="dashboard_card_height">120dp</dimen>
+    <dimen name="dashboard_stat_card_height">110dp</dimen>
+</resources>
+

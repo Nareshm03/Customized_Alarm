@@ -1,5 +1,7 @@
 <resources>
-    <!-- Add missing string resources -->
+    <!-- Missing string resources for shortcuts -->
+    <string name="add_new_class">Add New Class</string>
+    <string name="add_new_meeting">Add New Meeting</string>
 
     <!-- Splash Screen -->
     <string name="app_name">Teacher Scheduler</string>
@@ -72,8 +74,6 @@
     <string name="enable_meeting_notifications">Enable Meeting Notifications</string>
     <string name="reminder_time">Reminder Time</string>
     <string name="five_minutes_before">5 minutes before</string>
-    <string name="ten_minutes_before">10 minutes before</string>
-    <string name="fifteen_minutes_before">15 minutes before</string>
     <string name="thirty_minutes_before">30 minutes before</string>
     <string name="data_synchronization">Data Synchronization</string>
     <string name="auto_sync">Auto Sync</string>
@@ -247,4 +247,27 @@
     
     <!-- Web client ID from google-services.json -->
     <string name="default_web_client_id" translatable="false">146892510991-ri30ahib86ojiq0bl44u4m9rclachj1t.apps.googleusercontent.com</string>
+    
+    <!-- Widget -->
+    <string name="widget_description">Shows today\'s schedule at a glance</string>
+
+    <!-- Empty States - Classes -->
+    <string name="empty_classes_title">Your Schedule Awaits!</string>
+    <string name="empty_classes_message">Add your first class to start building your teaching schedule</string>
+    <string name="empty_classes_action">Create Class</string>
+
+    <!-- Empty States - Meetings -->
+    <string name="empty_meetings_title">No Meetings Yet</string>
+    <string name="empty_meetings_message">Schedule meetings with colleagues, students, or parents</string>
+    <string name="empty_meetings_action">Schedule Meeting</string>
+
+    <!-- Empty States - To-Dos -->
+    <string name="empty_todos_title">All Clear!</string>
+    <string name="empty_todos_message">Create tasks to track your work and stay organized</string>
+    <string name="empty_todos_action">Add Task</string>
+
+    <!-- Empty States - Timetable -->
+    <string name="empty_timetable_title">Your Week is Empty</string>
+    <string name="empty_timetable_message">Add classes and meetings to see them on your visual timetable</string>
+    <string name="empty_timetable_action">Get Started</string>
 </resources>

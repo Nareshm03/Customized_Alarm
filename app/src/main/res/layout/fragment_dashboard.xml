@@ -22,57 +22,85 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             app:cardCornerRadius="20dp"
-            app:cardElevation="4dp"
+            app:cardElevation="6dp"
             app:strokeWidth="0dp"
-            app:cardBackgroundColor="@color/colorPrimaryContainer"
+            android:background="@drawable/gradient_welcome_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!-- Gradient overlay -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_welcome_card"
+                android:alpha="0.95" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp"
-                android:gravity="center_vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
+                <!-- Greeting row -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/textViewWelcome"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Good Morning!"
-                        android:textColor="@color/colorOnPrimaryContainer"
-                        android:textSize="28sp"
-                        android:fontFamily="sans-serif-medium" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textViewDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/today"
-                        android:textColor="@color/colorOnPrimaryContainer"
-                        android:textSize="16sp"
-                        android:alpha="0.8"
-                        android:fontFamily="sans-serif" />
+                        <TextView
+                            android:id="@+id/textViewWelcome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Good Morning! 👋"
+                            android:textColor="@color/text_primary"
+                            android:textSize="28sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/textViewDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/today"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:alpha="0.9"
+                            android:fontFamily="sans-serif" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@color/primary_purple_light"
+                        android:src="@drawable/ic_school_large"
+                        app:tint="@color/white"
+                        android:padding="14dp"
+                        app:shapeAppearanceOverlay="@style/CircleImageView"
+                        android:alpha="0.95" />
 
                 </LinearLayout>
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@color/colorPrimary"
-                    android:src="@drawable/ic_school_large"
-                    app:tint="@color/white"
-                    android:padding="16dp"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"
-                    android:alpha="0.9" />
+                <!-- Today's Focus Message -->
+                <TextView
+                    android:id="@+id/textViewFocus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="You're free today — plan something meaningful ✨"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:alpha="0.95"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="2dp" />
 
             </LinearLayout>
 
@@ -83,8 +111,8 @@
             android:id="@+id/statsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="@dimen/screen_padding"
+            android:layout_marginTop="@dimen/screen_padding"
             android:orientation="horizontal"
             android:baselineAligned="false"
             app:layout_constraintTop_toBottomOf="@+id/welcomeCard">
@@ -92,9 +120,9 @@
             <!-- Today's Classes Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dashboard_stat_card_height"
                 android:layout_weight="1"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="5dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="1dp"
@@ -106,24 +134,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="16dp"
+                    android:padding="12dp"
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:src="@drawable/ic_class_24"
                         app:tint="@color/class_color_primary"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/todayClassesCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="32sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="@color/class_color_primary"
                         android:fontFamily="sans-serif-medium" />
@@ -131,8 +159,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today's Classes"
-                        android:textSize="12sp"
+                        android:text="Classes"
+                        android:textSize="11sp"
                         android:textColor="@color/on_class_color_container"
                         android:textAlignment="center"
                         android:alpha="0.8" />
@@ -144,9 +172,9 @@
             <!-- Upcoming Meetings Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dashboard_stat_card_height"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"
+                android:layout_marginHorizontal="3dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="1dp"
@@ -158,24 +186,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="16dp"
+                    android:padding="12dp"
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:src="@drawable/ic_meeting"
                         app:tint="@color/meeting_color_primary"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/upcomingMeetingsCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="32sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="@color/meeting_color_primary"
                         android:fontFamily="sans-serif-medium" />
@@ -183,8 +211,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upcoming Meetings"
-                        android:textSize="12sp"
+                        android:text="Meetings"
+                        android:textSize="11sp"
                         android:textColor="@color/on_meeting_color_container"
                         android:textAlignment="center"
                         android:alpha="0.8" />
@@ -193,7 +221,322 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Active To-Dos Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dashboard_stat_card_height"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#5C6BC0"
+                app:cardBackgroundColor="#E8EAF6"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_assignment_24"
+                        app:tint="#5C6BC0"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/activeToDosCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="#5C6BC0"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To-Dos"
+                        android:textSize="11sp"
+                        android:textColor="#5C6BC0"
+                        android:textAlignment="center"
+                        android:alpha="0.8" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
+
+        <!-- Weekly Overview Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/weeklyOverviewCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/colorSurfaceVariant"
+            app:cardBackgroundColor="@color/surface_light"
+            app:layout_constraintTop_toBottomOf="@+id/statsContainer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_trending_up_24"
+                        app:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="This Week"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:id="@+id/textWeekHours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0 hrs"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:background="@drawable/rounded_background_light">
+
+                        <TextView
+                            android:id="@+id/textWeekClasses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/class_color_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Classes"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorTextSecondary" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:background="@drawable/rounded_background_light">
+
+                        <TextView
+                            android:id="@+id/textWeekMeetings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/meeting_color_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Meetings"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorTextSecondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Insights Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/insightsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/colorSurfaceVariant"
+            app:cardBackgroundColor="@color/colorPrimaryContainer"
+            app:layout_constraintTop_toBottomOf="@+id/weeklyOverviewCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_lightbulb_24"
+                        app:tint="@color/colorOnPrimaryContainer" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Insights"
+                        android:textColor="@color/colorOnPrimaryContainer"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textInsight1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📅 You have a free day ahead!"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorOnPrimaryContainer"
+                    android:padding="8dp"
+                    android:background="@drawable/insight_item_background"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/textInsight2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✨ Great day for planning ahead"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorOnPrimaryContainer"
+                    android:padding="8dp"
+                    android:background="@drawable/insight_item_background"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/textInsight3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="💪 Keep up the good work!"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorOnPrimaryContainer"
+                    android:padding="8dp"
+                    android:background="@drawable/insight_item_background"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Next Event Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/nextEventCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/teal_500"
+            app:cardBackgroundColor="@color/surface_light"
+            app:layout_constraintTop_toBottomOf="@+id/insightsCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_alarm_24"
+                    app:tint="@color/teal_500"
+                    android:background="@drawable/circle_background_teal"
+                    android:padding="10dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next Up"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextSecondary"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:id="@+id/textNextEventTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="No upcoming events"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorTextPrimary"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/textNextEventTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text=""
+                        android:textSize="14sp"
+                        android:textColor="@color/teal_500"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Quick Actions Card -->
         <com.google.android.material.card.MaterialCardView
@@ -207,7 +550,7 @@
             app:strokeWidth="1dp"
             app:strokeColor="@color/colorSurfaceVariant"
             app:cardBackgroundColor="@color/surface_light"
-            app:layout_constraintTop_toBottomOf="@+id/statsContainer">
+            app:layout_constraintTop_toBottomOf="@+id/nextEventCard">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -235,10 +578,10 @@
                         android:layout_width="0dp"
                         android:layout_height="56dp"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        android:text="Add Class"
+                        android:layout_marginEnd="5dp"
+                        android:text="Class"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         app:icon="@drawable/ic_class_24"
                         app:iconTint="@color/white"
                         app:backgroundTint="@color/class_color_primary"
@@ -250,13 +593,28 @@
                         android:layout_width="0dp"
                         android:layout_height="56dp"
                         android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:text="Add Meeting"
+                        android:layout_marginHorizontal="3dp"
+                        android:text="Meeting"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         app:icon="@drawable/ic_meeting"
                         app:iconTint="@color/white"
                         app:backgroundTint="@color/meeting_color_primary"
+                        app:cornerRadius="12dp"
+                        style="@style/Widget.Material3.Button" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonAddToDo"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:text="To-Do"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:icon="@drawable/ic_assignment_24"
+                        app:iconTint="@color/white"
+                        app:backgroundTint="#5C6BC0"
                         app:cornerRadius="12dp"
                         style="@style/Widget.Material3.Button" />
 
@@ -282,15 +640,130 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quickActionsCard">
 
-            <CalendarView
-                android:id="@+id/calendarView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:dateTextAppearance="@style/CalendarDateTextAppearance"
-                android:weekDayTextAppearance="@style/CalendarWeekDayAppearance" />
+                android:orientation="vertical">
+
+                <!-- View Toggle -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Calendar"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/viewToggleGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMonthView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="Month"
+                            android:textSize="12sp"
+                            android:paddingHorizontal="16dp"
+                            style="@style/Widget.Material3.Button.OutlinedButton" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnWeekView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="Week"
+                            android:textSize="12sp"
+                            android:paddingHorizontal="16dp"
+                            style="@style/Widget.Material3.Button.OutlinedButton" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
+
+                <!-- Enhanced Calendar View (Month) -->
+                <com.example.teacherscheduler.ui.calendar.EnhancedCalendarView
+                    android:id="@+id/enhancedCalendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
+
+                <!-- Week Grid View -->
+                <com.example.teacherscheduler.ui.calendar.WeekGridView
+                    android:id="@+id/weekGridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- To-Dos Section -->
+        <LinearLayout
+            android:id="@+id/todosSectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/calendarCard">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_assignment_24"
+                app:tint="#5C6BC0"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/textViewToDosTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Urgent Tasks"
+                android:textColor="#5C6BC0"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewToDos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todosSectionHeader"
+            tools:listitem="@layout/item_todo"
+            tools:itemCount="2" />
+
+        <TextView
+            android:id="@+id/textViewNoToDos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No urgent tasks"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextSecondary"
+            android:visibility="gone"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todosSectionHeader" />
 
         <!-- Classes Section -->
         <LinearLayout
@@ -301,7 +774,7 @@
             android:gravity="center_vertical"
             android:layout_marginTop="24dp"
             android:layout_marginHorizontal="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/calendarCard">
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewToDos">
 
             <ImageView
                 android:layout_width="24dp"

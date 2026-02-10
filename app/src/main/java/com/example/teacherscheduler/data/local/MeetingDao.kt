@@ -1,9 +1,8 @@
 package com.example.teacherscheduler.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.teacherscheduler.model.Meeting
-import java.util.Date
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MeetingDao {
@@ -17,7 +16,7 @@ interface MeetingDao {
     suspend fun delete(meeting: Meeting)
     
     @Query("SELECT * FROM meetings WHERE isActive = 1 ORDER BY startTime")
-    fun getAllActiveMeetings(): LiveData<List<Meeting>>
+    fun getAllActiveMeetings(): Flow<List<Meeting>>
     
     @Query("SELECT * FROM meetings WHERE isActive = 1 ORDER BY startTime")
     suspend fun getAllActiveMeetingsSync(): List<Meeting>
@@ -26,7 +25,7 @@ interface MeetingDao {
     suspend fun getMeetingById(id: Long): Meeting?
     
     @Query("SELECT * FROM meetings WHERE strftime('%Y-%m-%d', startDate / 1000, 'unixepoch') = :dateString AND isActive = 1 ORDER BY startTime")
-    fun getMeetingsForDay(dateString: String): LiveData<List<Meeting>>
+    fun getMeetingsForDay(dateString: String): Flow<List<Meeting>>
     
     @Query("SELECT * FROM meetings WHERE lastSyncTimestamp < :timestamp")
     suspend fun getUnsyncedMeetings(timestamp: Long): List<Meeting>

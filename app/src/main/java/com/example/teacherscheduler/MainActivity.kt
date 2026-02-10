@@ -15,36 +15,44 @@ import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 import com.example.teacherscheduler.ui.ModernAddEditMeetingActivity
 import com.example.teacherscheduler.ui.ClassesFragment
 import com.example.teacherscheduler.ui.EnhancedDashboardFragment
-import com.example.teacherscheduler.ui.LoginActivity
 import com.example.teacherscheduler.ui.MeetingsFragment
 import com.example.teacherscheduler.ui.ModernAddEditClassActivity
 import com.example.teacherscheduler.ui.NotificationSettingsActivity
 import com.example.teacherscheduler.ui.EnhancedProfileActivity
+import com.example.teacherscheduler.ui.BackupActivity
+import com.example.teacherscheduler.ui.OnboardingActivity
 import com.example.teacherscheduler.ui.SettingsFragment
 import com.example.teacherscheduler.ui.TestNotificationActivity
-
+import com.example.teacherscheduler.ui.ToDosFragment
+import com.example.teacherscheduler.ui.AddEditToDoActivity
+import com.example.teacherscheduler.ui.TimetableFragment
+import com.example.teacherscheduler.util.HapticFeedbackHelper
+import com.example.teacherscheduler.util.NetworkStatusMonitor
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var notificationHelper: NotificationHelper
+    private lateinit var notificationHelper: EnhancedNotificationHelper
     private lateinit var settingsManager: SettingsManager
-    private lateinit var auth: FirebaseAuth
+    private lateinit var networkMonitor: NetworkStatusMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply theme before super.onCreate
+        settingsManager = SettingsManager(this)
+        applyTheme()
+        
         super.onCreate(savedInstanceState)
         
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance()
-        
-        // Check if user is logged in
-        if (auth.currentUser == null) {
-            // User not logged in, redirect to login
-            startActivity(Intent(this, LoginActivity::class.java))
+        // Check onboarding
+        if (OnboardingActivity.shouldShowOnboarding(this)) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
             finish()
             return
         }
+        
+        // Firebase Auth disabled for development
         
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize components
         notificationHelper = EnhancedNotificationHelper(this)
-        settingsManager = SettingsManager(this)
 
         // Check exact alarm permission
         if (!notificationHelper.canScheduleExactAlarms()) {
@@ -73,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         setupTabs()
         setupFab()
+        setupNetworkMonitor()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -86,6 +94,10 @@ class MainActivity : AppCompatActivity() {
                 // Create a dialog fragment for settings
                 val settingsFragment = SettingsFragment()
                 settingsFragment.show(supportFragmentManager, "settings_dialog")
+                true
+            }
+            R.id.action_dark_mode -> {
+                toggleDarkMode()
                 true
             }
             R.id.action_test_notifications -> {
@@ -103,6 +115,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
+            R.id.action_backup -> {
+                val intent = Intent(this, BackupActivity::class.java)
+                startActivity(intent)
+                true
+            }
             R.id.action_logout -> {
                 logout()
                 true
@@ -111,12 +128,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
-    // Add logout functionality
+    // Logout functionality (Firebase disabled for development)
     private fun logout() {
-        auth.signOut()
-        // Note: Google Sign-In logout is now handled by CredentialManager in LoginActivity
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
+        // Clear local data if needed
+        settingsManager.clearUserData()
+        
+        // Show logout confirmation
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to logout? (Note: Firebase is disabled, this will just reset local settings)")
+            .setPositiveButton("Logout") { _, _ ->
+                // In a real app with Firebase, you'd do FirebaseAuth.getInstance().signOut()
+                // For now, we just go back to onboarding or close the app
+                recreate()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun setupTabs() {
@@ -125,27 +152,52 @@ class MainActivity : AppCompatActivity() {
         
         // Fix nested scrolling conflicts
         binding.viewPager.isNestedScrollingEnabled = true
-        binding.viewPager.offscreenPageLimit = 3
+        binding.viewPager.offscreenPageLimit = 4
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "DASHBOARD"
-                1 -> tab.text = "CLASSES"
-                2 -> tab.text = "MEETINGS"
+                0 -> {
+                    tab.text = "Timetable"
+                    tab.setIcon(R.drawable.ic_timetable_24)
+                }
+                1 -> {
+                    tab.text = "Dashboard"
+                    tab.setIcon(R.drawable.ic_dashboard_24)
+                }
+                2 -> {
+                    tab.text = "Classes"
+                    tab.setIcon(R.drawable.ic_class_24)
+                }
+                3 -> {
+                    tab.text = "Meetings"
+                    tab.setIcon(R.drawable.ic_meeting)
+                }
+                4 -> {
+                    tab.text = "To-Dos"
+                    tab.setIcon(R.drawable.ic_assignment_24)
+                }
             }
         }.attach()
     }
 
     private fun setupFab() {
         binding.fab.setOnClickListener {
+            // Add haptic feedback
+            HapticFeedbackHelper.lightTap(it)
+
             val currentFragment = getCurrentFragment()
             when (currentFragment) {
+                is TimetableFragment -> {
+                    // Quick add dialog
+                    showAddOptionsDialog()
+                }
                 is EnhancedDashboardFragment -> {
                     // Show options to add class or meeting
                     showAddOptionsDialog()
                 }
                 is ClassesFragment -> currentFragment.showAddEditClassActivity(null)
                 is MeetingsFragment -> currentFragment.showAddEditMeetingActivity(null)
+                is ToDosFragment -> currentFragment.showAddEditToDoActivity(null)
             }
         }
     }
@@ -160,7 +212,9 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Meeting") { _, _ ->
                 startActivity(Intent(this, ModernAddEditMeetingActivity::class.java))
             }
-            .setNeutralButton("Cancel", null)
+            .setNeutralButton("To-Do") { _, _ ->
+                startActivity(Intent(this, AddEditToDoActivity::class.java))
+            }
             .show()
     }
 
@@ -171,7 +225,7 @@ class MainActivity : AppCompatActivity() {
     
     // Public method to switch tabs from fragments
     fun switchToTab(tabIndex: Int) {
-        if (tabIndex in 0..2) {
+        if (tabIndex in 0..4) {
             binding.viewPager.currentItem = tabIndex
         }
     }
@@ -185,14 +239,16 @@ class MainActivity : AppCompatActivity() {
     private class TabsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
         private val fragments = mutableMapOf<Int, Fragment>()
 
-        override fun getItemCount(): Int = 3
+        override fun getItemCount(): Int = 5
 
         override fun createFragment(position: Int): Fragment {
             val fragment = when (position) {
-                0 -> EnhancedDashboardFragment()
-                1 -> ClassesFragment()
-                2 -> MeetingsFragment()
-                else -> EnhancedDashboardFragment()
+                0 -> TimetableFragment()
+                1 -> EnhancedDashboardFragment()
+                2 -> ClassesFragment()
+                3 -> MeetingsFragment()
+                4 -> ToDosFragment()
+                else -> TimetableFragment()
             }
             fragments[position] = fragment
             return fragment
@@ -204,5 +260,31 @@ class MainActivity : AppCompatActivity() {
     private fun debugSoundSettings() {
         val enhancedHelper = EnhancedNotificationHelper(this)
         enhancedHelper.checkSoundSettings()
+    }
+    
+    private fun setupNetworkMonitor() {
+        networkMonitor = NetworkStatusMonitor(this)
+        networkMonitor.observe(this) { isOnline ->
+            binding.offlineIndicator.visibility = if (isOnline) {
+                android.view.View.GONE
+            } else {
+                android.view.View.VISIBLE
+            }
+        }
+    }
+    
+    private fun applyTheme() {
+        val isDarkMode = settingsManager.isDarkModeEnabled()
+        if (isDarkMode) {
+            setTheme(R.style.AppTheme)  // AppTheme is now the dark mode theme
+        } else {
+            setTheme(R.style.AppTheme_Light)
+        }
+    }
+    
+    private fun toggleDarkMode() {
+        val currentMode = settingsManager.isDarkModeEnabled()
+        settingsManager.setDarkModeEnabled(!currentMode)
+        recreate()
     }
 }

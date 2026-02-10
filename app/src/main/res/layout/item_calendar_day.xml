@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextPrimary"
+            android:fontFamily="sans-serif" />
+
+        <!-- Event Indicators -->
+        <LinearLayout
+            android:id="@+id/indicatorContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:visibility="visible">
+
+            <View
+                android:id="@+id/classIndicator"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/event_indicator_class" />
+
+            <View
+                android:id="@+id/meetingIndicator"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@drawable/event_indicator_meeting" />
+        </LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

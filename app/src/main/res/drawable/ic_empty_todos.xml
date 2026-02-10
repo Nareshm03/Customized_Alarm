@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Background circle -->
+    <path
+        android:pathData="M100,100m-80,0a80,80 0,1,1 160,0a80,80 0,1,1 -160,0"
+        android:fillColor="#E8EAF6"/>
+
+    <!-- Checklist paper -->
+    <path
+        android:pathData="M65,60 L135,60 L135,140 L65,140 Z"
+        android:fillColor="#5C6BC0"
+        android:fillAlpha="0.2"/>
+
+    <path
+        android:pathData="M70,65 L130,65 L130,135 L70,135 Z"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="3"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Checklist items (empty boxes) -->
+    <path
+        android:pathData="M80,80 L90,80 L90,90 L80,90 Z"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="2"
+        android:fillColor="#FFFFFF"/>
+
+    <path
+        android:pathData="M95,83 L120,83"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M80,100 L90,100 L90,110 L80,110 Z"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="2"
+        android:fillColor="#FFFFFF"/>
+
+    <path
+        android:pathData="M95,103 L120,103"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M80,120 L90,120 L90,130 L80,130 Z"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="2"
+        android:fillColor="#FFFFFF"/>
+
+    <path
+        android:pathData="M95,123 L115,123"
+        android:strokeColor="#5C6BC0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillAlpha="0.3"/>
+
+    <!-- Add icon -->
+    <path
+        android:pathData="M145,120m-15,0a15,15 0,1,1 30,0a15,15 0,1,1 -30,0"
+        android:fillColor="#5C6BC0"/>
+    <path
+        android:pathData="M145,112 L145,128"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M137,120 L153,120"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+</vector>

@@ -7,19 +7,19 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.model.Meeting
-import com.example.teacherscheduler.notification.NotificationHelper
+import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 import com.example.teacherscheduler.util.NotificationDebugHelper
 import java.util.*
 
 class TestNotificationActivity : AppCompatActivity() {
 
-    private lateinit var notificationHelper: NotificationHelper
+    private lateinit var notificationHelper: EnhancedNotificationHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_notification)
 
-        notificationHelper = NotificationHelper(this)
+        notificationHelper = EnhancedNotificationHelper(this)
         
         // Check notification settings and log debug info
         NotificationDebugHelper.checkNotificationSettings(this)
@@ -50,9 +50,9 @@ class TestNotificationActivity : AppCompatActivity() {
             notificationId = 99999,
             title = "🔔 TEST IMMEDIATE",
             message = "This should appear right now with sound & vibration!",
-            type = NotificationHelper.TYPE_CLASS,
+            type = EnhancedNotificationHelper.TYPE_CLASS,
             itemId = 999,
-            reminderMinutes = 0
+            channelId = EnhancedNotificationHelper.CHANNEL_ID_CLASSES
         )
         Toast.makeText(this, "Immediate notification shown!", Toast.LENGTH_SHORT).show()
     }
@@ -114,14 +114,13 @@ class TestNotificationActivity : AppCompatActivity() {
     }
 
     private fun testSnoozeFunction() {
-        // Show a notification immediately to test snooze
         notificationHelper.showNotification(
             notificationId = 77777,
             title = "🔔 TEST SNOOZE - Tap snooze button!",
             message = "This notification should reappear in 2 minutes when you snooze it",
-            type = NotificationHelper.TYPE_MEETING,
+            type = EnhancedNotificationHelper.TYPE_MEETING,
             itemId = 777,
-            reminderMinutes = 0
+            channelId = EnhancedNotificationHelper.CHANNEL_ID_MEETINGS
         )
         Toast.makeText(this, "Snooze test notification shown! Tap the snooze button.", Toast.LENGTH_LONG).show()
     }

@@ -1,11 +1,19 @@
 package com.example.teacherscheduler.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity(tableName = "classes")
+@Entity(
+    tableName = "classes",
+    indices = [
+        Index(value = ["isActive", "startTime"]),
+        Index(value = ["startDate"]),
+        Index(value = ["lastSyncTimestamp"])
+    ]
+)
 data class Class(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -91,4 +99,8 @@ data class Class(
     fun getDurationMinutes(): Int {
         return ((getEndDateTime() - getStartDateTime()) / (1000 * 60)).toInt()
     }
+    
+    // Compose compatibility
+    val title: String get() = subject
+    val room: String get() = roomNumber
 }

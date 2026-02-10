@@ -243,11 +243,7 @@ class SettingsFragment : DialogFragment() {
                         
                         Toast.makeText(requireContext(), "Sync completed successfully", Toast.LENGTH_SHORT).show()
                     } else {
-                        // Show debug info when sync fails
-                        val debugInfo = repository.performSyncDebug()
-                        android.util.Log.d("SettingsFragment", debugInfo)
-                        
-                        Toast.makeText(requireContext(), "Sync failed. Check logs for details.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "Sync failed. Please check your connection.", Toast.LENGTH_LONG).show()
                     }
                     
                     // Re-enable sync button

@@ -23,6 +23,8 @@ class SettingsManager(context: Context) {
         private const val KEY_THEME = "theme"
         private const val KEY_CURRENT_SEMESTER_ID = "current_semester_id"
         private const val KEY_LAST_SYNC = "last_sync_timestamp"
+        private const val KEY_DARK_MODE = "dark_mode_enabled"
+        private const val KEY_SORT_ORDER = "sort_order"
     }
     
     fun saveSettings(settings: AppSettings) {
@@ -102,5 +104,29 @@ class SettingsManager(context: Context) {
         val intervalsString = intervals.joinToString(",")
         prefs.edit().putString(KEY_REMINDER_INTERVALS, intervalsString).apply()
     }
+    
+    fun isDarkModeEnabled(): Boolean {
+        return prefs.getBoolean(KEY_DARK_MODE, false)
+    }
+    
+    fun setDarkModeEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_DARK_MODE, enabled).apply()
+    }
+    
+    fun getSortOrder(): String {
+        return prefs.getString(KEY_SORT_ORDER, "date") ?: "date"
+    }
+    
+    fun setSortOrder(order: String) {
+        prefs.edit().putString(KEY_SORT_ORDER, order).apply()
+    }
 
+    /**
+     * Clear all user data (for logout)
+     * Note: This only clears settings, not database data
+     */
+    fun clearUserData() {
+        prefs.edit().clear().apply()
+    }
 }
+

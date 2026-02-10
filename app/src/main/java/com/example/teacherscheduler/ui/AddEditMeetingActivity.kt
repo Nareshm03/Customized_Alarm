@@ -5,16 +5,12 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teacherscheduler.R
 import androidx.lifecycle.lifecycleScope
 import com.example.teacherscheduler.data.Repository
-import com.example.teacherscheduler.data.SettingsManager
 import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 import kotlinx.coroutines.launch
 import com.example.teacherscheduler.databinding.ActivityAddEditMeetingBinding
@@ -32,7 +28,6 @@ class AddEditMeetingActivity : AppCompatActivity() {
     private var startTime = Calendar.getInstance()
     private var endTime = Calendar.getInstance()
 
-    private val reminderValues = arrayOf(5, 10, 15, 30)
 
     companion object {
         const val EXTRA_MEETING_ID = "extra_meeting_id"
@@ -79,7 +74,7 @@ class AddEditMeetingActivity : AppCompatActivity() {
                     binding.toolbarTitle.text = getString(R.string.edit_meeting)
                     populateFields(foundMeeting)
                     binding.buttonDelete.isEnabled = true
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     // Meeting not found, treat as new meeting
                     binding.toolbarTitle.text = getString(R.string.add_meeting)
                     binding.buttonDelete.isEnabled = false
@@ -172,7 +167,6 @@ class AddEditMeetingActivity : AppCompatActivity() {
                     startTime.set(Calendar.MILLISECOND, 0)
                     
                     // Debug log the time picker values
-                    val timeZone = java.util.TimeZone.getDefault()
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.getDefault())
                     android.util.Log.d("MeetingTimePicker", "Selected hour: $hour, minute: $minute")
                     android.util.Log.d("MeetingTimePicker", "Set startTime to: ${dateFormat.format(startTime.time)}")
@@ -223,7 +217,6 @@ class AddEditMeetingActivity : AppCompatActivity() {
                     endTime.set(Calendar.MILLISECOND, 0)
                     
                     // Debug log the time picker values
-                    val timeZone = java.util.TimeZone.getDefault()
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.getDefault())
                     android.util.Log.d("MeetingTimePicker", "Selected end hour: $hour, minute: $minute")
                     android.util.Log.d("MeetingTimePicker", "Set endTime to: ${dateFormat.format(endTime.time)}")

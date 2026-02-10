@@ -6,12 +6,8 @@ import android.content.Intent
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
-import com.example.teacherscheduler.notification.NotificationHelper
 import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 import java.util.Date
-
-// Extension function to safely check if a nullable Boolean is true
-private fun Boolean?.orFalse(): Boolean = this ?: false
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -63,7 +59,7 @@ class AlarmReceiver : BroadcastReceiver() {
             Log.d(TAG, "Time remaining: $actualMinutesRemaining min, $secondsRemainder sec")
             
             // Skip if the notification is for a time that's already passed (more than 5 minutes ago)
-            if (actualMinutesRemaining < -5 && !intent.getStringExtra(NotificationHelper.EXTRA_TITLE)?.contains("Snoozed").orFalse()) {
+            if (actualMinutesRemaining < -5) {
                 Log.d(TAG, "Skipping notification as event started more than 5 minutes ago")
                 return
             }
@@ -77,32 +73,32 @@ class AlarmReceiver : BroadcastReceiver() {
             val title = when {
                 // Only show "STARTING NOW" if we're within 30 seconds of the start time
                 actualMinutesRemaining == 0 && secondsRemainder <= 30 -> {
-                    if (type == NotificationHelper.TYPE_CLASS) "🔔 CLASS STARTING NOW: $subjectOrTitle"
+                    if (type == EnhancedNotificationHelper.TYPE_CLASS) "🔔 CLASS STARTING NOW: $subjectOrTitle"
                     else "🔔 MEETING STARTING NOW: $subjectOrTitle"
                 }
                 // For the 0-minute notification that's not within 30 seconds
                 actualMinutesRemaining == 0 -> {
-                    if (type == NotificationHelper.TYPE_CLASS) "⏰ Class in less than 1 minute: $subjectOrTitle"
+                    if (type == EnhancedNotificationHelper.TYPE_CLASS) "⏰ Class in less than 1 minute: $subjectOrTitle"
                     else "⏰ Meeting in less than 1 minute: $subjectOrTitle"
                 }
                 // For 1-minute notifications, be precise
                 actualMinutesRemaining == 1 -> {
-                    if (type == NotificationHelper.TYPE_CLASS) "⏰ Class in 1 minute: $subjectOrTitle"
+                    if (type == EnhancedNotificationHelper.TYPE_CLASS) "⏰ Class in 1 minute: $subjectOrTitle"
                     else "⏰ Meeting in 1 minute: $subjectOrTitle"
                 }
                 // For 2-minute notifications, be precise
                 actualMinutesRemaining == 2 -> {
-                    if (type == NotificationHelper.TYPE_CLASS) "⏰ Class in 2 minutes: $subjectOrTitle"
+                    if (type == EnhancedNotificationHelper.TYPE_CLASS) "⏰ Class in 2 minutes: $subjectOrTitle"
                     else "⏰ Meeting in 2 minutes: $subjectOrTitle"
                 }
                 // For 5-minute notifications, be precise
                 actualMinutesRemaining == 5 -> {
-                    if (type == NotificationHelper.TYPE_CLASS) "⏰ Class in 5 minutes: $subjectOrTitle"
+                    if (type == EnhancedNotificationHelper.TYPE_CLASS) "⏰ Class in 5 minutes: $subjectOrTitle"
                     else "⏰ Meeting in 5 minutes: $subjectOrTitle"
                 }
                 // For all other times, use exact minutes without rounding
                 else -> {
-                    if (type == NotificationHelper.TYPE_CLASS) "⏰ Class in $actualMinutesRemaining minutes: $subjectOrTitle"
+                    if (type == EnhancedNotificationHelper.TYPE_CLASS) "⏰ Class in $actualMinutesRemaining minutes: $subjectOrTitle"
                     else "⏰ Meeting in $actualMinutesRemaining minutes: $subjectOrTitle"
                 }
             }
@@ -146,7 +142,6 @@ class AlarmReceiver : BroadcastReceiver() {
         
         // Schedule a new notification in 5 minutes
         val enhancedNotificationHelper = EnhancedNotificationHelper(context)
-        val snoozeTime = System.currentTimeMillis() + (5 * 60 * 1000) // 5 minutes
         
         val title = if (type == EnhancedNotificationHelper.TYPE_CLASS) "Snoozed Class Reminder" else "Snoozed Meeting Reminder"
         val message = "Your snoozed reminder is ready!"
@@ -173,13 +168,10 @@ class AlarmReceiver : BroadcastReceiver() {
         
         // Mark as completed in database
         try {
-            val repository = com.example.teacherscheduler.data.Repository(context)
-            
             when (type) {
                 EnhancedNotificationHelper.TYPE_CLASS -> {
                     // For classes, we'll add a completion entry or update status
                     Log.d(TAG, "Marking class $itemId as attended")
-                    // Since classes are recurring, we mark today's session as attended
                     markClassAsAttended(context, itemId)
                 }
                 EnhancedNotificationHelper.TYPE_MEETING -> {
@@ -205,8 +197,6 @@ class AlarmReceiver : BroadcastReceiver() {
     }
     
     private fun markClassAsAttended(context: Context, classId: Long) {
-        // Since we don't have an attendance table, we could use SharedPreferences
-        // or create a simple mechanism to track attended classes for today
         val prefs = context.getSharedPreferences("attended_classes", Context.MODE_PRIVATE)
         val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
         val key = "${classId}_$today"
@@ -216,7 +206,6 @@ class AlarmReceiver : BroadcastReceiver() {
     }
     
     private fun markMeetingAsCompleted(context: Context, meetingId: Long) {
-        // Use SharedPreferences to mark meeting as completed
         val prefs = context.getSharedPreferences("completed_meetings", Context.MODE_PRIVATE)
         prefs.edit().putBoolean(meetingId.toString(), true).apply()
         Log.d(TAG, "Meeting $meetingId marked as completed")

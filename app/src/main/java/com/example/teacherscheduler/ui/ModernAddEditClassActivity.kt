@@ -13,6 +13,7 @@ import com.example.teacherscheduler.R
 import com.example.teacherscheduler.data.Repository
 import com.example.teacherscheduler.databinding.ActivityAddEditClassModernBinding
 import com.example.teacherscheduler.model.Class
+import com.example.teacherscheduler.util.ConflictDetector
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
@@ -264,30 +265,63 @@ class ModernAddEditClassActivity : AppCompatActivity() {
                 isRecurring = binding.switchRecurring.isChecked
             )
         }
-
+        
+        // Check for conflicts
         lifecycleScope.launch {
-            try {
-                if (editingClass != null) {
-                    repository.updateClass(classItem)
-                    Toast.makeText(this@ModernAddEditClassActivity, 
-                        "Class updated successfully", Toast.LENGTH_SHORT).show()
-                } else {
-                    repository.insertClass(classItem)
-                    Toast.makeText(this@ModernAddEditClassActivity, 
-                        "Class created successfully", Toast.LENGTH_SHORT).show()
-                }
-                
-                // Handle recurring classes
-                if (binding.switchRecurring.isChecked && selectedDays.isNotEmpty()) {
-                    createRecurringClasses(classItem)
-                }
-                
-                setResult(RESULT_OK)
-                finish()
-            } catch (e: Exception) {
-                Toast.makeText(this@ModernAddEditClassActivity, 
-                    "Error saving class: ${e.message}", Toast.LENGTH_SHORT).show()
+            val existingClasses = repository.getAllActiveClassesList()
+            val conflicts = ConflictDetector.checkClassConflicts(
+                classItem, 
+                existingClasses, 
+                editingClass?.id ?: -1
+            )
+            
+            if (conflicts.isNotEmpty()) {
+                showConflictDialog(conflicts, classItem)
+            } else {
+                saveClassToDatabase(classItem)
             }
+        }
+    }
+    
+    private fun showConflictDialog(conflicts: List<ConflictDetector.Conflict>, classItem: Class) {
+        val message = buildString {
+            append("This class conflicts with:\n\n")
+            conflicts.forEach {
+                append("• ${it.title} (${it.time})\n")
+            }
+            append("\nDo you want to save anyway?")
+        }
+        
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Schedule Conflict")
+            .setMessage(message)
+            .setPositiveButton("Save Anyway") { _, _ ->
+                lifecycleScope.launch {
+                    saveClassToDatabase(classItem)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+    
+    private suspend fun saveClassToDatabase(classItem: Class) {
+        try {
+            if (editingClass != null) {
+                repository.updateClass(classItem)
+                Toast.makeText(this, "Class updated successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                repository.insertClass(classItem)
+                Toast.makeText(this, "Class created successfully", Toast.LENGTH_SHORT).show()
+            }
+            
+            if (binding.switchRecurring.isChecked && selectedDays.isNotEmpty()) {
+                createRecurringClasses(classItem)
+            }
+            
+            setResult(RESULT_OK)
+            finish()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error saving class: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

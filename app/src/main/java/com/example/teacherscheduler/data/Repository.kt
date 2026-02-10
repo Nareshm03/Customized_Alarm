@@ -11,9 +11,10 @@ import com.example.teacherscheduler.data.remote.FirebaseService
 import com.example.teacherscheduler.model.AppSettings
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.model.Meeting
-import com.example.teacherscheduler.notification.NotificationHelper
+import com.example.teacherscheduler.model.ToDo
 import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 import com.example.teacherscheduler.util.DataSyncWorker
+import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -22,6 +23,7 @@ class Repository(context: Context) {
     private val database = AppDatabase.getDatabase(context)
     private val classDao = database.classDao()
     private val meetingDao = database.meetingDao()
+    private val todoDao = database.todoDao()
 
     private val firebaseService = FirebaseService()
     private val workManager = WorkManager.getInstance(context)
@@ -76,7 +78,7 @@ class Repository(context: Context) {
         scheduleSync()
     }
     
-    fun getAllActiveClasses(): LiveData<List<Class>> {
+    fun getAllActiveClasses(): Flow<List<Class>> {
         return classDao.getAllActiveClasses()
     }
     
@@ -84,15 +86,11 @@ class Repository(context: Context) {
         return classDao.getAllActiveClassesSync()
     }
     
-    suspend fun getAllActiveClassesList(): List<Class> {
-        return classDao.getAllActiveClassesSync()
-    }
-    
     suspend fun getClassById(id: Long): Class? {
         return classDao.getClassById(id)
     }
     
-    fun getClassesForDay(date: Date): LiveData<List<Class>> {
+    fun getClassesForDay(date: Date): Flow<List<Class>> {
         val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
         val dateString = dateFormat.format(date)
         
@@ -143,7 +141,7 @@ class Repository(context: Context) {
         scheduleSync()
     }
     
-    fun getAllActiveMeetings(): LiveData<List<Meeting>> {
+    fun getAllActiveMeetings(): Flow<List<Meeting>> {
         return meetingDao.getAllActiveMeetings()
     }
     
@@ -151,15 +149,27 @@ class Repository(context: Context) {
         return meetingDao.getAllActiveMeetingsSync()
     }
     
-    suspend fun getAllActiveMeetingsList(): List<Meeting> {
-        return meetingDao.getAllActiveMeetingsSync()
-    }
-    
     suspend fun getMeetingById(id: Long): Meeting {
         return meetingDao.getMeetingById(id) ?: throw Exception("Meeting not found")
     }
     
-    fun getMeetingsForDay(date: Date): LiveData<List<Meeting>> {
+    suspend fun getAllClassesDirect(): List<Class> {
+        return classDao.getAllActiveClassesSync()
+    }
+    
+    suspend fun getAllMeetingsDirect(): List<Meeting> {
+        return meetingDao.getAllActiveMeetingsSync()
+    }
+    
+    suspend fun getAllActiveClassesList(): List<Class> {
+        return classDao.getAllActiveClassesSync()
+    }
+    
+    suspend fun getAllActiveMeetingsList(): List<Meeting> {
+        return meetingDao.getAllActiveMeetingsSync()
+    }
+    
+    fun getMeetingsForDay(date: Date): Flow<List<Meeting>> {
         val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
         val dateString = dateFormat.format(date)
         
@@ -203,13 +213,10 @@ class Repository(context: Context) {
         }
     }
     
-
-    
     // Settings operations using SettingsManager
     private val settingsManager = SettingsManager(context)
     
     fun getSettings(): LiveData<AppSettings?> {
-        // Create a LiveData wrapper for the settings
         val liveData = MutableLiveData<AppSettings>()
         liveData.value = settingsManager.getSettings()
         return liveData
@@ -220,16 +227,11 @@ class Repository(context: Context) {
     }
     
     fun updateSettings(settings: AppSettings) {
-        // Update using SettingsManager
         settingsManager.saveSettings(settings)
-        
-        // If auto sync is enabled, schedule sync
         if (settings.autoSync) {
             scheduleSync()
         }
     }
-    
-
     
     // Synchronization methods
     private fun scheduleSync() {
@@ -257,154 +259,131 @@ class Repository(context: Context) {
     }
     
     suspend fun performSync(): Long {
-        // First, sync local changes to cloud
         val timestamp = System.currentTimeMillis()
-        
-        // Check if user is authenticated
         if (!firebaseService.isSignedIn()) {
-            android.util.Log.w("Repository", "Sync failed: User not signed in")
             return 0
         }
         
-        // Check if auto sync is enabled (allow manual sync to proceed regardless)
-        val settings = settingsManager.getSettings()
-        android.util.Log.d("Repository", "Auto sync enabled: ${settings.autoSync}")
-        android.util.Log.d("Repository", "User signed in: ${firebaseService.isSignedIn()}")
-        
-
-        
         // Sync classes
         val unsyncedClasses = classDao.getUnsyncedClasses(timestamp)
-        android.util.Log.d("Repository", "Found ${unsyncedClasses.size} unsynced classes")
-        
         for (classItem in unsyncedClasses) {
-            val success = firebaseService.syncClass(classItem)
-            if (success) {
-                // Update sync timestamp
-                val syncedClass = classItem.copy(lastSyncTimestamp = timestamp)
-                classDao.update(syncedClass)
-                android.util.Log.d("Repository", "✓ Synced class: ${classItem.subject}")
-            } else {
-                android.util.Log.w("Repository", "✗ Failed to sync class: ${classItem.subject}")
+            if (firebaseService.syncClass(classItem)) {
+                classDao.update(classItem.copy(lastSyncTimestamp = timestamp))
             }
         }
         
         // Sync meetings
         val unsyncedMeetings = meetingDao.getUnsyncedMeetings(timestamp)
-        android.util.Log.d("Repository", "Found ${unsyncedMeetings.size} unsynced meetings")
-        
         for (meeting in unsyncedMeetings) {
-            val success = firebaseService.syncMeeting(meeting)
-            if (success) {
-                // Update sync timestamp
-                val syncedMeeting = meeting.copy(lastSyncTimestamp = timestamp)
-                meetingDao.update(syncedMeeting)
-                android.util.Log.d("Repository", "✓ Synced meeting: ${meeting.title}")
-            } else {
-                android.util.Log.w("Repository", "✗ Failed to sync meeting: ${meeting.title}")
+            if (firebaseService.syncMeeting(meeting)) {
+                meetingDao.update(meeting.copy(lastSyncTimestamp = timestamp))
             }
         }
         
-        // Then, sync from cloud to local
-        val cloudSyncSuccess = syncFromCloud()
-        
-        if (cloudSyncSuccess) {
-            // Update last sync timestamp in settings
+        if (syncFromCloud()) {
             settingsManager.updateLastSyncTime(timestamp)
-            android.util.Log.d("Repository", "Sync completed successfully")
             return timestamp
-        } else {
-            android.util.Log.w("Repository", "Sync failed during cloud sync")
-            return 0
         }
+        return 0
     }
     
-    suspend fun performSyncDebug(): String {
-        val debug = StringBuilder()
-        debug.appendLine("=== SYNC DEBUG INFO ===")
-        
-        try {
-            // Check authentication
-            val isSignedIn = firebaseService.isSignedIn()
-            debug.appendLine("User signed in: $isSignedIn")
-            
-            if (!isSignedIn) {
-                debug.appendLine("ERROR: User not authenticated")
-                return debug.toString()
-            }
-            
-            // Check settings
-            val settings = settingsManager.getSettings()
-            debug.appendLine("Auto sync enabled: ${settings.autoSync}")
-            
-            // Check local data
-            val unsyncedClasses = classDao.getUnsyncedClasses(System.currentTimeMillis())
-            val unsyncedMeetings = meetingDao.getUnsyncedMeetings(System.currentTimeMillis())
-            debug.appendLine("Unsynced classes: ${unsyncedClasses.size}")
-            debug.appendLine("Unsynced meetings: ${unsyncedMeetings.size}")
-            
-            // Test Firebase connection
-            debug.appendLine("Testing Firebase connection...")
-            val cloudClasses = firebaseService.getClasses()
-            debug.appendLine("Cloud classes retrieved: ${cloudClasses.size}")
-            
-            val cloudMeetings = firebaseService.getMeetings()
-            debug.appendLine("Cloud meetings retrieved: ${cloudMeetings.size}")
-            
-            debug.appendLine("Firebase connection: SUCCESS")
-            
-        } catch (e: Exception) {
-            debug.appendLine("ERROR: ${e.message}")
-            android.util.Log.e("Repository", "Sync debug failed", e)
+    // ToDo operations
+    suspend fun insertToDo(todo: ToDo): Long {
+        val roomId = todoDao.insert(todo)
+
+        // Schedule notifications if enabled and has due date
+        if (todo.notificationsEnabled && todo.dueDate != null) {
+            // TODO: Add notification scheduling for todos
         }
-        
-        return debug.toString()
+
+        scheduleSync()
+        return roomId
     }
-    
+
+    suspend fun updateToDo(todo: ToDo) {
+        todoDao.update(todo)
+        scheduleSync()
+    }
+
+    suspend fun deleteToDo(todo: ToDo) {
+        val inactiveTodo = todo.copy(isActive = false)
+        todoDao.update(inactiveTodo)
+        scheduleSync()
+    }
+
+    suspend fun toggleToDoCompletion(id: Long, isCompleted: Boolean) {
+        val completedAt = if (isCompleted) System.currentTimeMillis() else null
+        todoDao.updateCompletionStatus(id, isCompleted, completedAt)
+        scheduleSync()
+    }
+
+    fun getAllActiveToDos(): Flow<List<ToDo>> {
+        return todoDao.getAllActiveToDos()
+    }
+
+    fun getAllToDos(): Flow<List<ToDo>> {
+        return todoDao.getAllToDos()
+    }
+
+    fun getCompletedToDos(): Flow<List<ToDo>> {
+        return todoDao.getCompletedToDos()
+    }
+
+    fun getOverdueToDos(): Flow<List<ToDo>> {
+        return todoDao.getOverdueToDos(System.currentTimeMillis())
+    }
+
+    fun getToDosByCategory(category: String): Flow<List<ToDo>> {
+        return todoDao.getToDosByCategory(category)
+    }
+
+    fun getToDosByPriority(priority: ToDo.Priority): Flow<List<ToDo>> {
+        return todoDao.getToDosByPriority(priority.value)
+    }
+
+    suspend fun getToDoById(id: Long): ToDo? {
+        return todoDao.getToDoById(id)
+    }
+
+    suspend fun getAllToDosSync(): List<ToDo> {
+        return todoDao.getAllToDosSync()
+    }
+
+    fun getActiveToDosCount(): Flow<Int> {
+        return todoDao.getActiveToDosCount()
+    }
+
+    fun getOverdueToDosCount(): Flow<Int> {
+        return todoDao.getOverdueToDosCount(System.currentTimeMillis())
+    }
+
+    fun getAllCategories(): Flow<List<String>> {
+        return todoDao.getAllCategories()
+    }
+
     private suspend fun syncFromCloud(): Boolean {
         return try {
-            android.util.Log.d("Repository", "Starting sync from cloud")
-            
-            // Get classes from cloud
             val cloudClasses = firebaseService.getClasses()
-            android.util.Log.d("Repository", "Downloaded ${cloudClasses.size} classes from cloud")
-            
             for (cloudClass in cloudClasses) {
                 val localClass = classDao.getClassById(cloudClass.id)
-                
                 if (localClass == null) {
-                    // New class from cloud
                     classDao.insert(cloudClass)
-                    android.util.Log.d("Repository", "↓ Inserted new class from cloud: ${cloudClass.subject}")
                 } else if (cloudClass.lastSyncTimestamp > localClass.lastSyncTimestamp) {
-                    // Cloud class is newer
                     classDao.update(cloudClass)
-                    android.util.Log.d("Repository", "↓ Updated class from cloud: ${cloudClass.subject}")
                 }
             }
             
-            // Get meetings from cloud
             val cloudMeetings = firebaseService.getMeetings()
-            android.util.Log.d("Repository", "Downloaded ${cloudMeetings.size} meetings from cloud")
-            
             for (cloudMeeting in cloudMeetings) {
                 val localMeeting = meetingDao.getMeetingById(cloudMeeting.id)
-                
                 if (localMeeting == null) {
-                    // New meeting from cloud
                     meetingDao.insert(cloudMeeting)
-                    android.util.Log.d("Repository", "↓ Inserted new meeting from cloud: ${cloudMeeting.title}")
                 } else if (cloudMeeting.lastSyncTimestamp > localMeeting.lastSyncTimestamp) {
-                    // Cloud meeting is newer
                     meetingDao.update(cloudMeeting)
-                    android.util.Log.d("Repository", "↓ Updated meeting from cloud: ${cloudMeeting.title}")
                 }
             }
-            
-            android.util.Log.d("Repository", "Cloud sync completed successfully")
             true
         } catch (e: Exception) {
-            android.util.Log.e("Repository", "Cloud sync failed: ${e.message}", e)
             false
         }
     }

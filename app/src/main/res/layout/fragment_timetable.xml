@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Week Navigation Bar -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/btnPreviousWeek"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_chevron_left_24"
+                    android:contentDescription="Previous Week"
+                    app:tint="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textCurrentWeek"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Week of Jan 1 - Jan 7"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textCurrentMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="January 2026"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextSecondary"/>
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btnNextWeek"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_chevron_right_24"
+                    android:contentDescription="Next Week"
+                    app:tint="@color/colorPrimary"/>
+
+                <ImageButton
+                    android:id="@+id/btnTodayWeek"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_today_24"
+                    android:contentDescription="Go to Today"
+                    app:tint="@color/colorSecondary"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Legend Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/legendCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/legend_class_indicator"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Class"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorTextSecondary"/>
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/legend_meeting_indicator"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Meeting"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorTextSecondary"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Weekly Header -->
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="60dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingEnd="0dp"
+            android:background="@color/colorSurface"
+            android:elevation="2dp">
+
+            <LinearLayout android:id="@+id/headerMon" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MON" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateMon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/headerTue" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TUE" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateTue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/headerWed" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WED" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateWed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/headerThu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="THU" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateThu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/headerFri" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FRI" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateFri" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/headerSat" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SAT" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateSat" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="6" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/headerSun" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SUN" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/timetable_header_text"/>
+                <TextView android:id="@+id/dateSun" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7" android:textSize="14sp" android:textColor="@color/colorTextPrimary"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/timetable_grid_line"/>
+
+        <!-- Horizontal ScrollView for wider grid -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/timetableContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="600dp">
+
+                    <!-- Time Axis -->
+                    <LinearLayout
+                        android:id="@+id/timeAxis"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/colorSurface">
+                        <!-- Time labels added programmatically -->
+                    </LinearLayout>
+
+                    <!-- Grid Lines Container -->
+                    <FrameLayout
+                        android:id="@+id/gridContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/timeAxis"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="8dp">
+
+                        <LinearLayout
+                            android:id="@+id/daysContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <View android:id="@+id/colMon" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/monday_color"/>
+                            <View android:id="@+id/colTue" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/tuesday_color"/>
+                            <View android:id="@+id/colWed" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/wednesday_color"/>
+                            <View android:id="@+id/colThu" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/thursday_color"/>
+                            <View android:id="@+id/colFri" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/friday_color"/>
+                            <View android:id="@+id/colSat" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/saturday_color"/>
+                            <View android:id="@+id/colSun" android:layout_width="0dp" android:layout_height="1440dp" android:layout_weight="1" android:background="@color/sunday_color"/>
+                        </LinearLayout>
+
+                        <!-- Hourly Grid Lines -->
+                        <LinearLayout
+                            android:id="@+id/gridLinesContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="1440dp"
+                            android:orientation="vertical">
+                            <!-- Grid lines added programmatically -->
+                        </LinearLayout>
+
+                        <!-- Events Container -->
+                        <RelativeLayout
+                            android:id="@+id/eventContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="1440dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp">
+                        </RelativeLayout>
+                    </FrameLayout>
+                </RelativeLayout>
+            </ScrollView>
+        </HorizontalScrollView>
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/empty_state_padding"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="@dimen/empty_state_illustration_size"
+                android:layout_height="@dimen/empty_state_illustration_size"
+                android:layout_marginTop="@dimen/empty_state_illustration_margin_top"
+                android:contentDescription="Empty timetable"
+                android:src="@drawable/ic_empty_timetable" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/empty_state_title_margin_top"
+                android:layout_marginBottom="@dimen/text_spacing_medium"
+                android:gravity="center"
+                android:text="@string/empty_timetable_title"
+                android:textColor="@color/text_primary_light"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.01" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_padding"
+                android:layout_marginEnd="@dimen/screen_padding"
+                android:gravity="center"
+                android:text="@string/empty_timetable_message"
+                android:textColor="@color/text_secondary_light"
+                android:textSize="15sp"
+                android:lineSpacingExtra="4dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGetStarted"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/empty_state_button_margin_top"
+                android:text="@string/empty_timetable_action"
+                android:textSize="15sp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                app:icon="@drawable/ic_add_24"
+                app:iconGravity="start"
+                style="@style/Widget.Material3.Button.Icon" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Extended FAB for Actions -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:text="Sync to Calendar"
+        app:icon="@drawable/ic_sync_24"
+        android:contentDescription="Sync with Google Calendar"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,21 +1,54 @@
 # Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Keep line numbers for crash reports
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Keep data models
+-keep class com.example.teacherscheduler.model.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Keep Firebase
+-keep class com.google.firebase.** { *; }
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
+
+# Keep Google Play Services Auth
+-keep class com.google.android.gms.auth.** { *; }
+-keep class com.google.android.gms.common.** { *; }
+-keep class com.google.android.gms.tasks.** { *; }
+
+# Keep Credentials API
+-keep class androidx.credentials.** { *; }
+-keep class com.google.android.libraries.identity.googleid.** { *; }
+
+# Keep Parcelable implementations
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+}
+
+# Keep Room
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
+
+# Keep Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+
+# Keep Coroutines
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+
+# Keep ViewBinding
+-keep class * implements androidx.viewbinding.ViewBinding {
+    public static *** bind(android.view.View);
+    public static *** inflate(android.view.LayoutInflater);
+}
+
+# Remove logging in release
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+}

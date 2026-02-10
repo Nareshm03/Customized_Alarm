@@ -28,6 +28,7 @@ class EnhancedNotificationHelper(private val context: Context) {
         const val CHANNEL_ID_CLASSES = "teacher_scheduler_classes_v2"
         const val CHANNEL_ID_MEETINGS = "teacher_scheduler_meetings_v2"
         const val CHANNEL_ID_REMINDERS = "teacher_scheduler_reminders_v2"
+        const val GROUP_KEY_SCHEDULE = "com.example.teacherscheduler.SCHEDULE"
 
         // Notification types
         const val TYPE_CLASS = "class"
@@ -402,16 +403,31 @@ class EnhancedNotificationHelper(private val context: Context) {
             .setSound(getAlarmSound())
             .setOnlyAlertOnce(false)
             .setFullScreenIntent(pendingIntent, true)
+            .setGroup(GROUP_KEY_SCHEDULE)
 
         // Add action buttons
         addNotificationActions(builder, type, itemId)
 
         try {
             notificationManager.notify(notificationId, builder.build())
+            showGroupSummaryNotification()
             Log.d(TAG, "Notification shown: $title")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to show notification: $title", e)
         }
+    }
+    
+    private fun showGroupSummaryNotification() {
+        val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_REMINDERS)
+            .setSmallIcon(R.drawable.ic_notifications_24)
+            .setContentTitle("Teacher Scheduler")
+            .setContentText("You have upcoming classes and meetings")
+            .setGroup(GROUP_KEY_SCHEDULE)
+            .setGroupSummary(true)
+            .setAutoCancel(true)
+            .build()
+        
+        notificationManager.notify(0, summaryNotification)
     }
 
     private fun addNotificationActions(

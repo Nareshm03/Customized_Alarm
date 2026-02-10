@@ -2,12 +2,13 @@ package com.example.teacherscheduler.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.teacherscheduler.data.Repository
 import com.example.teacherscheduler.model.Class
-
 import com.example.teacherscheduler.notification.EnhancedNotificationHelper
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -15,10 +16,12 @@ class ClassViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = Repository(application)
     private val notificationHelper = EnhancedNotificationHelper(application)
     
-    val allClasses: LiveData<List<Class>> = repository.getAllActiveClasses()
+    val allClasses: StateFlow<List<Class>> = repository.getAllActiveClasses()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     
-    fun getClassesForDay(date: Date): LiveData<List<Class>> {
+    fun getClassesForDay(date: Date): StateFlow<List<Class>> {
         return repository.getClassesForDay(date)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     }
     
     fun insertClass(classItem: Class) = viewModelScope.launch {

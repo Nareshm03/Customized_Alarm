@@ -2,6 +2,7 @@ package com.example.teacherscheduler.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,11 +11,14 @@ import com.example.teacherscheduler.R
 import com.example.teacherscheduler.databinding.ItemMeetingBinding
 import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.util.CompletionStatusHelper
+import com.example.teacherscheduler.util.HapticFeedbackHelper
 
 class MeetingAdapter(
     private val onEditClick: (Meeting) -> Unit,
     private val onDeleteClick: (Meeting) -> Unit
 ) : ListAdapter<Meeting, MeetingAdapter.ViewHolder>(MeetingDiffCallback()) {
+    
+    private var lastPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemMeetingBinding.inflate(
@@ -25,6 +29,15 @@ class MeetingAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        setAnimation(holder.itemView, position)
+    }
+    
+    private fun setAnimation(view: android.view.View, position: Int) {
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(view.context, R.anim.item_animation_from_bottom)
+            view.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     inner class ViewHolder(private val binding: ItemMeetingBinding) :
@@ -51,8 +64,14 @@ class MeetingAdapter(
                 }
 
                 // Set click listener on the whole card for editing
-                root.setOnClickListener { onEditClick(meeting) }
-                buttonDelete.setOnClickListener { onDeleteClick(meeting) }
+                root.setOnClickListener {
+                    HapticFeedbackHelper.lightTap(it)
+                    onEditClick(meeting)
+                }
+                buttonDelete.setOnClickListener {
+                    HapticFeedbackHelper.heavyImpact(it)
+                    onDeleteClick(meeting)
+                }
             }
         }
     }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Background circle -->
+    <path
+        android:pathData="M100,100m-80,0a80,80 0,1,1 160,0a80,80 0,1,1 -160,0"
+        android:fillColor="#FFF3E0"/>
+
+    <!-- Calendar base -->
+    <path
+        android:pathData="M60,70 L140,70 L140,140 L60,140 Z"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M65,75 L135,75 L135,135 L65,135 Z"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="3"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Calendar header -->
+    <path
+        android:pathData="M65,75 L135,75 L135,90 L65,90 Z"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.5"/>
+
+    <!-- Calendar rings -->
+    <path
+        android:pathData="M80,70 L80,80"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+
+    <path
+        android:pathData="M100,70 L100,80"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+
+    <path
+        android:pathData="M120,70 L120,80"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+
+    <!-- Calendar dots (dates) -->
+    <path
+        android:pathData="M80,105m-3,0a3,3 0,1,1 6,0a3,3 0,1,1 -6,0"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.5"/>
+    <path
+        android:pathData="M100,105m-3,0a3,3 0,1,1 6,0a3,3 0,1,1 -6,0"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.5"/>
+    <path
+        android:pathData="M120,105m-3,0a3,3 0,1,1 6,0a3,3 0,1,1 -6,0"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.5"/>
+    <path
+        android:pathData="M80,120m-3,0a3,3 0,1,1 6,0a3,3 0,1,1 -6,0"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.5"/>
+    <path
+        android:pathData="M100,120m-3,0a3,3 0,1,1 6,0a3,3 0,1,1 -6,0"
+        android:fillColor="#FF9800"
+        android:fillAlpha="0.5"/>
+
+    <!-- People icons -->
+    <path
+        android:pathData="M145,115m-10,0a10,10 0,1,1 20,0a10,10 0,1,1 -20,0"
+        android:fillColor="#FF9800"/>
+    <path
+        android:pathData="M140,125 Q145,128 150,125"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="2"
+        android:fillColor="#FF9800"/>
+</vector>

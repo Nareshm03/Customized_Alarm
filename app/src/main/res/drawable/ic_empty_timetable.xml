@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Background circle -->
+    <path
+        android:pathData="M100,100m-80,0a80,80 0,1,1 160,0a80,80 0,1,1 -160,0"
+        android:fillColor="#F3E5F5"/>
+
+    <!-- Timetable grid -->
+    <path
+        android:pathData="M50,60 L150,60 L150,140 L50,140 Z"
+        android:fillColor="#9C27B0"
+        android:fillAlpha="0.1"/>
+
+    <path
+        android:pathData="M55,65 L145,65 L145,135 L55,135 Z"
+        android:strokeColor="#9C27B0"
+        android:strokeWidth="3"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Grid lines (horizontal) -->
+    <path
+        android:pathData="M55,85 L145,85"
+        android:strokeColor="#9C27B0"
+        android:strokeWidth="1"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M55,105 L145,105"
+        android:strokeColor="#9C27B0"
+        android:strokeWidth="1"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M55,125 L145,125"
+        android:strokeColor="#9C27B0"
+        android:strokeWidth="1"
+        android:fillAlpha="0.3"/>
+
+    <!-- Grid lines (vertical) -->
+    <path
+        android:pathData="M85,65 L85,135"
+        android:strokeColor="#9C27B0"
+        android:strokeWidth="1"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M115,65 L115,135"
+        android:strokeColor="#9C27B0"
+        android:strokeWidth="1"
+        android:fillAlpha="0.3"/>
+
+    <!-- Calendar icon in corner -->
+    <path
+        android:pathData="M130,50 L150,50 L150,70 L130,70 Z"
+        android:fillColor="#9C27B0"
+        android:fillAlpha="0.8"/>
+
+    <path
+        android:pathData="M135,50 L135,53"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"/>
+
+    <path
+        android:pathData="M145,50 L145,53"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"/>
+</vector>
+

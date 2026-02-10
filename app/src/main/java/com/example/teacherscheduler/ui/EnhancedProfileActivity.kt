@@ -229,11 +229,12 @@ class EnhancedProfileActivity : AppCompatActivity() {
     private fun loadStatistics() {
         lifecycleScope.launch {
             try {
-                // Get total classes and meetings
-                val totalClasses = repository.getAllActiveClassesSync().size
-                val totalMeetings = repository.getAllActiveMeetingsSync().size
-                
-                // Get member since date (from profile creation or Firebase auth)
+                // Get comprehensive analytics using AnalyticsHelper
+                val analyticsHelper = com.example.teacherscheduler.util.AnalyticsHelper(repository)
+                val statistics = analyticsHelper.getTeachingStatistics()
+                val insights = analyticsHelper.getProductivityInsights()
+
+                // Get member since date
                 val currentUser = FirebaseAuth.getInstance().currentUser
                 val memberSince = if (currentUser != null) {
                     val creationTime = currentUser.metadata?.creationTimestamp ?: System.currentTimeMillis()
@@ -244,9 +245,25 @@ class EnhancedProfileActivity : AppCompatActivity() {
                 }
                 
                 withContext(Dispatchers.Main) {
-                    binding.textTotalClasses.text = totalClasses.toString()
-                    binding.textTotalMeetings.text = totalMeetings.toString()
+                    // Update basic stats
+                    binding.textTotalClasses.text = statistics.totalClasses.toString()
+                    binding.textTotalMeetings.text = statistics.totalMeetings.toString()
                     binding.textMemberSince.text = memberSince
+
+                    // Update additional analytics if views exist
+                    try {
+                        binding.textTeachingHours?.text = String.format(Locale.getDefault(), "%.1f hrs", statistics.totalTeachingHours)
+                        binding.textAverageClassDuration?.text = String.format(Locale.getDefault(), "%.0f min", statistics.averageClassDuration)
+                        binding.textMostActiveDay?.text = statistics.mostActiveDay
+                        binding.textUpcomingThisWeek?.text = "${statistics.upcomingClassesThisWeek} classes, ${statistics.upcomingMeetingsThisWeek} meetings"
+                        binding.textAveragePerDay?.text = String.format(Locale.getDefault(), "%.1f classes/day", insights.averageClassesPerDay)
+                        binding.textBusiestDay?.text = insights.busiestDayOfWeek
+                        binding.textWorkloadTrend?.text = insights.workloadTrend.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+                        }
+                    } catch (e: Exception) {
+                        // Views might not exist in layout, that's okay
+                    }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

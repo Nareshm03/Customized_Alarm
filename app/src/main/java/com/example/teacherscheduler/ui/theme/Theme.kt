@@ -1,16 +1,34 @@
 package com.example.teacherscheduler.ui.theme
 
-/**
- * Theme utility class for the Teacher Scheduler app.
- * This class is a placeholder for theme-related constants and utilities.
- * The actual theme is defined in XML resources.
- */
-object AppTheme {
-    // Theme constants
-    const val THEME_LIGHT = "light"
-    const val THEME_DARK = "dark"
-    const val THEME_SYSTEM = "system"
-    
-    // Default theme
-    const val DEFAULT_THEME = THEME_SYSTEM
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+
+private val LightColorScheme = lightColorScheme(
+    primary = Color(0xFF6750A4),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFEADDFF),
+    onPrimaryContainer = Color(0xFF21005E),
+    secondary = Color(0xFF9A4FFF),
+    onSecondary = Color(0xFFFFFFFF),
+    secondaryContainer = Color(0xFFE8DDFF),
+    onSecondaryContainer = Color(0xFF1D192B),
+    background = Color(0xFFFFFBFE),
+    onBackground = Color(0xFF1C1B1F),
+    surface = Color(0xFFFFFBFE),
+    onSurface = Color(0xFF1C1B1F),
+    surfaceVariant = Color(0xFFE7E0EC),
+    onSurfaceVariant = Color(0xFF49454F),
+    outline = Color(0xFF79747E)
+)
+
+@Composable
+fun TeacherSchedulerTheme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = LightColorScheme,
+        typography = Typography(),
+        content = content
+    )
 }

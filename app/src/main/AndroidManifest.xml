@@ -26,6 +26,16 @@
     <!-- Storage permissions for profile picture -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    
+    <!-- Calendar permissions -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <!-- Query for Google Play Services -->
+    <queries>
+        <package android:name="com.google.android.gms" />
+        <package android:name="com.android.vending" />
+    </queries>
 
     <application
         android:name=".TeacherSchedulerApp"
@@ -37,6 +47,11 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
 
+        <!-- Google Play Services Metadata -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <!-- LOGIN ACTIVITY (LAUNCHER) -->
         <activity
             android:name=".ui.LoginActivity"
@@ -46,6 +61,10 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         
         <!-- PERMISSION ACTIVITY -->
@@ -58,8 +77,19 @@
         <!-- MAIN ACTIVITY -->
         <activity
             android:name=".MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="teacherscheduler"
+                    android:host="class" />
+                <data
+                    android:scheme="teacherscheduler"
+                    android:host="meeting" />
+            </intent-filter>
         </activity>
 
         <!-- ADD/EDIT ACTIVITIES -->
@@ -82,7 +112,15 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".MainActivity" />
-            
+
+        <activity
+            android:name=".ui.AddEditToDoActivity"
+            android:exported="false"
+            android:label="Add/Edit To-Do"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".MainActivity" />
+
         <!-- NOTIFICATION RECEIVERS -->
         <receiver
             android:name=".receiver.AlarmReceiver"
@@ -153,6 +191,40 @@
             android:exported="false"
             android:label="My Profile"
             android:theme="@style/Theme.TeacherScheduler" />
+        
+        <activity
+            android:name=".ui.BackupActivity"
+            android:exported="false"
+            android:label="Backup &amp; Restore"
+            android:theme="@style/AppTheme" />
+        
+        <activity
+            android:name=".ui.OnboardingActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme" />
+        
+        <receiver
+            android:name=".widget.ScheduleWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info" />
+        </receiver>
+        
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

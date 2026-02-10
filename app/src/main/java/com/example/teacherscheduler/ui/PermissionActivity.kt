@@ -13,10 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.teacherscheduler.MainActivity
-import com.example.teacherscheduler.notification.NotificationHelper
+import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 
 class PermissionActivity : AppCompatActivity() {
-    private lateinit var notificationHelper: NotificationHelper
+    private lateinit var notificationHelper: EnhancedNotificationHelper
 
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -31,7 +31,7 @@ class PermissionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.teacherscheduler.R.layout.activity_permission)
-        notificationHelper = NotificationHelper(this)
+        notificationHelper = EnhancedNotificationHelper(this)
         checkPermissions()
     }
 
@@ -101,7 +101,16 @@ class PermissionActivity : AppCompatActivity() {
             .setTitle("Exact Alarm Permission Required")
             .setMessage("For precise reminders, this app needs permission to schedule exact alarms. This ensures notifications appear exactly on time.")
             .setPositiveButton("Grant Permission") { _, _ ->
-                notificationHelper.requestExactAlarmPermission()
+                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                        data = Uri.parse("package:$packageName")
+                    }
+                } else {
+                    null
+                }
+                if (intent != null) {
+                    startActivity(intent)
+                }
             }
             .setNegativeButton("Skip") { _, _ ->
                 checkBatteryOptimization()

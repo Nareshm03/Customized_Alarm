@@ -12,9 +12,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/app_bar_gradient"
-        android:elevation="0dp"
+        android:elevation="4dp"
         android:stateListAnimator="@null"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/offlineIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardBackgroundColor="#FF9800"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@android:drawable/stat_notify_sync"
+                    app:tint="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Offline - Changes will sync when connected"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -49,19 +83,25 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:contentDescription="Navigation tabs"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorFullWidth="false"
             app:tabIndicatorAnimationMode="elastic"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="#E6FFFFFF"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="#99FFFFFF"
             app:tabRippleColor="#33FFFFFF"
             app:tabTextAppearance="@style/TabTextStyle"
+            app:tabIconTint="@color/tab_icon_color_selector"
             app:tabInlineLabel="true"
             app:tabMinWidth="0dp"
-            app:tabPaddingStart="16dp"
-            app:tabPaddingEnd="16dp" />
+            app:tabPaddingStart="@dimen/tab_padding_horizontal"
+            app:tabPaddingEnd="@dimen/tab_padding_horizontal"
+            app:tabPaddingTop="10dp"
+            app:tabPaddingBottom="10dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
