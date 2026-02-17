@@ -495,36 +495,21 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Modern Action Buttons -->
+    <!-- Action Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp"
         android:background="@color/surface_light"
         android:elevation="8dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonCancel"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:text="Cancel"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            app:cornerRadius="12dp"
-            app:strokeColor="@color/colorPrimary"
-            app:strokeWidth="1dp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSave"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:text="Save Class"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -533,16 +518,13 @@
             style="@style/Widget.Material3.Button" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonDelete"
-            android:layout_width="48dp"
+            android:id="@+id/buttonCancel"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:visibility="gone"
-            app:icon="@drawable/ic_delete_24"
-            app:iconTint="@color/colorError"
-            app:backgroundTint="@color/colorError"
-            app:cornerRadius="24dp"
-            style="@style/Widget.Material3.Button.IconButton" />
+            android:text="Cancel"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            style="@style/Widget.Material3.Button.TextButton" />
 
     </LinearLayout>
 

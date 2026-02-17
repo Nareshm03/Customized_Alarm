@@ -19,11 +19,14 @@ data class ClassItem(
     val notificationsEnabled: Boolean = true,
     val reminderMinutes: Int = 15,
     val description: String = "",
-    val semesterId: Long = 0
+    val semesterId: Long = 0,
+    
+    // STEP 1: Role system fields
+    val teacherId: String = "",           // Firebase Auth UID
+    val departmentId: String = ""         // Department reference
 ) {
-    // No-arg constructor for Firestore
     constructor() : this(
         0, "", "", "", Date(), Date(), Date(), Date(),
-        listOf(), false, true, 15, "", 0
+        listOf(), false, true, 15, "", 0, "", ""
     )
 }

@@ -7,15 +7,17 @@
     android:background="@color/background_light"
     tools:context=".MainActivity">
 
+    <!-- Clean Modern App Bar - White Background, Minimal Shadow -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/app_bar_gradient"
-        android:elevation="4dp"
+        android:background="@android:color/white"
+        android:elevation="2dp"
         android:stateListAnimator="@null"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.Material3.Light">
 
+        <!-- Offline Indicator -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/offlineIndicator"
             android:layout_width="match_parent"
@@ -50,11 +52,12 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Clean White Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
+            android:background="@android:color/white"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <LinearLayout
@@ -68,8 +71,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Teacher Scheduler"
-                    android:textColor="@android:color/white"
-                    android:textSize="22sp"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="20sp"
                     android:fontFamily="sans-serif-medium"
                     android:letterSpacing="0.01" />
 
@@ -77,31 +80,30 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <!-- Modern Bottom Navigation Style Tabs -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@android:color/white"
             android:contentDescription="Navigation tabs"
             android:paddingTop="8dp"
             android:paddingBottom="12dp"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/white"
-            app:tabIndicatorHeight="2dp"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="#99FFFFFF"
-            app:tabRippleColor="#33FFFFFF"
-            app:tabTextAppearance="@style/TabTextStyle"
-            app:tabIconTint="@color/tab_icon_color_selector"
-            app:tabInlineLabel="true"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/colorOnSurfaceVariant"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabTextAppearance="@style/SoftTabTextStyle"
+            app:tabIconTint="@color/soft_tab_icon_selector"
+            app:tabInlineLabel="false"
             app:tabMinWidth="0dp"
-            app:tabPaddingStart="@dimen/tab_padding_horizontal"
-            app:tabPaddingEnd="@dimen/tab_padding_horizontal"
-            app:tabPaddingTop="10dp"
-            app:tabPaddingBottom="10dp" />
+            app:tabPaddingStart="4dp"
+            app:tabPaddingEnd="4dp"
+            app:tabPaddingTop="8dp"
+            app:tabPaddingBottom="8dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -112,24 +114,16 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <!-- Enhanced FAB with animation -->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:contentDescription="@string/add_item"
+    <com.example.teacherscheduler.ui.components.PremiumPrimaryButton
+        android:id="@+id/premiumButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom"
         android:text="Add New"
-        android:textColor="@color/white"
-        android:fontFamily="sans-serif-medium"
         app:icon="@drawable/ic_add_24"
-        app:iconTint="@android:color/white"
-        app:backgroundTint="@color/colorPrimary"
-        app:iconPadding="8dp"
-        app:cornerRadius="28dp"
-        app:elevation="6dp"
-        android:stateListAnimator="@animator/fab_state_list_anim"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+        app:iconGravity="textStart"
+        app:iconPadding="8dp" />
 
     <!-- Quick Stats Card (Optional Enhancement) -->
     <androidx.cardview.widget.CardView

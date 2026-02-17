@@ -28,6 +28,10 @@ class AlarmReceiver : BroadcastReceiver() {
                 handleMarkDoneAction(context, intent)
                 return
             }
+            "MARK_TASK_COMPLETE" -> {
+                handleMarkTaskCompleteAction(context, intent)
+                return
+            }
         }
 
         // Use modern wake lock approach
@@ -43,6 +47,22 @@ class AlarmReceiver : BroadcastReceiver() {
             val notificationId = intent.getIntExtra(EnhancedNotificationHelper.EXTRA_NOTIFICATION_ID, 0)
             val message = intent.getStringExtra(EnhancedNotificationHelper.EXTRA_MESSAGE) ?: ""
             val type = intent.getStringExtra(EnhancedNotificationHelper.EXTRA_TYPE) ?: EnhancedNotificationHelper.TYPE_CLASS
+            
+            // Handle department task notifications
+            if (type == EnhancedNotificationHelper.TYPE_DEPARTMENT_TASK) {
+                val taskId = intent.getStringExtra("TASK_ID") ?: ""
+                val title = intent.getStringExtra(EnhancedNotificationHelper.EXTRA_TITLE) ?: "Task Reminder"
+                
+                val enhancedNotificationHelper = EnhancedNotificationHelper(context)
+                enhancedNotificationHelper.showDepartmentTaskNotification(
+                    notificationId = notificationId,
+                    title = title,
+                    message = message,
+                    taskId = taskId
+                )
+                return
+            }
+            
             val itemId = intent.getLongExtra(EnhancedNotificationHelper.EXTRA_ITEM_ID, 0L)
             val reminderMinutes = intent.getIntExtra(EnhancedNotificationHelper.EXTRA_REMINDER_MINUTES, 0)
             val eventStartTime = intent.getLongExtra(EnhancedNotificationHelper.EXTRA_EVENT_START_TIME, 0L)
@@ -209,5 +229,30 @@ class AlarmReceiver : BroadcastReceiver() {
         val prefs = context.getSharedPreferences("completed_meetings", Context.MODE_PRIVATE)
         prefs.edit().putBoolean(meetingId.toString(), true).apply()
         Log.d(TAG, "Meeting $meetingId marked as completed")
+    }
+    
+    private fun handleMarkTaskCompleteAction(context: Context, intent: Intent) {
+        val taskId = intent.getStringExtra("TASK_ID") ?: ""
+        val notificationId = intent.getIntExtra(EnhancedNotificationHelper.EXTRA_NOTIFICATION_ID, 0)
+        
+        Log.d(TAG, "Marking department task as complete: $taskId")
+        
+        // Cancel notification
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.cancel(notificationId)
+        
+        // Store completion in SharedPreferences (UI will handle actual DB update)
+        val prefs = context.getSharedPreferences("pending_task_completions", Context.MODE_PRIVATE)
+        prefs.edit().putLong(taskId, System.currentTimeMillis()).apply()
+        
+        // Show confirmation
+        android.widget.Toast.makeText(context, "Task marked as complete!", android.widget.Toast.LENGTH_SHORT).show()
+        
+        // Send broadcast to refresh UI
+        val refreshIntent = Intent("com.example.teacherscheduler.TASK_COMPLETED")
+        refreshIntent.putExtra("TASK_ID", taskId)
+        context.sendBroadcast(refreshIntent)
+        
+        Log.d(TAG, "Task completion broadcast sent for: $taskId")
     }
 }

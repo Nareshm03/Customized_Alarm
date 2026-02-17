@@ -34,6 +34,7 @@ class EnhancedNotificationHelper(private val context: Context) {
         const val TYPE_CLASS = "class"
         const val TYPE_MEETING = "meeting"
         const val TYPE_REMINDER = "reminder"
+        const val TYPE_DEPARTMENT_TASK = "department_task"
 
         // Intent extras
         const val EXTRA_NOTIFICATION_ID = "notification_id"
@@ -340,8 +341,151 @@ class EnhancedNotificationHelper(private val context: Context) {
         }
     }
 
-    private fun cancelNotification(notificationId: Int) {
-        val intent = Intent(context, AlarmReceiver::class.java)
+    // ==================== STEP 4: TASK LIFECYCLE NOTIFICATIONS ====================
+    
+    /**
+     * Send overdue notification to HOD
+     */
+    fun sendOverdueNotificationToHOD(
+        taskId: Long,
+        taskTitle: String,
+        assignedTo: String,
+        hodId: String
+    ) {
+        val message = if (assignedTo == "ALL") {
+            "Department task '$taskTitle' is now overdue (assigned to all teachers)"
+        } else {
+            "Task '$taskTitle' assigned to teacher is now overdue"
+        }
+        
+        sendCustomNotification(
+            title = "⚠️ Task Overdue",
+            message = message,
+            channelId = CHANNEL_ID_REMINDERS,
+            notificationId = (taskId * 10000 + 1).toInt()
+        )
+        
+        Log.d(TAG, "Overdue notification sent to HOD for task: $taskTitle")
+    }
+    
+    /**
+     * Send custom notification (for HOD overdue/completion notifications)
+     */
+    fun sendCustomNotification(
+        title: String,
+        message: String,
+        channelId: String = CHANNEL_ID_REMINDERS,
+        notificationId: Int = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
+    ) {
+        try {
+            val intent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                notificationId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val notification = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setVibrate(longArrayOf(0, 500, 100, 500))
+                .build()
+
+            notificationManager.notify(notificationId, notification)
+            Log.d(TAG, "Custom notification sent: $title")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to send custom notification", e)
+        }
+    }
+    
+    /**
+     * Schedule task reminder
+     */
+    fun scheduleTaskReminder(
+        taskId: Int,
+        title: String,
+        description: String,
+        reminderTime: Long
+    ) {
+        try {
+            val intent = Intent(context, AlarmReceiver::class.java).apply {
+                putExtra(EXTRA_NOTIFICATION_ID, taskId)
+                putExtra(EXTRA_TITLE, title)
+                putExtra(EXTRA_MESSAGE, description)
+                putExtra(EXTRA_TYPE, TYPE_REMINDER)
+            }
+            
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                taskId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            
+            if (canScheduleExactAlarms()) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    reminderTime,
+                    pendingIntent
+                )
+                Log.d(TAG, "Task reminder scheduled for task $taskId at ${dateFormat.format(Date(reminderTime))}")
+            } else {
+                Log.w(TAG, "Cannot schedule exact alarms - reminder may be delayed")
+                alarmManager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error scheduling task reminder", e)
+        }
+    }
+    
+    // ==================== DEPARTMENT TASK NOTIFICATIONS ====================
+    
+    /**
+     * Schedule DepartmentTask reminder notification
+     */
+    fun scheduleDepartmentTaskNotification(
+        taskId: String,
+        title: String,
+        description: String,
+        deadline: Long,
+        reminderMinutesBefore: Int
+    ) {
+        val globalEnabled = settingsManager.areNotificationsEnabled()
+        
+        if (!globalEnabled) {
+            Log.d(TAG, "Notifications disabled - skipping task reminder")
+            return
+        }
+        
+        val triggerTime = deadline - (reminderMinutesBefore * 60 * 1000)
+        val currentTime = System.currentTimeMillis()
+        
+        if (triggerTime <= currentTime) {
+            Log.w(TAG, "Task reminder time has passed - skipping")
+            return
+        }
+        
+        val notificationId = taskId.hashCode()
+        val message = "⏰ Task due in $reminderMinutesBefore minutes: $description"
+        
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+            putExtra(EXTRA_TITLE, title)
+            putExtra(EXTRA_MESSAGE, message)
+            putExtra(EXTRA_TYPE, TYPE_DEPARTMENT_TASK)
+            putExtra(EXTRA_ITEM_ID, taskId.hashCode().toLong())
+            putExtra("TASK_ID", taskId)
+        }
+        
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             notificationId,
@@ -349,9 +493,114 @@ class EnhancedNotificationHelper(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         
-        alarmManager.cancel(pendingIntent)
-        Log.d(TAG, "Cancelled notification with ID: $notificationId")
+        try {
+            if (canScheduleExactAlarms()) {
+                @Suppress("MissingPermission")
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerTime,
+                    pendingIntent
+                )
+                Log.d(TAG, "Scheduled department task notification: $title at ${Date(triggerTime)}")
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
+                Log.d(TAG, "Scheduled approximate task notification: $title")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to schedule task notification", e)
+        }
     }
+    
+    /**
+     * Show DepartmentTask notification with Mark Complete action
+     */
+    fun showDepartmentTaskNotification(
+        notificationId: Int,
+        title: String,
+        message: String,
+        taskId: String
+    ) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        // Mark Complete action
+        val completeIntent = Intent(context, AlarmReceiver::class.java).apply {
+            action = "MARK_TASK_COMPLETE"
+            putExtra("TASK_ID", taskId)
+            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+        }
+        val completePendingIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId + 30000,
+            completeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID_REMINDERS)
+            .setSmallIcon(R.drawable.ic_assignment_24)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setVibrate(longArrayOf(0, 500, 100, 500))
+            .setSound(getAlarmSound())
+            .addAction(
+                R.drawable.ic_check,
+                "Mark Complete",
+                completePendingIntent
+            )
+        
+        try {
+            notificationManager.notify(notificationId, builder.build())
+            Log.d(TAG, "Department task notification shown: $title")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to show task notification", e)
+        }
+    }
+    
+    /**
+     * Cancel DepartmentTask notification
+     */
+    fun cancelDepartmentTaskNotification(taskId: String) {
+        val notificationId = taskId.hashCode()
+        cancelNotification(notificationId)
+        Log.d(TAG, "Cancelled department task notification: $taskId")
+    }
+    
+    /**
+     * Cancel notification by ID
+     */
+    fun cancelNotification(notificationId: Int) {
+        try {
+            notificationManager.cancel(notificationId)
+            
+            // Also cancel any scheduled alarm
+            val intent = Intent(context, AlarmReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                notificationId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            alarmManager.cancel(pendingIntent)
+            
+            Log.d(TAG, "Cancelled notification $notificationId")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error cancelling notification", e)
+        }
+    }
+
 
     fun cancelNotifications(itemId: Long, type: String) {
         val reminderIntervals = settingsManager.getReminderIntervals()
@@ -574,3 +823,4 @@ class EnhancedNotificationHelper(private val context: Context) {
     }
 
 }
+

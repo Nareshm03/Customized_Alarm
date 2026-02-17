@@ -21,6 +21,7 @@ import com.example.teacherscheduler.data.SettingsManager
 import com.example.teacherscheduler.databinding.FragmentMeetingsBinding
 import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.ui.adapter.MeetingAdapter
+import com.example.teacherscheduler.util.fadeIn
 import com.example.teacherscheduler.util.SwipeToDeleteCallback
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -53,6 +54,7 @@ class MeetingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.fadeIn()
         repository = Repository(requireContext())
         settingsManager = SettingsManager(requireContext())
         setupRecyclerView()
@@ -61,6 +63,7 @@ class MeetingsFragment : Fragment() {
         setupRecyclerView()
         setupSearch()
         setupSortButton()
+        setupEmptyAction()
         setupObservers()
     }
 
@@ -208,6 +211,12 @@ class MeetingsFragment : Fragment() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun setupEmptyAction() {
+        binding.emptyActionButton?.setOnClickListener {
+            showAddEditMeetingActivity(null)
+        }
     }
 
     fun showAddEditMeetingActivity(meeting: Meeting?) {

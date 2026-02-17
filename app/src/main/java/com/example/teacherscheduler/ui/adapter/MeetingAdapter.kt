@@ -12,6 +12,8 @@ import com.example.teacherscheduler.databinding.ItemMeetingBinding
 import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.util.CompletionStatusHelper
 import com.example.teacherscheduler.util.HapticFeedbackHelper
+import com.example.teacherscheduler.util.scalePress
+import com.example.teacherscheduler.util.slideUpFadeIn
 
 class MeetingAdapter(
     private val onEditClick: (Meeting) -> Unit,
@@ -29,15 +31,7 @@ class MeetingAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-        setAnimation(holder.itemView, position)
-    }
-    
-    private fun setAnimation(view: android.view.View, position: Int) {
-        if (position > lastPosition) {
-            val animation = AnimationUtils.loadAnimation(view.context, R.anim.item_animation_from_bottom)
-            view.startAnimation(animation)
-            lastPosition = position
-        }
+        holder.itemView.slideUpFadeIn(position * 50L)
     }
 
     inner class ViewHolder(private val binding: ItemMeetingBinding) :
@@ -65,10 +59,12 @@ class MeetingAdapter(
 
                 // Set click listener on the whole card for editing
                 root.setOnClickListener {
+                    it.scalePress()
                     HapticFeedbackHelper.lightTap(it)
                     onEditClick(meeting)
                 }
                 buttonDelete.setOnClickListener {
+                    it.scalePress()
                     HapticFeedbackHelper.heavyImpact(it)
                     onDeleteClick(meeting)
                 }

@@ -1,6 +1,5 @@
 package com.example.teacherscheduler.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.data.DataManager
@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EnhancedProfileActivity : AppCompatActivity() {
@@ -35,7 +34,7 @@ class EnhancedProfileActivity : AppCompatActivity() {
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             result.data?.data?.let { uri ->
                 selectedImageUri = uri
                 try {
@@ -78,6 +77,7 @@ class EnhancedProfileActivity : AppCompatActivity() {
 
         // Set up components
         setupGenderSpinner()
+        setupRoleSpinner()
         setupClickListeners()
         loadUserProfile()
         loadStatistics()
@@ -90,6 +90,31 @@ class EnhancedProfileActivity : AppCompatActivity() {
         
         binding.spinnerGender.setOnClickListener {
             binding.spinnerGender.showDropDown()
+        }
+    }
+
+    private fun setupRoleSpinner() {
+        // Check if spinnerRole exists in the layout using reflection
+        try {
+            val field = binding.javaClass.getDeclaredField("spinnerRole")
+            field.isAccessible = true
+            val spinnerRole = field.get(binding) as? android.widget.AutoCompleteTextView
+
+            spinnerRole?.let {
+                val roles = arrayOf(
+                    com.example.teacherscheduler.model.UserRole.TEACHER.displayName,
+                    com.example.teacherscheduler.model.UserRole.HOD.displayName
+                )
+                val adapter = ArrayAdapter(this, R.layout.dropdown_item, roles)
+                it.setAdapter(adapter)
+
+                it.setOnClickListener { view ->
+                    (view as? android.widget.AutoCompleteTextView)?.showDropDown()
+                }
+            }
+        } catch (_: Exception) {
+            // spinnerRole doesn't exist in the layout, that's okay
+            // Role can still be managed through other means
         }
     }
 
@@ -205,11 +230,22 @@ class EnhancedProfileActivity : AppCompatActivity() {
             binding.spinnerGender.setText("", false)
         }
         
+        // Set role (if spinner exists)
+        try {
+            val field = binding.javaClass.getDeclaredField("spinnerRole")
+            field.isAccessible = true
+            val spinnerRole = field.get(binding) as? android.widget.AutoCompleteTextView
+            val roleDisplayText = profile.getUserRole().displayName
+            spinnerRole?.setText(roleDisplayText, false)
+        } catch (_: Exception) {
+            // spinnerRole doesn't exist in layout
+        }
+
         // Load profile picture
         val pictureUrl = profile.profilePictureUrl
         if (pictureUrl.isNotEmpty()) {
             try {
-                val uri = Uri.parse(pictureUrl)
+                val uri = pictureUrl.toUri()
                 try {
                     binding.imageViewProfile.setImageURI(uri)
                     selectedImageUri = uri
@@ -252,20 +288,25 @@ class EnhancedProfileActivity : AppCompatActivity() {
 
                     // Update additional analytics if views exist
                     try {
-                        binding.textTeachingHours?.text = String.format(Locale.getDefault(), "%.1f hrs", statistics.totalTeachingHours)
-                        binding.textAverageClassDuration?.text = String.format(Locale.getDefault(), "%.0f min", statistics.averageClassDuration)
-                        binding.textMostActiveDay?.text = statistics.mostActiveDay
-                        binding.textUpcomingThisWeek?.text = "${statistics.upcomingClassesThisWeek} classes, ${statistics.upcomingMeetingsThisWeek} meetings"
-                        binding.textAveragePerDay?.text = String.format(Locale.getDefault(), "%.1f classes/day", insights.averageClassesPerDay)
-                        binding.textBusiestDay?.text = insights.busiestDayOfWeek
-                        binding.textWorkloadTrend?.text = insights.workloadTrend.replaceFirstChar {
+                        binding.textTeachingHours.text = String.format(Locale.getDefault(), "%.1f hrs", statistics.totalTeachingHours)
+                        binding.textAverageClassDuration.text = String.format(Locale.getDefault(), "%.0f min", statistics.averageClassDuration)
+                        binding.textMostActiveDay.text = statistics.mostActiveDay
+                        binding.textUpcomingThisWeek.text = String.format(
+                            Locale.getDefault(),
+                            "%d classes, %d meetings",
+                            statistics.upcomingClassesThisWeek,
+                            statistics.upcomingMeetingsThisWeek
+                        )
+                        binding.textAveragePerDay.text = String.format(Locale.getDefault(), "%.1f classes/day", insights.averageClassesPerDay)
+                        binding.textBusiestDay.text = insights.busiestDayOfWeek
+                        binding.textWorkloadTrend.text = insights.workloadTrend.replaceFirstChar {
                             if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
                         }
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         // Views might not exist in layout, that's okay
                     }
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 withContext(Dispatchers.Main) {
                     binding.textTotalClasses.text = "0"
                     binding.textTotalMeetings.text = "0"
@@ -291,7 +332,7 @@ class EnhancedProfileActivity : AppCompatActivity() {
         val completionPercentage = (completedFields * 100) / totalFields
         
         binding.progressProfileCompletion.progress = completionPercentage
-        binding.textProfileCompletionPercent.text = "$completionPercentage%"
+        binding.textProfileCompletionPercent.text = String.format(Locale.getDefault(), "%d%%", completionPercentage)
     }
 
     private fun resetToOriginal() {
@@ -311,6 +352,21 @@ class EnhancedProfileActivity : AppCompatActivity() {
         val department = binding.editTextDepartment.text.toString().trim()
         val office = binding.editTextOffice.text.toString().trim()
 
+        // Get role from spinner (if it exists)
+        val roleDisplayText = try {
+            val field = binding.javaClass.getDeclaredField("spinnerRole")
+            field.isAccessible = true
+            val spinnerRole = field.get(binding) as? android.widget.AutoCompleteTextView
+            spinnerRole?.text?.toString() ?: "Teacher"
+        } catch (_: Exception) {
+            "Teacher" // Default to Teacher if spinner doesn't exist
+        }
+
+        val role = when (roleDisplayText) {
+            "Head of Department" -> com.example.teacherscheduler.model.UserRole.HOD.name
+            else -> com.example.teacherscheduler.model.UserRole.TEACHER.name
+        }
+
         // Validate required fields
         if (name.isEmpty() || email.isEmpty()) {
             Toast.makeText(this, "Name and email are required", Toast.LENGTH_SHORT).show()
@@ -327,6 +383,9 @@ class EnhancedProfileActivity : AppCompatActivity() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: email
         
+        // Get existing profile to preserve departmentId and primaryDepartmentId
+        val existingProfile = profileManager.getUserProfile()
+
         // Create and save profile
         val profile = UserProfile(
             id = userId,
@@ -338,7 +397,10 @@ class EnhancedProfileActivity : AppCompatActivity() {
             designation = designation,
             department = department,
             officeLocation = office,
-            profilePictureUrl = selectedImageUri?.toString() ?: ""
+            profilePictureUrl = selectedImageUri?.toString() ?: "",
+            role = role,
+            departmentId = existingProfile.departmentId, // Preserve existing departmentId
+            primaryDepartmentId = existingProfile.primaryDepartmentId // Preserve existing primaryDepartmentId
         )
         
         // Save to local storage
@@ -434,12 +496,12 @@ class EnhancedProfileActivity : AppCompatActivity() {
     }
 
     private fun exportProfile() {
-        Toast.makeText(this, "Export functionality coming soon!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Export feature in development", Toast.LENGTH_SHORT).show()
         // TODO: Implement profile export to PDF/JSON
     }
 
     private fun printProfile() {
-        Toast.makeText(this, "Print functionality coming soon!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Print feature in development", Toast.LENGTH_SHORT).show()
         // TODO: Implement profile printing
     }
 

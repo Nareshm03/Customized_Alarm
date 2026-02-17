@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.teacherscheduler.MainActivity
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.data.Repository
 import com.example.teacherscheduler.databinding.FragmentDashboardBinding
@@ -141,19 +140,20 @@ class EnhancedDashboardFragment : Fragment() {
         }
 
         // Setup stats card clicks to navigate to tabs
+        // Note: Navigation disabled as this fragment is not currently used in the app
         val todayClassesCard = binding.statsContainer.getChildAt(0)
         todayClassesCard.setOnClickListener {
-            (activity as? MainActivity)?.switchToTab(1)
+            // (activity as? MainActivity)?.switchToTab(1)
         }
 
         val upcomingMeetingsCard = binding.statsContainer.getChildAt(1)
         upcomingMeetingsCard.setOnClickListener {
-            (activity as? MainActivity)?.switchToTab(2)
+            // (activity as? MainActivity)?.switchToTab(2)
         }
 
         val activeToDosCard = binding.statsContainer.getChildAt(2)
         activeToDosCard.setOnClickListener {
-            (activity as? MainActivity)?.switchToTab(3)
+            // (activity as? MainActivity)?.switchToTab(3)
         }
 
         // Setup enhanced calendar

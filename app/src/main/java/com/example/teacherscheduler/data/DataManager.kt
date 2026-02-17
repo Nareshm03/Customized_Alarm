@@ -8,6 +8,7 @@ import com.example.teacherscheduler.model.ClassItem
 import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.model.MeetingItem
 import com.example.teacherscheduler.model.UserProfile
+import com.example.teacherscheduler.model.UserRole
 import com.example.teacherscheduler.notification.EnhancedNotificationHelper
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +47,10 @@ object DataManager {
             gender = "",
             department = "",
             officeLocation = "",
-            profilePictureUrl = ""
+            profilePictureUrl = "",
+            role = UserRole.TEACHER.name, // Default role
+            departmentId = "", // Default empty department ID
+            primaryDepartmentId = 0 // Default no department
         )
 
         addSampleData()

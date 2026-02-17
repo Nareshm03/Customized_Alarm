@@ -38,6 +38,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        resValues = true
     }
 
     compileOptions {
@@ -45,18 +46,41 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
+    kotlinOptions {
+        jvmTarget = "17"
     }
-    
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
         jniLibs {
             useLegacyPackaging = true
+        }
+    }
+}
+
+// Workaround for KSP NoSuchFileException: build/generated/ksp/debug/resources
+// This ensures the directory exists before the ASM transformation and JavaRes tasks run.
+androidComponents {
+    onVariants { variant ->
+        val variantName = variant.name.replaceFirstChar { it.uppercase() }
+        val kspResDir = layout.buildDirectory.dir("generated/ksp/${variant.name}/resources")
+        val createKspResDirTask = tasks.register("createKspResDirFor$variantName") {
+            outputs.dir(kspResDir)
+            doLast {
+                val dir = kspResDir.get().asFile
+                if (!dir.exists()) {
+                    dir.mkdirs()
+                }
+            }
+        }
+        
+        tasks.matching { 
+            it.name == "transform${variantName}ClassesWithAsm" ||
+            it.name == "process${variantName}JavaRes"
+        }.configureEach {
+            dependsOn(createKspResDirTask)
         }
     }
 }
@@ -86,7 +110,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Lottie Animations
-    implementation(libs.lottie.compose)
+    implementation("com.airbnb.android:lottie-compose:6.4.0")
 
     // Core Android dependencies
     implementation(libs.androidx.core.ktx)

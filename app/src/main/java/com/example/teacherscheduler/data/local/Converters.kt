@@ -1,6 +1,8 @@
 package com.example.teacherscheduler.data.local
 
 import androidx.room.TypeConverter
+import com.example.teacherscheduler.model.TaskStatus
+import com.example.teacherscheduler.model.TaskType
 import com.example.teacherscheduler.model.ToDo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -62,5 +64,33 @@ class Converters {
     @TypeConverter
     fun toPriority(value: Int): ToDo.Priority {
         return ToDo.Priority.fromValue(value)
+    }
+
+    @TypeConverter
+    fun fromTaskType(type: TaskType): String {
+        return type.name
+    }
+
+    @TypeConverter
+    fun toTaskType(value: String): TaskType {
+        return try {
+            TaskType.valueOf(value)
+        } catch (e: Exception) {
+            TaskType.PERSONAL
+        }
+    }
+
+    @TypeConverter
+    fun fromTaskStatus(status: TaskStatus): String {
+        return status.name
+    }
+
+    @TypeConverter
+    fun toTaskStatus(value: String): TaskStatus {
+        return try {
+            TaskStatus.valueOf(value)
+        } catch (e: Exception) {
+            TaskStatus.ASSIGNED
+        }
     }
 }

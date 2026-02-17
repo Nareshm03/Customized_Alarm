@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.teacherscheduler.MainActivity
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.ui.calendar.EnhancedCalendarView
+import com.example.teacherscheduler.util.fadeIn
 import com.example.teacherscheduler.viewmodel.DashboardViewModel
 import com.example.teacherscheduler.viewmodel.SharedViewModel
 import kotlinx.coroutines.launch
@@ -64,6 +65,8 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        view.fadeIn()
         
         // Initialize ViewModels
         dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]

@@ -14,8 +14,9 @@ import com.example.teacherscheduler.R
 import com.example.teacherscheduler.data.Repository
 import com.example.teacherscheduler.databinding.ActivityAddEditMeetingModernBinding
 import com.example.teacherscheduler.model.Meeting
-import com.google.android.material.chip.Chip
+import com.example.teacherscheduler.util.ConflictDetector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,7 +28,7 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
     private var selectedDate = Calendar.getInstance()
     private var startTime = Calendar.getInstance()
     private var endTime = Calendar.getInstance()
-    private val selectedReminders = mutableSetOf<Int>()
+    private var selectedReminderMinutes: Int = 15
     
     private val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
     private val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
@@ -91,22 +92,21 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
     }
 
     private fun setupReminderChips() {
-        // The chips are now predefined in the layout, just set up their listeners
-        binding.chip5min.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) selectedReminders.add(5) else selectedReminders.remove(5)
-        }
-        binding.chip10min.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) selectedReminders.add(10) else selectedReminders.remove(10)
-        }
-        binding.chip15min.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) selectedReminders.add(15) else selectedReminders.remove(15)
-        }
-        binding.chip30min.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) selectedReminders.add(30) else selectedReminders.remove(30)
-        }
-        binding.chip60min.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) selectedReminders.add(60) else selectedReminders.remove(60)
-        }
+        binding.chip5min.setOnClickListener { selectedReminderMinutes = 5; updateReminderChips() }
+        binding.chip10min.setOnClickListener { selectedReminderMinutes = 10; updateReminderChips() }
+        binding.chip15min.setOnClickListener { selectedReminderMinutes = 15; updateReminderChips() }
+        binding.chip30min.setOnClickListener { selectedReminderMinutes = 30; updateReminderChips() }
+        binding.chip60min.setOnClickListener { selectedReminderMinutes = 60; updateReminderChips() }
+        
+        updateReminderChips()
+    }
+    
+    private fun updateReminderChips() {
+        binding.chip5min.isChecked = selectedReminderMinutes == 5
+        binding.chip10min.isChecked = selectedReminderMinutes == 10
+        binding.chip15min.isChecked = selectedReminderMinutes == 15
+        binding.chip30min.isChecked = selectedReminderMinutes == 30
+        binding.chip60min.isChecked = selectedReminderMinutes == 60
     }
 
     private fun setupClickListeners() {
@@ -130,7 +130,6 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
                     populateFields(foundMeeting)
                     binding.buttonDelete.visibility = View.VISIBLE
                 } catch (e: Exception) {
-                    // Meeting not found, treat as new meeting
                     binding.toolbar.title = "Add Meeting"
                     binding.headerTitle.text = "Create New Meeting"
                     binding.buttonDelete.visibility = View.GONE
@@ -138,7 +137,6 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
                 }
             }
         } else {
-            // Adding a new meeting
             binding.toolbar.title = "Add Meeting"
             binding.headerTitle.text = "Create New Meeting"
             binding.buttonDelete.visibility = View.GONE
@@ -152,27 +150,28 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
         binding.editLocation.setText(meeting.location)
         binding.editNotes.setText(meeting.notes)
         binding.switchNotifications.isChecked = meeting.notificationsEnabled
+        selectedReminderMinutes = meeting.reminderMinutes
 
         // Set dates and times
         selectedDate.time = meeting.startDate
-        startTime.time = meeting.startDate
-        endTime.time = meeting.endDate
+        startTime.time = meeting.startTime
+        endTime.time = meeting.endTime
 
         updateDateTimeButtons()
+        updateReminderChips()
     }
 
     private fun setDefaultDateTime() {
         if (editingMeeting == null) {
-            // Set default to next hour
             val now = Calendar.getInstance()
             now.add(Calendar.HOUR_OF_DAY, 1)
             now.set(Calendar.MINUTE, 0)
             now.set(Calendar.SECOND, 0)
+            now.set(Calendar.MILLISECOND, 0)
             
             selectedDate.time = now.time
             startTime.time = now.time
             
-            // End time is 1 hour later
             val endCal = Calendar.getInstance()
             endCal.time = now.time
             endCal.add(Calendar.HOUR_OF_DAY, 1)
@@ -188,13 +187,6 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
             R.style.MaterialDatePickerTheme,
             { _, year, month, dayOfMonth ->
                 selectedDate.set(year, month, dayOfMonth)
-                // Update start and end times to use the same date
-                startTime.set(Calendar.YEAR, year)
-                startTime.set(Calendar.MONTH, month)
-                startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                endTime.set(Calendar.YEAR, year)
-                endTime.set(Calendar.MONTH, month)
-                endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 updateDateTimeButtons()
             },
             selectedDate.get(Calendar.YEAR),
@@ -211,10 +203,9 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
                 startTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 startTime.set(Calendar.MINUTE, minute)
                 
-                // Auto-adjust end time to be 1 hour later if it's before start time
+                // Auto-adjust end time
                 if (endTime.timeInMillis <= startTime.timeInMillis) {
-                    endTime.timeInMillis = startTime.timeInMillis
-                    endTime.add(Calendar.HOUR_OF_DAY, 1)
+                    endTime.timeInMillis = startTime.timeInMillis + (60 * 60 * 1000)
                 }
                 
                 updateDateTimeButtons()
@@ -233,13 +224,11 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
                 endTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 endTime.set(Calendar.MINUTE, minute)
                 
-                // Validate that end time is after start time
                 if (endTime.timeInMillis <= startTime.timeInMillis) {
                     Toast.makeText(this, "End time must be after start time", Toast.LENGTH_SHORT).show()
-                    return@TimePickerDialog
+                } else {
+                    updateDateTimeButtons()
                 }
-                
-                updateDateTimeButtons()
             },
             endTime.get(Calendar.HOUR_OF_DAY),
             endTime.get(Calendar.MINUTE),
@@ -266,7 +255,7 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
         }
 
         if (withWhom.isEmpty()) {
-            binding.editWithWhom.error = "Please specify who you're meeting with"
+            binding.editWithWhom.error = "Specify who you're meeting with"
             binding.editWithWhom.requestFocus()
             return
         }
@@ -276,43 +265,95 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
             return
         }
 
+        // Properly combine date and time for Meeting object
+        val combinedStart = Calendar.getInstance().apply {
+            time = selectedDate.time
+            set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY))
+            set(Calendar.MINUTE, startTime.get(Calendar.MINUTE))
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        
+        val combinedEnd = Calendar.getInstance().apply {
+            time = selectedDate.time
+            set(Calendar.HOUR_OF_DAY, endTime.get(Calendar.HOUR_OF_DAY))
+            set(Calendar.MINUTE, endTime.get(Calendar.MINUTE))
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val meeting = editingMeeting?.copy(
+            title = title,
+            withWhom = withWhom,
+            location = location,
+            notes = notes,
+            startDate = combinedStart.time,
+            endDate = combinedEnd.time,
+            startTime = combinedStart.time,
+            endTime = combinedEnd.time,
+            notificationsEnabled = binding.switchNotifications.isChecked,
+            reminderMinutes = selectedReminderMinutes
+        ) ?: Meeting(
+            title = title,
+            withWhom = withWhom,
+            location = location,
+            notes = notes,
+            startDate = combinedStart.time,
+            endDate = combinedEnd.time,
+            startTime = combinedStart.time,
+            endTime = combinedEnd.time,
+            notificationsEnabled = binding.switchNotifications.isChecked,
+            reminderMinutes = selectedReminderMinutes
+        )
+
         lifecycleScope.launch {
             try {
-                val meeting = editingMeeting?.copy(
-                    title = title,
-                    withWhom = withWhom,
-                    location = location,
-                    notes = notes,
-                    startDate = startTime.time,
-                    endDate = endTime.time,
-                    startTime = startTime.time,
-                    endTime = endTime.time,
-                    notificationsEnabled = binding.switchNotifications.isChecked
-                ) ?: Meeting(
-                    id = 0,
-                    title = title,
-                    withWhom = withWhom,
-                    location = location,
-                    notes = notes,
-                    startDate = startTime.time,
-                    endDate = endTime.time,
-                    startTime = startTime.time,
-                    endTime = endTime.time,
-                    notificationsEnabled = binding.switchNotifications.isChecked
+                val existingMeetings = repository.getAllActiveMeetingsSync()
+                val existingClasses = repository.getAllActiveClassesSync()
+                val conflicts = ConflictDetector.checkMeetingConflicts(
+                    meeting, existingMeetings, existingClasses, editingMeeting?.id ?: -1
                 )
-
+                
+                if (conflicts.isNotEmpty()) {
+                    showConflictDialog(conflicts, meeting)
+                } else {
+                    performSave(meeting)
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@ModernAddEditMeetingActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    
+    private fun showConflictDialog(conflicts: List<ConflictDetector.Conflict>, meeting: Meeting) {
+        val message = StringBuilder("This meeting conflicts with:\n\n")
+        conflicts.forEach { conflict ->
+            message.append("• ${conflict.title} (${conflict.time})\n")
+        }
+        message.append("\nSave anyway?")
+        
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Schedule Conflict")
+            .setMessage(message.toString())
+            .setPositiveButton("Save Anyway") { _, _ -> performSave(meeting) }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+    
+    private fun performSave(meeting: Meeting) {
+        lifecycleScope.launch {
+            try {
                 if (editingMeeting == null) {
                     repository.insertMeeting(meeting)
-                    Toast.makeText(this@ModernAddEditMeetingActivity, "Meeting added successfully", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Meeting added", Snackbar.LENGTH_SHORT).show()
                 } else {
                     repository.updateMeeting(meeting)
-                    Toast.makeText(this@ModernAddEditMeetingActivity, "Meeting updated successfully", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Meeting updated", Snackbar.LENGTH_SHORT).show()
                 }
-
                 setResult(RESULT_OK)
                 finish()
             } catch (e: Exception) {
-                Toast.makeText(this@ModernAddEditMeetingActivity, "Error saving meeting: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@ModernAddEditMeetingActivity, "Save failed: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -321,16 +362,16 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
         editingMeeting?.let { meeting ->
             MaterialAlertDialogBuilder(this)
                 .setTitle("Delete Meeting")
-                .setMessage("Are you sure you want to delete this meeting? This action cannot be undone.")
+                .setMessage("Are you sure you want to delete this meeting?")
                 .setPositiveButton("Delete") { _, _ ->
                     lifecycleScope.launch {
                         try {
                             repository.deleteMeeting(meeting)
-                            Toast.makeText(this@ModernAddEditMeetingActivity, "Meeting deleted successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@ModernAddEditMeetingActivity, "Meeting deleted", Toast.LENGTH_SHORT).show()
                             setResult(RESULT_OK)
                             finish()
                         } catch (e: Exception) {
-                            Toast.makeText(this@ModernAddEditMeetingActivity, "Error deleting meeting: ${e.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@ModernAddEditMeetingActivity, "Delete failed: ${e.message}", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -340,12 +381,18 @@ class ModernAddEditMeetingActivity : AppCompatActivity() {
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        // Check if there are unsaved changes
-        val hasChanges = binding.editTitle.text?.isNotEmpty() == true ||
-                binding.editWithWhom.text?.isNotEmpty() == true ||
-                binding.editLocation.text?.isNotEmpty() == true ||
-                binding.editNotes.text?.isNotEmpty() == true
-
-        return hasChanges && editingMeeting == null
+        if (editingMeeting != null) {
+            val m = editingMeeting!!
+            return binding.editTitle.text.toString() != m.title ||
+                   binding.editWithWhom.text.toString() != m.withWhom ||
+                   binding.editLocation.text.toString() != m.location ||
+                   binding.editNotes.text.toString() != m.notes ||
+                   binding.switchNotifications.isChecked != m.notificationsEnabled ||
+                   selectedReminderMinutes != m.reminderMinutes
+        }
+        return binding.editTitle.text?.isNotEmpty() == true ||
+               binding.editWithWhom.text?.isNotEmpty() == true ||
+               binding.editLocation.text?.isNotEmpty() == true ||
+               binding.editNotes.text?.isNotEmpty() == true
     }
 }

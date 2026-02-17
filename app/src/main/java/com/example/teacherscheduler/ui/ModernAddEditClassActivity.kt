@@ -8,14 +8,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.data.Repository
 import com.example.teacherscheduler.databinding.ActivityAddEditClassModernBinding
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.util.ConflictDetector
-import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,9 +53,9 @@ class ModernAddEditClassActivity : AppCompatActivity() {
         setupToolbar()
         setupClickListeners()
         setupRecurringOptions()
+        setupValidation()
         loadClassIfEditing()
         
-        // Set default times
         startTime.set(Calendar.HOUR_OF_DAY, 9)
         startTime.set(Calendar.MINUTE, 0)
         endTime.set(Calendar.HOUR_OF_DAY, 10)
@@ -62,6 +63,19 @@ class ModernAddEditClassActivity : AppCompatActivity() {
         
         updateTimeButtons()
         updateDateButton()
+        validateForm()
+    }
+
+    private fun setupValidation() {
+        binding.editSubject.doAfterTextChanged { validateForm() }
+        binding.editDepartment.doAfterTextChanged { validateForm() }
+    }
+
+    private fun validateForm() {
+        val subjectValid = binding.editSubject.text?.isNotEmpty() == true
+        val departmentValid = binding.editDepartment.text?.isNotEmpty() == true
+        val timeValid = endTime.after(startTime)
+        binding.buttonSave.isEnabled = subjectValid && departmentValid && timeValid
     }
 
     private fun setupToolbar() {
@@ -85,7 +99,6 @@ class ModernAddEditClassActivity : AppCompatActivity() {
         binding.buttonEndTime.setOnClickListener { showEndTimePicker() }
         binding.buttonSave.setOnClickListener { saveClass() }
         binding.buttonCancel.setOnClickListener { finish() }
-        binding.buttonDelete.setOnClickListener { showDeleteConfirmation() }
     }
 
     private fun setupRecurringOptions() {
@@ -156,6 +169,7 @@ class ModernAddEditClassActivity : AppCompatActivity() {
                 endTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 endTime.set(Calendar.MINUTE, minute)
                 updateTimeButtons()
+                validateForm()
             },
             endTime.get(Calendar.HOUR_OF_DAY),
             endTime.get(Calendar.MINUTE),
@@ -175,8 +189,6 @@ class ModernAddEditClassActivity : AppCompatActivity() {
     private fun loadClassIfEditing() {
         val classId = intent.getLongExtra(EXTRA_CLASS_ID, -1L)
         if (classId != -1L) {
-            binding.buttonDelete.visibility = View.VISIBLE
-            
             lifecycleScope.launch {
                 try {
                     editingClass = repository.getClassById(classId)
@@ -218,27 +230,6 @@ class ModernAddEditClassActivity : AppCompatActivity() {
         val subject = binding.editSubject.text.toString().trim()
         val department = binding.editDepartment.text.toString().trim()
         val roomNumber = binding.editRoomNumber.text.toString().trim()
-        
-        // Combine date with times
-        val startDateTime = Calendar.getInstance().apply {
-            set(Calendar.YEAR, selectedDate.get(Calendar.YEAR))
-            set(Calendar.MONTH, selectedDate.get(Calendar.MONTH))
-            set(Calendar.DAY_OF_MONTH, selectedDate.get(Calendar.DAY_OF_MONTH))
-            set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY))
-            set(Calendar.MINUTE, startTime.get(Calendar.MINUTE))
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-        
-        val endDateTime = Calendar.getInstance().apply {
-            set(Calendar.YEAR, selectedDate.get(Calendar.YEAR))
-            set(Calendar.MONTH, selectedDate.get(Calendar.MONTH))
-            set(Calendar.DAY_OF_MONTH, selectedDate.get(Calendar.DAY_OF_MONTH))
-            set(Calendar.HOUR_OF_DAY, endTime.get(Calendar.HOUR_OF_DAY))
-            set(Calendar.MINUTE, endTime.get(Calendar.MINUTE))
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
 
         val classItem = if (editingClass != null) {
             editingClass!!.copy(
@@ -268,7 +259,7 @@ class ModernAddEditClassActivity : AppCompatActivity() {
         
         // Check for conflicts
         lifecycleScope.launch {
-            val existingClasses = repository.getAllActiveClassesList()
+            val existingClasses = repository.getAllActiveClassesSync()
             val conflicts = ConflictDetector.checkClassConflicts(
                 classItem, 
                 existingClasses, 
@@ -308,10 +299,10 @@ class ModernAddEditClassActivity : AppCompatActivity() {
         try {
             if (editingClass != null) {
                 repository.updateClass(classItem)
-                Toast.makeText(this, "Class updated successfully", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Class updated successfully", Snackbar.LENGTH_SHORT).show()
             } else {
                 repository.insertClass(classItem)
-                Toast.makeText(this, "Class created successfully", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Class created successfully", Snackbar.LENGTH_SHORT).show()
             }
             
             if (binding.switchRecurring.isChecked && selectedDays.isNotEmpty()) {
@@ -321,7 +312,7 @@ class ModernAddEditClassActivity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
         } catch (e: Exception) {
-            Toast.makeText(this, "Error saving class: ${e.message}", Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, "Error: ${e.message}", Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -376,61 +367,25 @@ class ModernAddEditClassActivity : AppCompatActivity() {
             "Thursday" -> Calendar.THURSDAY
             "Friday" -> Calendar.FRIDAY
             "Saturday" -> Calendar.SATURDAY
-            else -> Calendar.MONDAY
+            else -> -1
         }
     }
 
     private fun validateInput(): Boolean {
-        val subject = binding.editSubject.text.toString().trim()
-        val department = binding.editDepartment.text.toString().trim()
-        
-        if (subject.isEmpty()) {
-            binding.textInputLayoutSubject.error = "Subject is required"
+        if (binding.editSubject.text.isNullOrEmpty()) {
+            binding.editSubject.error = "Subject is required"
+            binding.editSubject.requestFocus()
             return false
         }
-        
-        if (department.isEmpty()) {
-            binding.textInputLayoutDepartment.error = "Department is required"
+        if (binding.editDepartment.text.isNullOrEmpty()) {
+            binding.editDepartment.error = "Department is required"
+            binding.editDepartment.requestFocus()
             return false
         }
-        
-        if (endTime.timeInMillis <= startTime.timeInMillis) {
+        if (!endTime.after(startTime)) {
             Toast.makeText(this, "End time must be after start time", Toast.LENGTH_SHORT).show()
             return false
         }
-        
-        // Clear any previous errors
-        binding.textInputLayoutSubject.error = null
-        binding.textInputLayoutDepartment.error = null
-        
         return true
-    }
-
-    private fun showDeleteConfirmation() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Delete Class")
-            .setMessage("Are you sure you want to delete this class? This action cannot be undone.")
-            .setPositiveButton("Delete") { _, _ ->
-                deleteClass()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
-    private fun deleteClass() {
-        editingClass?.let { classItem ->
-            lifecycleScope.launch {
-                try {
-                    repository.deleteClass(classItem)
-                    Toast.makeText(this@ModernAddEditClassActivity, 
-                        "Class deleted successfully", Toast.LENGTH_SHORT).show()
-                    setResult(RESULT_OK)
-                    finish()
-                } catch (e: Exception) {
-                    Toast.makeText(this@ModernAddEditClassActivity, 
-                        "Error deleting class: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 }

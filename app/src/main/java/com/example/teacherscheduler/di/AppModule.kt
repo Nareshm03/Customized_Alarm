@@ -2,10 +2,7 @@ package com.example.teacherscheduler.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.teacherscheduler.data.local.AppDatabase
-import com.example.teacherscheduler.data.local.ClassDao
-import com.example.teacherscheduler.data.local.MeetingDao
-import com.example.teacherscheduler.data.local.SettingsDao
+import com.example.teacherscheduler.data.local.*
 import com.example.teacherscheduler.data.Repository
 import dagger.Module
 import dagger.Provides
@@ -44,6 +41,15 @@ object AppModule {
 
     @Provides
     fun provideSettingsDao(database: AppDatabase): SettingsDao = database.settingsDao()
+
+    @Provides
+    fun provideNoticeDao(database: AppDatabase): NoticeDao = database.noticeDao()
+
+    @Provides
+    fun provideResourceDao(database: AppDatabase): ResourceDao = database.resourceDao()
+
+    @Provides
+    fun provideToDoDao(database: AppDatabase): ToDoDao = database.todoDao()
 
     @Provides
     @Singleton

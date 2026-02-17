@@ -1,56 +1,38 @@
 package com.example.teacherscheduler.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.teacherscheduler.data.Repository
 import com.example.teacherscheduler.model.ToDo
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ToDoViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = Repository(application)
+@HiltViewModel
+class ToDoViewModel @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
 
-    val allToDos: StateFlow<List<ToDo>> = repository.getAllToDos()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val activeToDos: StateFlow<List<ToDo>> = repository.getAllActiveToDos()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val completedToDos: StateFlow<List<ToDo>> = repository.getCompletedToDos()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val overdueToDos: StateFlow<List<ToDo>> = repository.getOverdueToDos()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val activeToDosCount: StateFlow<Int> = repository.getActiveToDosCount()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
-
-    val overdueToDosCount: StateFlow<Int> = repository.getOverdueToDosCount()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
-
-    val categories: StateFlow<List<String>> = repository.getAllCategories()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    fun insertToDo(todo: ToDo) {
-        viewModelScope.launch {
-            repository.insertToDo(todo)
-        }
-    }
-
-    fun updateToDo(todo: ToDo) {
-        viewModelScope.launch {
-            repository.updateToDo(todo)
-        }
-    }
-
-    fun deleteToDo(todo: ToDo) {
-        viewModelScope.launch {
-            repository.deleteToDo(todo)
-        }
-    }
+    val uiState: StateFlow<UiState<ToDosData>> = combine(
+        repository.getAllActiveToDos(),
+        repository.getActiveToDosCount(),
+        repository.getOverdueToDosCount()
+    ) { todos, pendingCount, overdueCount ->
+        ToDosData(
+            todos = todos,
+            pendingCount = pendingCount,
+            overdueCount = overdueCount
+        )
+    }.map<ToDosData, UiState<ToDosData>> { data ->
+        UiState.Success(data)
+    }.catch { e ->
+        emit(UiState.Error(e.message ?: "Failed to load tasks"))
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = UiState.Loading
+    )
 
     fun toggleCompletion(id: Long, isCompleted: Boolean) {
         viewModelScope.launch {
@@ -58,14 +40,16 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getToDosByCategory(category: String): StateFlow<List<ToDo>> {
-        return repository.getToDosByCategory(category)
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    fun insertToDo(todo: ToDo) {
+        viewModelScope.launch {
+            repository.insertToDo(todo)
+        }
     }
 
-    fun getToDosByPriority(priority: ToDo.Priority): StateFlow<List<ToDo>> {
-        return repository.getToDosByPriority(priority)
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    fun deleteToDo(todo: ToDo) {
+        viewModelScope.launch {
+            repository.deleteToDo(todo)
+        }
     }
 }
 

@@ -1,34 +1,120 @@
 package com.example.teacherscheduler.ui.theme
 
+import android.app.Activity
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 
-private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF6750A4),
-    onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFEADDFF),
-    onPrimaryContainer = Color(0xFF21005E),
-    secondary = Color(0xFF9A4FFF),
-    onSecondary = Color(0xFFFFFFFF),
-    secondaryContainer = Color(0xFFE8DDFF),
-    onSecondaryContainer = Color(0xFF1D192B),
-    background = Color(0xFFFFFBFE),
-    onBackground = Color(0xFF1C1B1F),
-    surface = Color(0xFFFFFBFE),
-    onSurface = Color(0xFF1C1B1F),
-    surfaceVariant = Color(0xFFE7E0EC),
-    onSurfaceVariant = Color(0xFF49454F),
-    outline = Color(0xFF79747E)
+/**
+ * Teacher Scheduler Theme
+ *
+ * Design Philosophy:
+ * - Apple-inspired clean UI
+ * - Soft light backgrounds (off-white / light neutral)
+ * - Large rounded cards (24dp radius)
+ * - Subtle pastel colors
+ * - Soft shadows (low elevation)
+ * - Minimal heavy outlines
+ */
+
+private val PremiumLightColorScheme = lightColorScheme(
+    background = Color(0xFFF7F4EF),
+    surface = Color.White,
+    primary = Color(0xFFE8CFC1),
+    onPrimary = Color(0xFF2B2B2B),
+    onBackground = Color(0xFF2B2B2B),
+    onSurface = Color(0xFF2B2B2B)
+)
+
+// Custom shapes for the app - Large rounded corners
+val AppShapes = Shapes(
+    extraSmall = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(24.dp),      // Cards
+    extraLarge = RoundedCornerShape(28.dp)
 )
 
 @Composable
 fun TeacherSchedulerTheme(
     content: @Composable () -> Unit
 ) {
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = Color(0xFFF7F4EF).toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
+        }
+    }
+
     MaterialTheme(
-        colorScheme = LightColorScheme,
-        typography = Typography(),
+        colorScheme = PremiumLightColorScheme,
+        typography = AppTypography,
+        shapes = AppShapes,
         content = content
     )
+}
+
+/**
+ * Dimension constants for consistent spacing
+ */
+object AppDimens {
+    // Outer padding (screen edges)
+    val screenPadding = 24.dp
+
+    // Internal padding (inside cards/containers)
+    val cardPadding = 16.dp
+    val cardPaddingLarge = 20.dp
+
+    // Spacing between elements
+    val spacingXSmall = 4.dp
+    val spacingSmall = 8.dp
+    val spacingMedium = 12.dp
+    val spacingLarge = 16.dp
+    val spacingXLarge = 24.dp
+    val spacingXXLarge = 32.dp
+
+    // Corner radius
+    val cornerRadiusSmall = 12.dp
+    val cornerRadiusMedium = 16.dp
+    val cornerRadiusLarge = 24.dp    // Cards
+    val cornerRadiusButton = 20.dp   // Buttons
+    val cornerRadiusXLarge = 28.dp
+
+    // Elevation (soft shadows)
+    val elevationNone = 0.dp
+    val elevationXSmall = 1.dp
+    val elevationSmall = 2.dp
+    val elevationMedium = 4.dp
+    val elevationLarge = 8.dp
+
+    // Icon sizes
+    val iconSizeSmall = 20.dp
+    val iconSizeMedium = 24.dp
+    val iconSizeLarge = 32.dp
+    val iconSizeXLarge = 48.dp
+
+    // Button heights
+    val buttonHeight = 56.dp
+    val buttonHeightSmall = 40.dp
+
+    // Card minimum height
+    val cardMinHeight = 80.dp
+}
+
+/**
+ * Animation durations for smooth micro-animations
+ */
+object AppAnimations {
+    const val durationFast = 150
+    const val durationMedium = 300
+    const val durationSlow = 500
+    const val durationVerySlow = 800
 }

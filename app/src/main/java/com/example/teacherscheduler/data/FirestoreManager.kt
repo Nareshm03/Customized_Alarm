@@ -2,9 +2,7 @@ package com.example.teacherscheduler.data
 
 import android.content.Context
 import android.util.Log
-import com.example.teacherscheduler.model.ClassItem
-import com.example.teacherscheduler.model.MeetingItem
-import com.example.teacherscheduler.model.UserProfile
+import com.example.teacherscheduler.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -12,156 +10,111 @@ import kotlinx.coroutines.tasks.await
 import java.util.Date
 
 /**
- * Manager class for handling all Firestore operations
+ * FIXED: Top-level collections for scalable architecture
+ * Structure:
+ * - users/{userId} - User profiles with role & departmentId
+ * - departments/{deptId} - Department info
+ * - classes/{classId} - All classes with teacherId field
+ * - meetings/{meetingId} - All meetings with teacherId field
+ * - tasks/{taskId} - All tasks with teacherId field
  */
 class FirestoreManager(private val context: Context) {
     private val TAG = "FirestoreManager"
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     
-    // Collection references
+    // Top-level collection references
     private val usersCollection = db.collection("users")
+    private val departmentsCollection = db.collection("departments")
+    private val classesCollection = db.collection("classes")
+    private val meetingsCollection = db.collection("meetings")
+    private val tasksCollection = db.collection("tasks")
     
-    /**
-     * Get the current user's document reference
-     */
-    private fun getUserDocRef() = auth.currentUser?.uid?.let { usersCollection.document(it) }
-    
-    /**
-     * Check if the user is logged in
-     */
     fun isUserLoggedIn() = auth.currentUser != null
-    
-    /**
-     * Get the current user's ID
-     */
     fun getCurrentUserId() = auth.currentUser?.uid
-    
-    /**
-     * Get the current user's email
-     */
     fun getCurrentUserEmail() = auth.currentUser?.email
     
-    /**
-     * Sync user profile to Firestore
-     */
+    // ==================== USER PROFILE ====================
+    
     suspend fun syncUserProfile(profile: UserProfile): Boolean {
         return try {
-            val userDocRef = getUserDocRef() ?: return false
-            userDocRef.set(profile, SetOptions.merge()).await()
-            Log.d(TAG, "User profile synced successfully")
+            val userId = getCurrentUserId() ?: return false
+            usersCollection.document(userId).set(profile, SetOptions.merge()).await()
+            Log.d(TAG, "User profile synced")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Error syncing user profile", e)
+            Log.e(TAG, "Error syncing profile", e)
             false
         }
     }
     
-    /**
-     * Get user profile from Firestore
-     */
     suspend fun getUserProfile(): UserProfile? {
         return try {
-            val userDocRef = getUserDocRef() ?: return null
-            val document = userDocRef.get().await()
-            if (document.exists()) {
-                val profile = document.toObject(UserProfile::class.java)
-                Log.d(TAG, "User profile retrieved successfully")
-                profile
-            } else {
-                Log.d(TAG, "User profile does not exist")
-                null
-            }
+            val userId = getCurrentUserId() ?: return null
+            val doc = usersCollection.document(userId).get().await()
+            doc.toObject(UserProfile::class.java)
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user profile", e)
+            Log.e(TAG, "Error getting profile", e)
             null
         }
     }
     
-    /**
-     * Sync classes to Firestore
-     */
-    suspend fun syncClasses(classes: List<ClassItem>): Boolean {
+    // ==================== CLASSES ====================
+    
+    suspend fun syncClass(classItem: ClassItem): Boolean {
         return try {
-            val userDocRef = getUserDocRef() ?: return false
-            val classesCollection = userDocRef.collection("classes")
-            
-            // First, delete all existing classes
-            val existingClasses = classesCollection.get().await()
-            for (document in existingClasses) {
-                document.reference.delete().await()
-            }
-            
-            // Then, add all current classes
-            for (classItem in classes) {
-                classesCollection.document(classItem.id.toString()).set(classItem).await()
-            }
-            
-            Log.d(TAG, "Classes synced successfully: ${classes.size} classes")
+            val userId = getCurrentUserId() ?: return false
+            val firestoreClass = classItem.copy(teacherId = userId)
+            classesCollection.document(classItem.id.toString()).set(firestoreClass).await()
+            Log.d(TAG, "Class synced: ${classItem.subject}")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Error syncing classes", e)
+            Log.e(TAG, "Error syncing class", e)
             false
         }
     }
     
-    /**
-     * Get classes from Firestore
-     */
-    suspend fun getClasses(): List<ClassItem> {
+    suspend fun getClassesForUser(userId: String? = null): List<ClassItem> {
         return try {
-            val userDocRef = getUserDocRef() ?: return emptyList()
-            val classesCollection = userDocRef.collection("classes")
-            val documents = classesCollection.get().await()
-            
-            val classes = documents.mapNotNull { it.toObject(ClassItem::class.java) }
-            Log.d(TAG, "Retrieved ${classes.size} classes from Firestore")
-            classes
+            val targetUserId = userId ?: getCurrentUserId() ?: return emptyList()
+            val docs = classesCollection.whereEqualTo("teacherId", targetUserId).get().await()
+            docs.mapNotNull { it.toObject(ClassItem::class.java) }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting classes", e)
             emptyList()
         }
     }
     
-    /**
-     * Sync meetings to Firestore
-     */
-    suspend fun syncMeetings(meetings: List<MeetingItem>): Boolean {
+    suspend fun getClassesForDepartment(departmentId: String): List<ClassItem> {
         return try {
-            val userDocRef = getUserDocRef() ?: return false
-            val meetingsCollection = userDocRef.collection("meetings")
-            
-            // First, delete all existing meetings
-            val existingMeetings = meetingsCollection.get().await()
-            for (document in existingMeetings) {
-                document.reference.delete().await()
-            }
-            
-            // Then, add all current meetings
-            for (meeting in meetings) {
-                meetingsCollection.document(meeting.id.toString()).set(meeting).await()
-            }
-            
-            Log.d(TAG, "Meetings synced successfully: ${meetings.size} meetings")
+            val docs = classesCollection.whereEqualTo("departmentId", departmentId).get().await()
+            docs.mapNotNull { it.toObject(ClassItem::class.java) }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting department classes", e)
+            emptyList()
+        }
+    }
+    
+    // ==================== MEETINGS ====================
+    
+    suspend fun syncMeeting(meeting: MeetingItem): Boolean {
+        return try {
+            val userId = getCurrentUserId() ?: return false
+            val firestoreMeeting = meeting.copy(teacherId = userId)
+            meetingsCollection.document(meeting.id.toString()).set(firestoreMeeting).await()
+            Log.d(TAG, "Meeting synced: ${meeting.title}")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Error syncing meetings", e)
+            Log.e(TAG, "Error syncing meeting", e)
             false
         }
     }
     
-    /**
-     * Get meetings from Firestore
-     */
-    suspend fun getMeetings(): List<MeetingItem> {
+    suspend fun getMeetingsForUser(userId: String? = null): List<MeetingItem> {
         return try {
-            val userDocRef = getUserDocRef() ?: return emptyList()
-            val meetingsCollection = userDocRef.collection("meetings")
-            val documents = meetingsCollection.get().await()
-            
-            val meetings = documents.mapNotNull { it.toObject(MeetingItem::class.java) }
-            Log.d(TAG, "Retrieved ${meetings.size} meetings from Firestore")
-            meetings
+            val targetUserId = userId ?: getCurrentUserId() ?: return emptyList()
+            val docs = meetingsCollection.whereEqualTo("teacherId", targetUserId).get().await()
+            docs.mapNotNull { it.toObject(MeetingItem::class.java) }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting meetings", e)
             emptyList()
@@ -170,120 +123,104 @@ class FirestoreManager(private val context: Context) {
     
 
 
-    /**
-     * Sync settings to Firestore
-     */
-    suspend fun syncSettings(settings: Map<String, Any>): Boolean {
+    // ==================== TASKS ====================
+    
+    suspend fun syncTask(task: ToDo): Boolean {
         return try {
-            val userDocRef = getUserDocRef() ?: return false
-            userDocRef.collection("settings").document("app_settings")
-                .set(settings, SetOptions.merge()).await()
-            
-            Log.d(TAG, "Settings synced successfully")
+            val userId = getCurrentUserId() ?: return false
+            val firestoreTask = if (task.assignedTo.isEmpty()) {
+                task.copy(assignedTo = userId)
+            } else task
+            tasksCollection.document(task.id.toString()).set(firestoreTask).await()
+            Log.d(TAG, "Task synced: ${task.title}")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Error syncing settings", e)
+            Log.e(TAG, "Error syncing task", e)
             false
         }
     }
     
-    /**
-     * Get settings from Firestore
-     */
-    suspend fun getSettings(): Map<String, Any>? {
+    suspend fun getTasksForUser(userId: String? = null): List<ToDo> {
         return try {
-            val userDocRef = getUserDocRef() ?: return null
-            val document = userDocRef.collection("settings").document("app_settings").get().await()
-            
-            if (document.exists()) {
-                val settings = document.data
-                Log.d(TAG, "Settings retrieved successfully")
-                settings
-            } else {
-                Log.d(TAG, "Settings do not exist")
-                null
-            }
+            val targetUserId = userId ?: getCurrentUserId() ?: return emptyList()
+            val docs = tasksCollection.whereEqualTo("assignedTo", targetUserId).get().await()
+            docs.mapNotNull { it.toObject(ToDo::class.java) }
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting settings", e)
-            null
+            Log.e(TAG, "Error getting tasks", e)
+            emptyList()
         }
     }
     
-    /**
-     * Update last sync time
-     */
-    suspend fun updateLastSyncTime(): Boolean {
+    // ==================== DEPARTMENTS ====================
+    
+    suspend fun syncDepartment(department: Department): Boolean {
         return try {
-            val userDocRef = getUserDocRef() ?: return false
-            val lastSyncData = hashMapOf(
-                "lastSyncTime" to Date(),
-                "deviceId" to android.os.Build.MODEL
-            )
-            
-            userDocRef.collection("sync_info").document("last_sync")
-                .set(lastSyncData, SetOptions.merge()).await()
-            
-            Log.d(TAG, "Last sync time updated successfully")
+            departmentsCollection.document(department.id.toString()).set(department).await()
+            Log.d(TAG, "Department synced: ${department.departmentName}")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Error updating last sync time", e)
+            Log.e(TAG, "Error syncing department", e)
             false
         }
     }
     
-    /**
-     * Get last sync time
-     */
-    suspend fun getLastSyncTime(): Date? {
+    suspend fun getDepartment(departmentId: String): Department? {
         return try {
-            val userDocRef = getUserDocRef() ?: return null
-            val document = userDocRef.collection("sync_info").document("last_sync").get().await()
-            
-            if (document.exists() && document.contains("lastSyncTime")) {
-                val timestamp = document.getTimestamp("lastSyncTime")
-                Log.d(TAG, "Last sync time retrieved successfully")
-                timestamp?.toDate()
-            } else {
-                Log.d(TAG, "Last sync time does not exist")
-                null
-            }
+            val doc = departmentsCollection.document(departmentId).get().await()
+            doc.toObject(Department::class.java)
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting last sync time", e)
+            Log.e(TAG, "Error getting department", e)
             null
         }
     }
     
-    /**
-     * Sync all data to Firestore
-     */
-    suspend fun syncAllData(
-        profile: UserProfile,
-        classes: List<ClassItem>,
-        meetings: List<MeetingItem>,
-        settings: Map<String, Any>
-    ): Boolean {
-        var success = true
-        
-        if (!syncUserProfile(profile)) success = false
-        if (!syncClasses(classes)) success = false
-        if (!syncMeetings(meetings)) success = false
-        if (!syncSettings(settings)) success = false
-        if (success) updateLastSyncTime()
-        
-        return success
+    // ==================== REAL-TIME LISTENERS ====================
+    
+    fun listenToUserClasses(userId: String, onUpdate: (List<ClassItem>) -> Unit) {
+        classesCollection.whereEqualTo("teacherId", userId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(TAG, "Listen failed", error)
+                    return@addSnapshotListener
+                }
+                val classes = snapshot?.mapNotNull { it.toObject(ClassItem::class.java) } ?: emptyList()
+                onUpdate(classes)
+            }
     }
     
-    /**
-     * Restore all data from Firestore
-     */
-    suspend fun restoreAllData(): Map<String, Any?> {
-        val result = mutableMapOf<String, Any?>()
-        
-        result["profile"] = getUserProfile()
-        result["classes"] = getClasses()
-        result["meetings"] = getMeetings()
-        result["settings"] = getSettings()
-        
-        return result
+    fun listenToUserMeetings(userId: String, onUpdate: (List<MeetingItem>) -> Unit) {
+        meetingsCollection.whereEqualTo("teacherId", userId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(TAG, "Listen failed", error)
+                    return@addSnapshotListener
+                }
+                val meetings = snapshot?.mapNotNull { it.toObject(MeetingItem::class.java) } ?: emptyList()
+                onUpdate(meetings)
+            }
+    }
+    
+    fun listenToUserTasks(userId: String, onUpdate: (List<ToDo>) -> Unit) {
+        tasksCollection.whereEqualTo("assignedTo", userId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(TAG, "Listen failed", error)
+                    return@addSnapshotListener
+                }
+                val tasks = snapshot?.mapNotNull { it.toObject(ToDo::class.java) } ?: emptyList()
+                onUpdate(tasks)
+            }
+    }
+    
+    fun listenToDepartmentClasses(departmentId: String, onUpdate: (List<ClassItem>) -> Unit) {
+        classesCollection.whereEqualTo("departmentId", departmentId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(TAG, "Listen failed", error)
+                    return@addSnapshotListener
+                }
+                val classes = snapshot?.mapNotNull { it.toObject(ClassItem::class.java) } ?: emptyList()
+                onUpdate(classes)
+            }
     }
 }

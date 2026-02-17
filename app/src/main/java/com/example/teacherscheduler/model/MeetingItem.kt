@@ -16,11 +16,15 @@ data class MeetingItem(
     val notificationsEnabled: Boolean = true,
     val reminderMinutes: Int = 15,
     val notes: String = "",
-    val semesterId: Long = 0
+    val semesterId: Long = 0,
+    
+    // STEP 1: Role system fields
+    val teacherId: String = "",           // Firebase Auth UID (owner)
+    val assignedBy: String = "",          // HOD who assigned (if applicable)
+    val assignedTo: String = ""           // Teacher assigned to (if different from owner)
 ) {
-    // No-arg constructor for Firestore
     constructor() : this(
         0, "", "", "", Date(), Date(), Date(),
-        true, 15, "", 0
+        true, 15, "", 0, "", "", ""
     )
 }

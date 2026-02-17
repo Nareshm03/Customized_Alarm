@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.teacherscheduler.MainActivity
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.databinding.FragmentTimetableBinding
 import com.example.teacherscheduler.databinding.ItemTimetableEventBinding
@@ -20,8 +19,8 @@ import com.example.teacherscheduler.viewmodel.EventType
 import com.example.teacherscheduler.viewmodel.TimetableEvent
 import com.example.teacherscheduler.viewmodel.TimetableViewModel
 import com.example.teacherscheduler.util.GoogleCalendarSync
-import com.example.teacherscheduler.model.Class
-import com.example.teacherscheduler.model.Meeting
+import com.example.teacherscheduler.model.ClassItem
+import com.example.teacherscheduler.model.MeetingItem
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -199,7 +198,7 @@ class TimetableFragment : Fragment() {
             // Show department for classes
             if (event.type == EventType.CLASS) {
                 eventBinding.eventDepartment.visibility = View.VISIBLE
-                val classItem = event.originalObject as? Class
+                val classItem = event.originalObject as? ClassItem
                 eventBinding.eventDepartment.text = classItem?.department ?: ""
             } else {
                 eventBinding.eventDepartment.visibility = View.GONE
@@ -277,7 +276,8 @@ class TimetableFragment : Fragment() {
 
         binding.btnGetStarted.setOnClickListener {
             // Navigate to classes tab to add first class
-            (activity as? MainActivity)?.switchToTab(2) // Classes tab
+            // Note: Navigation disabled as this fragment is not currently used in the app
+            // (activity as? MainActivity)?.switchToTab(2) // Classes tab
         }
     }
 
@@ -293,19 +293,18 @@ class TimetableFragment : Fragment() {
             eventsList.forEach { event ->
                 val result = when (event.type) {
                     EventType.CLASS -> {
-                        val classItem = event.originalObject as Class
-                        GoogleCalendarSync.syncClassToCalendar(requireContext(), classItem)
+                        val classItem = event.originalObject as ClassItem
+                        GoogleCalendarSync.syncClassItemToCalendar(requireContext(), classItem)
                     }
                     EventType.MEETING -> {
-                        val meeting = event.originalObject as Meeting
-                        GoogleCalendarSync.syncMeetingToCalendar(requireContext(), meeting)
+                        val meeting = event.originalObject as MeetingItem
+                        GoogleCalendarSync.syncMeetingItemToCalendar(requireContext(), meeting)
                     }
                 }
                 if (result != null) successCount++
             }
             Snackbar.make(binding.root, "Synced $successCount events to Google Calendar", Snackbar.LENGTH_LONG)
                 .setAction("VIEW") {
-                    // Open Google Calendar app
                     val intent = Intent(Intent.ACTION_VIEW).apply {
                         data = android.net.Uri.parse("content://com.android.calendar/time")
                     }

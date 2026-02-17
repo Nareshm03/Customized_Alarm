@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.teacherscheduler.R
 import com.example.teacherscheduler.databinding.ItemTodoBinding
 import com.example.teacherscheduler.model.ToDo
+import com.example.teacherscheduler.util.scalePress
+import com.example.teacherscheduler.util.slideUpFadeIn
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -33,15 +35,7 @@ class ToDoAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-        setAnimation(holder.itemView, position)
-    }
-
-    private fun setAnimation(view: android.view.View, position: Int) {
-        if (position > lastPosition) {
-            val animation = AnimationUtils.loadAnimation(view.context, R.anim.item_animation_from_bottom)
-            view.startAnimation(animation)
-            lastPosition = position
-        }
+        holder.itemView.slideUpFadeIn(position * 50L)
     }
 
     inner class ViewHolder(private val binding: ItemTodoBinding) :
@@ -114,15 +108,24 @@ class ToDoAdapter(
                 }
 
                 // Click listeners
-                root.setOnClickListener { onItemClick(todo) }
+                root.setOnClickListener { 
+                    it.scalePress()
+                    onItemClick(todo) 
+                }
                 checkboxComplete.setOnCheckedChangeListener(null)
                 checkboxComplete.setOnClickListener {
                     val isChecked = checkboxComplete.isChecked
                     onCheckClick(todo, isChecked)
                 }
 
-                btnEdit.setOnClickListener { onEditClick(todo) }
-                btnDelete.setOnClickListener { onDeleteClick(todo) }
+                btnEdit.setOnClickListener { 
+                    it.scalePress()
+                    onEditClick(todo) 
+                }
+                btnDelete.setOnClickListener { 
+                    it.scalePress()
+                    onDeleteClick(todo) 
+                }
             }
         }
     }

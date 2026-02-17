@@ -14,11 +14,17 @@ class ClassesViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
     
-    val classes: StateFlow<List<Class>> = repository.getAllActiveClasses()
+    val uiState: StateFlow<UiState<ClassesData>> = repository.getAllActiveClasses()
+        .map<List<Class>, UiState<ClassesData>> { classes ->
+            UiState.Success(ClassesData(classes = classes))
+        }
+        .catch { e ->
+            emit(UiState.Error(e.message ?: "Failed to load classes"))
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = UiState.Loading
         )
     
     fun deleteClass(classItem: Class) {

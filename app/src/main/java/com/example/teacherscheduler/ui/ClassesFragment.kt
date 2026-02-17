@@ -19,6 +19,7 @@ import com.example.teacherscheduler.data.SettingsManager
 import com.example.teacherscheduler.databinding.FragmentClassesBinding
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.ui.adapter.ClassAdapter
+import com.example.teacherscheduler.util.fadeIn
 import com.example.teacherscheduler.util.SwipeToDeleteCallback
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -49,11 +50,13 @@ class ClassesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.fadeIn()
         repository = Repository(requireContext())
         settingsManager = SettingsManager(requireContext())
         setupRecyclerView()
         setupSearch()
         setupSortButton()
+        setupEmptyAction()
         setupObservers()
     }
 
@@ -201,6 +204,12 @@ class ClassesFragment : Fragment() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun setupEmptyAction() {
+        binding.emptyActionButton?.setOnClickListener {
+            showAddEditClassActivity(null)
+        }
     }
 
     fun showAddEditClassActivity(classItem: Class?) {

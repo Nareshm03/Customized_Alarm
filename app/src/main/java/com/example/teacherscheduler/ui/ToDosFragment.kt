@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.teacherscheduler.databinding.FragmentTodosBinding
 import com.example.teacherscheduler.model.ToDo
 import com.example.teacherscheduler.ui.adapter.ToDoAdapter
+import com.example.teacherscheduler.util.fadeIn
 import com.example.teacherscheduler.util.SwipeToDeleteCallback
 import com.example.teacherscheduler.viewmodel.ToDoViewModel
+import com.example.teacherscheduler.viewmodel.UiState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -47,6 +49,7 @@ class ToDosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.fadeIn()
         viewModel = ViewModelProvider(this)[ToDoViewModel::class.java]
         setupRecyclerView()
         setupSearch()
@@ -54,6 +57,7 @@ class ToDosFragment : Fragment() {
         setupRecyclerView()
         setupFilters()
         setupSearch()
+        setupEmptyAction()
         setupObservers()
     }
 
@@ -151,9 +155,19 @@ class ToDosFragment : Fragment() {
 
     private fun setupObservers() {
         lifecycleScope.launch {
-            viewModel.allToDos.collectLatest { todos ->
-                allToDos = todos
-                applyFilter()
+            viewModel.uiState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        allToDos = state.data.todos
+                        applyFilter()
+                    }
+                    is UiState.Error -> {
+                        // Handle error
+                    }
+                    is UiState.Loading -> {
+                        // Handle loading
+                    }
+                }
             }
         }
     }
@@ -234,6 +248,12 @@ class ToDosFragment : Fragment() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun setupEmptyAction() {
+        binding.emptyActionButton?.setOnClickListener {
+            showAddEditToDoActivity(null)
+        }
     }
 
     fun showAddEditToDoActivity(todo: ToDo? = null) {
