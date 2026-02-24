@@ -35,6 +35,19 @@
     <queries>
         <package android:name="com.google.android.gms" />
         <package android:name="com.android.vending" />
+        <!-- Required for Google Sign-In / GoogleApiManager to bind GMS services on Android 11+ -->
+        <intent>
+            <action android:name="com.google.android.gms.auth.api.signin.internal.service.START" />
+        </intent>
+        <intent>
+            <action android:name="com.google.android.gms.common.internal.service.START" />
+        </intent>
+        <intent>
+            <action android:name="com.google.firebase.auth.api.gms.service.START" />
+        </intent>
+        <intent>
+            <action android:name="com.google.android.gms.auth.api.identity.service.BIND" />
+        </intent>
     </queries>
 
     <application
@@ -179,12 +192,6 @@
             android:label="Notification Settings"
             android:theme="@style/AppTheme"
             android:parentActivityName=".MainActivity" />
-            
-        <activity
-            android:name=".ui.SignInActivity"
-            android:exported="false"
-            android:label="Sign In"
-            android:theme="@style/Theme.TeacherScheduler" />
             
         <activity
             android:name=".ui.EnhancedProfileActivity"

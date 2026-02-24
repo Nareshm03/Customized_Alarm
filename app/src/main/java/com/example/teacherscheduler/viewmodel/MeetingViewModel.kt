@@ -2,7 +2,7 @@ package com.example.teacherscheduler.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.teacherscheduler.data.Repository
+import com.example.teacherscheduler.firebase.FirebaseService
 import com.example.teacherscheduler.model.Meeting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -11,12 +11,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MeetingViewModel @Inject constructor(
-    private val repository: Repository
+    private val firebaseService: FirebaseService
 ) : ViewModel() {
     
-    val uiState: StateFlow<UiState<MeetingsData>> = repository.getAllActiveMeetings()
-        .map<List<Meeting>, UiState<MeetingsData>> { meetings ->
-            UiState.Success(MeetingsData(meetings = meetings))
+    val uiState: StateFlow<UiState<MeetingsData>> = firebaseService.getMeetingsFlow()
+        .map { meetings ->
+            UiState.Success(MeetingsData(meetings = meetings)) as UiState<MeetingsData>
         }
         .catch { e ->
             emit(UiState.Error(e.message ?: "Failed to load meetings"))
@@ -29,7 +29,7 @@ class MeetingViewModel @Inject constructor(
     
     fun deleteMeeting(meeting: Meeting) {
         viewModelScope.launch {
-            repository.deleteMeeting(meeting)
+            firebaseService.deleteMeeting(meeting.id)
         }
     }
 }

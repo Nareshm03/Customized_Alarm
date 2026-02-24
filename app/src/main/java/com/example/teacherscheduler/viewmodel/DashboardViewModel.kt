@@ -2,7 +2,7 @@ package com.example.teacherscheduler.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.teacherscheduler.data.Repository
+import com.example.teacherscheduler.firebase.FirebaseService
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.model.ToDo
@@ -37,7 +37,7 @@ data class DashboardUiState(
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val repository: Repository
+    private val firebaseService: FirebaseService
 ) : ViewModel() {
     
     private val _selectedDate = MutableStateFlow(Calendar.getInstance().time)
@@ -45,17 +45,17 @@ class DashboardViewModel @Inject constructor(
     
     val dashboardState: StateFlow<DashboardUiState> = combine(
         _selectedDate,
-        repository.getAllActiveClasses(),
-        repository.getAllActiveMeetings(),
-        repository.getAllActiveToDos()
+        firebaseService.getClassesFlow().catch { emit(emptyList()) },
+        firebaseService.getMeetingsFlow().catch { emit(emptyList()) },
+        firebaseService.getTasksFlow().catch { emit(emptyList()) }
     ) { date, classes, meetings, todos ->
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         
         val greeting = when (hour) {
             in 5..11 -> "Good Morning!"
-            in 12..16 -> "Good Afternoon!"
-            in 17..20 -> "Good Evening!"
+            in 12..17 -> "Good Afternoon!"
+            in 18..21 -> "Good Evening!"
             else -> "Good Night!"
         }
         
@@ -96,6 +96,7 @@ class DashboardViewModel @Inject constructor(
             todayClasses = todayClasses,
             upcomingMeetings = upcomingMeetings,
             urgentToDos = urgentToDos,
+            isLoading = false,
             todayHours = todayHours,
             weekClassesCount = weekClasses.size,
             weekMeetingsCount = weekMeetings.size,
@@ -248,13 +249,13 @@ class DashboardViewModel @Inject constructor(
     
     fun deleteClass(classItem: Class) {
         viewModelScope.launch {
-            repository.deleteClass(classItem)
+            firebaseService.deleteClass(classItem.id)
         }
     }
     
     fun deleteMeeting(meeting: Meeting) {
         viewModelScope.launch {
-            repository.deleteMeeting(meeting)
+            firebaseService.deleteMeeting(meeting.id)
         }
     }
 }

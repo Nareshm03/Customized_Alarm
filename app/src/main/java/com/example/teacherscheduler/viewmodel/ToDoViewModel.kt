@@ -14,29 +14,27 @@ class ToDoViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    val uiState: StateFlow<UiState<ToDosData>> = combine(
-        repository.getAllActiveToDos(),
-        repository.getActiveToDosCount(),
-        repository.getOverdueToDosCount()
-    ) { todos, pendingCount, overdueCount ->
-        ToDosData(
-            todos = todos,
-            pendingCount = pendingCount,
-            overdueCount = overdueCount
+    val uiState: StateFlow<UiState<ToDosData>> = repository.getAllActiveToDos()
+        .map { todos ->
+            val data = ToDosData(
+                todos = todos,
+                pendingCount = todos.count { !it.isCompleted },
+                overdueCount = todos.count { it.isOverdue() }
+            )
+            UiState.Success(data) as UiState<ToDosData>
+        }
+        .catch { e ->
+            emit(UiState.Error(e.message ?: "Failed to load tasks"))
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UiState.Loading
         )
-    }.map<ToDosData, UiState<ToDosData>> { data ->
-        UiState.Success(data)
-    }.catch { e ->
-        emit(UiState.Error(e.message ?: "Failed to load tasks"))
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = UiState.Loading
-    )
 
-    fun toggleCompletion(id: Long, isCompleted: Boolean) {
+    fun toggleCompletion(todo: ToDo) {
         viewModelScope.launch {
-            repository.toggleToDoCompletion(id, isCompleted)
+            repository.toggleToDoCompletion(todo.id, !todo.isCompleted)
         }
     }
 

@@ -443,7 +443,7 @@ class DepartmentManager(private val context: Context) {
         val department = getDepartment(departmentId) ?: return DepartmentStatistics()
         val memberCount = memberDao.getActiveMemberCount(departmentId)
         val teacherCount = memberDao.getTeacherCount(departmentId)
-        
+
         // Announcements are Flow<List<DepartmentAnnouncement>>, need to get first
         val activeAnnouncements = getDepartmentAnnouncements(departmentId).first()
         val announcementCount = activeAnnouncements.size
@@ -477,7 +477,7 @@ class DepartmentManager(private val context: Context) {
         return UserTaskStatistics(
             userId = userId,
             pendingTasks = pendingCount,
-            inProgressTasks = 0, // In ToDo, we track by status if needed
+            inProgressTasks = 0,
             completedTasks = completedCount,
             overdueTasks = overdueCount
         )
@@ -507,7 +507,5 @@ data class UserTaskStatistics(
     val inProgressTasks: Int = 0,
     val completedTasks: Int = 0,
     val overdueTasks: Int = 0
-) {
-    val totalTasks: Int
-        get() = pendingTasks + inProgressTasks + completedTasks + overdueTasks
-}
+)
+

@@ -251,7 +251,7 @@ fun AnimatedPressButton(
     enabled: Boolean = true,
     pressedScale: Float = 0.95f,
     useSoftRipple: Boolean = true,
-    rippleColor: Color = Color(0xFFE8CFC1).copy(alpha = 0.12f), // Warm sand
+    rippleColor: Color = Color(0xFF007AFF).copy(alpha = 0.12f), // iOS blue
     content: @Composable BoxScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -295,8 +295,8 @@ fun AnimatedPressButton(
 fun SmoothProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
-    color: Color = Color(0xFFE8CFC1), // Warm sand
-    trackColor: Color = Color(0xFFF3E8E2), // Warm sand background
+    color: Color = Color(0xFF007AFF), // iOS blue
+    trackColor: Color = Color(0xFFE5E5EA), // iOS separator
     cornerRadius: Dp = 8.dp,
     height: Dp = 8.dp,
     animationDuration: Int = AnimationDurations.SLOW
@@ -333,7 +333,7 @@ fun SmoothProgressBar(
 @Composable
 fun PulsingProgress(
     modifier: Modifier = Modifier,
-    color: Color = Color(0xFFE8CFC1) // Warm sand
+    color: Color = Color(0xFF007AFF) // iOS blue
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "pulsingProgress")
 
@@ -380,7 +380,7 @@ fun PulsingProgress(
 @Composable
 fun Modifier.softRippleClickable(
     enabled: Boolean = true,
-    rippleColor: Color = Color(0xFFE8CFC1).copy(alpha = 0.08f), // Warm sand
+    rippleColor: Color = Color(0xFF007AFF).copy(alpha = 0.08f), // iOS blue
     bounded: Boolean = true,
     onClick: () -> Unit
 ): Modifier {
@@ -503,7 +503,7 @@ data class EnterExitPair(
 @Composable
 fun ShimmerEffect(
     modifier: Modifier = Modifier,
-    baseColor: Color = Color(0xFFF3E8E2), // Warm sand background
+    baseColor: Color = Color(0xFFF2F2F7), // System grey background
     highlightColor: Color = Color.White
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "shimmer")

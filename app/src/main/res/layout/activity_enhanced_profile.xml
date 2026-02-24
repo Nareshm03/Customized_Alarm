@@ -850,6 +850,7 @@
                     android:layout_weight="1"
                     android:text="@string/save"
                     android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimary"
                     app:cornerRadius="12dp"
                     app:icon="@drawable/ic_save"
                     app:iconGravity="textStart" />
@@ -863,6 +864,8 @@
                     android:layout_weight="1"
                     android:text="Reset"
                     android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    app:strokeColor="@color/colorPrimary"
                     app:cornerRadius="12dp"
                     app:icon="@drawable/ic_refresh"
                     app:iconGravity="textStart"

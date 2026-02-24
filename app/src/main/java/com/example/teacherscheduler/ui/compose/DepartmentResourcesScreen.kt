@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,12 +20,6 @@ import com.example.teacherscheduler.ui.theme.*
 
 /**
  * DepartmentResourcesScreen - Redesigned with soft UI layout system
- *
- * Design:
- * - Clean empty state
- * - Minimal visual elements
- * - Large rounded cards (24dp)
- * - Proper spacing
  */
 @Composable
 fun DepartmentResourcesScreen(
@@ -41,19 +36,12 @@ fun DepartmentResourcesScreen(
         ) {
             Spacer(modifier = Modifier.height(AppSpacing.screenHorizontal))
 
-            // Icon with soft gradient background
+            // Icon with soft tint background
             Box(
                 modifier = Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(AppRadius.card))
-                    .background(
-                        Brush.linearGradient(
-                            listOf(
-                                SoftUIColors.PeachGradientStart,
-                                SoftUIColors.PeachGradientEnd
-                            )
-                        )
-                    ),
+                    .background(PrimaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -82,6 +70,7 @@ fun DepartmentResourcesScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             SoftContentCard(
+                backgroundColor = Color.White,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(

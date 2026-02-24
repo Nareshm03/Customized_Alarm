@@ -18,28 +18,23 @@ import com.example.teacherscheduler.ui.theme.*
 
 /**
  * Example screen demonstrating HeroHighlightCard usage
- *
- * This is a sample implementation showing:
- * - How to integrate the hero card in a real screen
- * - Different variants (class, notice, meeting)
- * - Proper spacing and layout
  */
 @Composable
 fun HeroCardExamplesScreen() {
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = BackgroundPrimary
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(
-                start = SoftLayoutDimens.screenPadding,
-                end = SoftLayoutDimens.screenPadding,
-                top = SoftLayoutDimens.topSpacing,
-                bottom = SoftLayoutDimens.bottomSafeArea
+                start = AppSpacing.screenHorizontal,
+                end = AppSpacing.screenHorizontal,
+                top = AppSpacing.largeSpacing,
+                bottom = 100.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(SoftLayoutDimens.sectionSpacing)
+            verticalArrangement = Arrangement.spacedBy(AppSpacing.sectionSpacing)
         ) {
             // Header
             item {
@@ -55,7 +50,13 @@ fun HeroCardExamplesScreen() {
 
             // Example 1: Upcoming Class
             item {
-                SoftSectionTitle(title = "Upcoming Class")
+                Text(
+                    text = "Upcoming Class",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
+                )
             }
 
             item {
@@ -69,7 +70,13 @@ fun HeroCardExamplesScreen() {
 
             // Example 2: Important Notice
             item {
-                SoftSectionTitle(title = "Important Notice")
+                Text(
+                    text = "Important Notice",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
+                )
             }
 
             item {
@@ -83,7 +90,13 @@ fun HeroCardExamplesScreen() {
 
             // Example 3: Upcoming Meeting
             item {
-                SoftSectionTitle(title = "Upcoming Meeting")
+                Text(
+                    text = "Upcoming Meeting",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
+                )
             }
 
             item {
@@ -97,7 +110,13 @@ fun HeroCardExamplesScreen() {
 
             // Example 4: Custom Gradient
             item {
-                SoftSectionTitle(title = "Custom Styling")
+                Text(
+                    text = "Custom Styling",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
+                )
             }
 
             item {
@@ -119,7 +138,13 @@ fun HeroCardExamplesScreen() {
 
             // Example 5: With Icon Badge
             item {
-                SoftSectionTitle(title = "With Icon Badge")
+                Text(
+                    text = "With Icon Badge",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
+                )
             }
 
             item {
@@ -148,19 +173,19 @@ fun HeroCardExamplesScreen() {
 @Composable
 fun DashboardWithHeroExample() {
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = BackgroundPrimary
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(
-                start = SoftLayoutDimens.screenPadding,
-                end = SoftLayoutDimens.screenPadding,
-                top = SoftLayoutDimens.topSpacing,
-                bottom = SoftLayoutDimens.bottomSafeArea
+                start = AppSpacing.screenHorizontal,
+                end = AppSpacing.screenHorizontal,
+                top = AppSpacing.largeSpacing,
+                bottom = 100.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(SoftLayoutDimens.sectionSpacing)
+            verticalArrangement = Arrangement.spacedBy(AppSpacing.sectionSpacing)
         ) {
             // Greeting
             item {
@@ -203,15 +228,14 @@ fun DashboardWithHeroExample() {
 
             // Today's Schedule Section
             item {
-                SoftSectionTitle(
-                    title = "Today's Schedule",
-                    actionText = "View All",
-                    onActionClick = { /* Navigate to schedule */ }
+                Text(
+                    text = "Today's Schedule",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
                 )
             }
-
-            // Schedule items would go here...
         }
     }
 }
-

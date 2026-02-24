@@ -15,8 +15,8 @@ class ClassesViewModel @Inject constructor(
 ) : ViewModel() {
     
     val uiState: StateFlow<UiState<ClassesData>> = repository.getAllActiveClasses()
-        .map<List<Class>, UiState<ClassesData>> { classes ->
-            UiState.Success(ClassesData(classes = classes))
+        .map { classes ->
+            UiState.Success(ClassesData(classes = classes)) as UiState<ClassesData>
         }
         .catch { e ->
             emit(UiState.Error(e.message ?: "Failed to load classes"))

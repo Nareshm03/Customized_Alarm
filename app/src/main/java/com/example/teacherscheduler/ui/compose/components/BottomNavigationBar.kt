@@ -2,16 +2,16 @@ package com.example.teacherscheduler.ui.compose.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Assignment
-import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.Dashboard
-import androidx.compose.material.icons.outlined.Event
-import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.teacherscheduler.ui.compose.AppRoutes
 
 /**
  * BottomNavigationBar - Application's main navigation bar.
  * Uses the SoftBottomNavigation component for a consistent UI.
+ *
+ * All routes come from [AppRoutes] – single source of truth.
  */
 @Composable
 fun BottomNavigationBar(
@@ -19,13 +19,13 @@ fun BottomNavigationBar(
     onNavigate: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // These BottomNavItem objects refer to the data class defined in SoftBottomNavigation.kt
     val items = listOf(
-        BottomNavItem("Dashboard", Icons.Outlined.Dashboard, "dashboard"),
-        BottomNavItem("Timetable", Icons.Outlined.CalendarMonth, "timetable"),
-        BottomNavItem("Classes", Icons.Outlined.School, "classes"),
-        BottomNavItem("Meetings", Icons.Outlined.Event, "meetings"),
-        BottomNavItem("To-Dos", Icons.AutoMirrored.Outlined.Assignment, "todos")
+        BottomNavItem("Home",     Icons.Outlined.Dashboard,      AppRoutes.DASHBOARD),
+        BottomNavItem("Schedule", Icons.Outlined.CalendarMonth,   AppRoutes.SCHEDULE),
+        BottomNavItem("Classes",  Icons.Outlined.School,          AppRoutes.CLASSES),
+        BottomNavItem("Meetings", Icons.Outlined.Event,           AppRoutes.MEETINGS),
+        BottomNavItem("Tasks",    Icons.AutoMirrored.Outlined.Assignment, AppRoutes.TASKS),
+        BottomNavItem("Notices",  Icons.Outlined.Notifications,  AppRoutes.NOTICES),
     )
 
     SoftBottomNavigation(

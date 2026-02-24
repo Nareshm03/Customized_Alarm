@@ -40,7 +40,7 @@ fun EmptyState(
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(64.dp),
-            tint = Color(0xFFECE6DF)
+            tint = Color(0xFFC7C7CC)
         )
         
         Text(

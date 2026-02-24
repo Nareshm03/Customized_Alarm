@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
@@ -37,19 +38,12 @@ import kotlinx.coroutines.launch
 
 /**
  * SettingsScreen - Redesigned with soft UI layout system
- *
- * Design:
- * - White background
- * - 24dp horizontal padding
- * - 32dp top spacing
- * - Section-based layout
- * - Large rounded cards (24dp)
- * - Minimal visual clutter
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -70,32 +64,46 @@ fun SettingsScreen(
     }
     
     Scaffold(
-        containerColor = BackgroundPrimary
+        containerColor = BackgroundPrimary,
+        topBar = {
+            SoftTopAppBar(
+                title = "Settings",
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = TextPrimary
+                        )
+                    }
+                }
+            )
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(
-                start = SoftLayoutDimens.screenPadding,
-                end = SoftLayoutDimens.screenPadding,
-                top = SoftLayoutDimens.topSpacing,
-                bottom = SoftLayoutDimens.bottomSafeArea
+                start = AppSpacing.screenHorizontal,
+                end = AppSpacing.screenHorizontal,
+                top = AppSpacing.largeSpacing,
+                bottom = 100.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(SoftLayoutDimens.sectionSpacing)
+            verticalArrangement = Arrangement.spacedBy(AppSpacing.sectionSpacing)
         ) {
             // Header with Profile
             item {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     SoftProfileAvatar(
                         size = 80.dp,
                         icon = Icons.Outlined.Person,
-                        gradientColors = listOf(Color(0xFFF7F4EF), Color(0xFFFAF7F2)),
-                        iconTint = Color(0xFFD8B4A0),
+                        gradientColors = listOf(PrimaryContainer, PrimaryContainer),
+                        iconTint = Primary,
                         borderWidth = 0.dp
                     )
                     Text(
@@ -119,8 +127,8 @@ fun SettingsScreen(
                             scope.launch {
                                 try {
                                     val classFile = CsvExporter.exportClasses(context, classes)
-                                    val meetingFile = CsvExporter.exportMeetings(context, meetings)
-
+                                    // Exporting meetings might need its own file if handled separately by UI
+                                    
                                     val uri = FileProvider.getUriForFile(
                                         context,
                                         "${context.packageName}.fileprovider",
@@ -156,9 +164,11 @@ fun SettingsScreen(
             // About Section
             item {
                 SoftSection(title = "About") {
-                    SoftContentCard {
+                    SoftContentCard(
+                        backgroundColor = Color.White
+                    ) {
                         Column(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().padding(AppSpacing.cardPadding),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
@@ -185,7 +195,7 @@ fun SettingsScreen(
     if (showSyncDialog) {
         AlertDialog(
             onDismissRequest = { if (!syncInProgress) showSyncDialog = false },
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(AppRadius.card),
             containerColor = Color.White,
             title = {
                 Text(
@@ -204,7 +214,7 @@ fun SettingsScreen(
                         verticalArrangement = Arrangement.spacedBy(AppSpacing.sectionSpacing)
                     ) {
                         CircularProgressIndicator(
-                            color = Color(0xFFD8B4A0),
+                            color = Primary,
                             strokeWidth = 3.dp
                         )
                         Text(
@@ -249,7 +259,7 @@ fun SettingsScreen(
                     ) {
                         Text(
                             "Sync",
-                            color = Color(0xFFD8B4A0),
+                            color = Primary,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -282,18 +292,19 @@ private fun SoftSettingsCard(
     modifier: Modifier = Modifier
 ) {
     SoftContentCard(
+        backgroundColor = Color.White,
         modifier = modifier,
         onClick = onClick
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(SoftLayoutDimens.itemSpacing),
+            modifier = Modifier.fillMaxWidth().padding(AppSpacing.cardPadding),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = Color(0xFFD8B4A0),
+                tint = Primary,
                 modifier = Modifier.size(24.dp)
             )
 

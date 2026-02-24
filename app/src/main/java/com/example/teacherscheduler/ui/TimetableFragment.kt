@@ -294,23 +294,58 @@ class TimetableFragment : Fragment() {
                 val result = when (event.type) {
                     EventType.CLASS -> {
                         val classItem = event.originalObject as ClassItem
-                        GoogleCalendarSync.syncClassItemToCalendar(requireContext(), classItem)
+                        // Map ClassItem to com.example.teacherscheduler.model.Class entity
+                        val classModel = com.example.teacherscheduler.model.Class(
+                            id = classItem.id,
+                            subject = classItem.subject,
+                            department = classItem.department,
+                            roomNumber = classItem.roomNumber,
+                            startDate = classItem.startDate,
+                            endDate = classItem.endDate,
+                            startTime = classItem.startTime,
+                            endTime = classItem.endTime,
+                            isRecurring = classItem.isRecurring,
+                            daysOfWeek = classItem.daysOfWeek,
+                            notificationsEnabled = classItem.notificationsEnabled,
+                            reminderMinutes = classItem.reminderMinutes,
+                            description = classItem.description,
+                            semesterId = classItem.semesterId
+                        )
+                        GoogleCalendarSync.syncClassToCalendar(requireContext(), classModel)
                     }
                     EventType.MEETING -> {
-                        val meeting = event.originalObject as MeetingItem
-                        GoogleCalendarSync.syncMeetingItemToCalendar(requireContext(), meeting)
+                        val meetingItem = event.originalObject as MeetingItem
+                        // Map MeetingItem to com.example.teacherscheduler.model.Meeting entity
+                        val meetingModel = com.example.teacherscheduler.model.Meeting(
+                            id = meetingItem.id,
+                            title = meetingItem.title,
+                            withWhom = meetingItem.with,
+                            location = meetingItem.location,
+                            startDate = meetingItem.date,
+                            endDate = meetingItem.date,
+                            startTime = meetingItem.startTime,
+                            endTime = meetingItem.endTime,
+                            notificationsEnabled = meetingItem.notificationsEnabled,
+                            reminderMinutes = meetingItem.reminderMinutes,
+                            notes = meetingItem.notes,
+                            semesterId = meetingItem.semesterId
+                        )
+                        GoogleCalendarSync.syncMeetingToCalendar(requireContext(), meetingModel)
                     }
                 }
                 if (result != null) successCount++
             }
-            Snackbar.make(binding.root, "Synced $successCount events to Google Calendar", Snackbar.LENGTH_LONG)
-                .setAction("VIEW") {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = android.net.Uri.parse("content://com.android.calendar/time")
+            
+            if (isAdded) {
+                Snackbar.make(binding.root, "Synced $successCount events to Google Calendar", Snackbar.LENGTH_LONG)
+                    .setAction("VIEW") {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = android.net.Uri.parse("content://com.android.calendar/time")
+                        }
+                        startActivity(intent)
                     }
-                    startActivity(intent)
-                }
-                .show()
+                    .show()
+            }
         }
     }
 

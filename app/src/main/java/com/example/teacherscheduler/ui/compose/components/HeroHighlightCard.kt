@@ -119,7 +119,7 @@ fun HeroHighlightCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.linearGradient(gradientColors)
+                    color = gradientColors.firstOrNull() ?: Color.White
                 )
                 .padding(SoftLayoutDimens.cardPadding + 4.dp)
         ) {

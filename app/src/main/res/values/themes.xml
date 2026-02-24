@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ========================================== -->
-    <!-- DARK MODE THEME (Primary - Teacher-Friendly) -->
+    <!-- APPLE-STYLE PREMIUM THEME -->
     <!-- ========================================== -->
-    <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary Colors -->
-        <item name="colorPrimary">@color/primary_purple</item>
-        <item name="colorOnPrimary">@color/text_primary</item>
-        <item name="colorPrimaryContainer">@color/elevated_card</item>
+        <item name="colorPrimary">@color/accent_pink</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#FFFFFF</item>
         <item name="colorOnPrimaryContainer">@color/text_primary</item>
 
         <!-- Secondary Colors -->
-        <item name="colorSecondary">@color/primary_purple_light</item>
+        <item name="colorSecondary">@color/accent_beige</item>
         <item name="colorOnSecondary">@color/text_primary</item>
-        <item name="colorSecondaryContainer">@color/elevated_card</item>
-        <item name="colorOnSecondaryContainer">@color/text_secondary</item>
+        <item name="colorSecondaryContainer">#FFFFFF</item>
+        <item name="colorOnSecondaryContainer">@color/text_primary</item>
 
         <!-- Background & Surface -->
-        <item name="android:colorBackground">@color/app_background</item>
+        <item name="android:colorBackground">#F5F5F7</item>
         <item name="colorOnBackground">@color/text_primary</item>
-        <item name="colorSurface">@color/surface_card</item>
+        <item name="colorSurface">#FFFFFF</item>
         <item name="colorOnSurface">@color/text_primary</item>
-        <item name="colorSurfaceVariant">@color/elevated_card</item>
+        <item name="colorSurfaceVariant">#FFFFFF</item>
         <item name="colorOnSurfaceVariant">@color/text_secondary</item>
 
         <!-- Outline -->
-        <item name="colorOutline">@color/text_muted</item>
+        <item name="colorOutline">@color/text_secondary</item>
 
-        <!-- Status Bar (Dark) -->
-        <item name="android:statusBarColor">@color/app_background</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:navigationBarColor">@color/app_background</item>
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">#F5F5F7</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">#F5F5F7</item>
 
         <!-- Transitions -->
         <item name="android:windowContentTransitions">true</item>
@@ -48,43 +48,6 @@
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
     </style>
-
-    <!-- ========================================== -->
-    <!-- LIGHT MODE THEME (Optional - for daytime) -->
-    <!-- ========================================== -->
-    <style name="AppTheme.Light" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Primary Colors -->
-        <item name="colorPrimary">@color/primary_light</item>
-        <item name="colorOnPrimary">@color/on_primary_light</item>
-        <item name="colorPrimaryContainer">@color/primary_container_light</item>
-        <item name="colorOnPrimaryContainer">@color/on_primary_container_light</item>
-
-        <!-- Secondary Colors -->
-        <item name="colorSecondary">@color/secondary_light</item>
-        <item name="colorOnSecondary">@color/on_secondary_light</item>
-        <item name="colorSecondaryContainer">@color/secondary_container_light</item>
-        <item name="colorOnSecondaryContainer">@color/on_secondary_container_light</item>
-
-        <!-- Background & Surface -->
-        <item name="android:colorBackground">@color/background_light</item>
-        <item name="colorOnBackground">@color/on_background_light</item>
-        <item name="colorSurface">@color/surface_light</item>
-        <item name="colorOnSurface">@color/on_surface_light</item>
-        <item name="colorSurfaceVariant">@color/surface_variant_light</item>
-        <item name="colorOnSurfaceVariant">@color/on_surface_variant_light</item>
-
-        <!-- Outline -->
-        <item name="colorOutline">@color/outline_light</item>
-
-        <!-- Status Bar (Light) -->
-        <item name="android:statusBarColor">@color/primary_light</item>
-        <item name="android:windowLightStatusBar">true</item>
-
-        <!-- Material Components -->
-        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
-        <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
-        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
-    </style>
     
     <!-- Legacy theme name for backward compatibility -->
     <style name="Theme.TeacherScheduler" parent="AppTheme" />
@@ -95,33 +58,31 @@
     <!-- COMPONENT STYLES -->
     <!-- ========================================== -->
 
-    <!-- Card Style - Enhanced with new color system -->
+    <!-- Card Style -->
     <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardCornerRadius">16dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="cardBackgroundColor">@color/surface_card</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">#FFFFFF</item>
         <item name="contentPadding">16dp</item>
         <item name="strokeWidth">0dp</item>
     </style>
     
-    <!-- Elevated Card Style - For emphasized content -->
     <style name="Widget.App.CardView.Elevated" parent="Widget.App.CardView">
-        <item name="cardElevation">8dp</item>
-        <item name="cardBackgroundColor">@color/elevated_card</item>
+        <item name="cardElevation">4dp</item>
     </style>
 
-    <!-- FAB Style - Using primary purple -->
+    <!-- FAB Style -->
     <style name="Widget.App.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
-        <item name="elevation">6dp</item>
-        <item name="backgroundTint">@color/primary_purple</item>
-        <item name="tint">@color/text_primary</item>
+        <item name="elevation">4dp</item>
+        <item name="backgroundTint">@color/accent_pink</item>
+        <item name="tint">#FFFFFF</item>
         <item name="android:stateListAnimator">@animator/fab_state_list_anim</item>
     </style>
     
     <!-- Bottom Navigation Style -->
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
-        <item name="elevation">8dp</item>
-        <item name="backgroundTint">@color/surface_card</item>
+        <item name="elevation">0dp</item>
+        <item name="backgroundTint">#FFFFFF</item>
         <item name="itemIconTint">@color/bottom_nav_color_selector</item>
         <item name="itemTextColor">@color/bottom_nav_color_selector</item>
     </style>

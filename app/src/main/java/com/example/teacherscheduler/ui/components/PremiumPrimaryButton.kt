@@ -17,9 +17,9 @@ class PremiumPrimaryButton @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : MaterialButton(context, attrs, defStyleAttr) {
 
-    private val normalColor = Color.parseColor("#E8CFC1")
-    private val pressedColor = Color.parseColor("#D4B8A8")
-    private val textColor = Color.parseColor("#2B2B2B")
+    private val normalColor = Color.parseColor("#007AFF")
+    private val pressedColor = Color.parseColor("#0056B3")
+    private val textColor = Color.parseColor("#FFFFFF")
 
     init {
         setupButton()

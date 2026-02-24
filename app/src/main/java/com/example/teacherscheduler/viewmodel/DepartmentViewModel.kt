@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.teacherscheduler.data.DepartmentManager
 import com.example.teacherscheduler.data.ProfileManager
-import com.example.teacherscheduler.data.local.AppDatabase
 import com.example.teacherscheduler.model.DepartmentMember
 import com.example.teacherscheduler.model.ToDo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -164,5 +163,4 @@ sealed class AssignTaskUiState {
     data class Success(val message: String) : AssignTaskUiState()
     data class Error(val message: String) : AssignTaskUiState()
 }
-
 

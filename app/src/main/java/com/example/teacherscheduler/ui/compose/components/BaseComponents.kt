@@ -114,7 +114,7 @@ fun SoftCard(
 fun GradientCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    gradientColors: List<Color> = listOf(GradientLavenderStart, GradientLavenderEnd),
+    gradientColors: List<Color> = listOf(PrimaryContainer, PrimaryContainer),
     contentPadding: PaddingValues = PaddingValues(AppDimens.cardPadding),
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -129,9 +129,7 @@ fun GradientCard(
                 spotColor = ShadowMedium
             )
             .clip(shape)
-            .background(
-                brush = Brush.linearGradient(colors = gradientColors)
-            )
+            .background(color = gradientColors.first())
             .then(
                 if (onClick != null) {
                     Modifier
@@ -156,7 +154,7 @@ fun StatCard(
     title: String,
     value: String,
     icon: ImageVector? = null,
-    gradientColors: List<Color> = listOf(GradientLavenderStart, GradientLavenderEnd),
+    gradientColors: List<Color> = listOf(PrimaryContainer, PrimaryContainer),
     onClick: (() -> Unit)? = null
 ) {
     val shape = RoundedCornerShape(AppDimens.cornerRadiusLarge)
@@ -176,7 +174,7 @@ fun StatCard(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Brush.linearGradient(gradientColors))
+                .background(gradientColors.firstOrNull() ?: PrimaryContainer)
                 .padding(AppDimens.cardPaddingLarge)
         ) {
             Column(
@@ -229,8 +227,8 @@ fun SoftButton(
     val backgroundColor by animateColorAsState(
         targetValue = when {
             !enabled -> OutlineLight
-            isPressed -> Color(0xFFD4B8A8)
-            else -> Color(0xFFE8CFC1)
+            isPressed -> Color(0xFF0056B3)
+            else -> Color(0xFF007AFF)
         },
         animationSpec = tween(SoftAnimations.pressDuration),
         label = "buttonBg"
@@ -267,14 +265,14 @@ fun SoftButton(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier.size(AppDimens.iconSizeMedium),
-                    tint = if (enabled) Color(0xFF2B2B2B) else TextTertiary
+                    tint = if (enabled) Color.White else TextTertiary
                 )
                 Spacer(modifier = Modifier.width(AppDimens.spacingSmall))
             }
             Text(
                 text = text,
                 style = MaterialTheme.typography.labelLarge,
-                color = if (enabled) Color(0xFF2B2B2B) else TextTertiary
+                color = if (enabled) Color.White else TextTertiary
             )
         }
     }
@@ -302,7 +300,7 @@ fun SoftOutlinedButton(
         ),
         border = ButtonDefaults.outlinedButtonBorder(enabled).copy(
             width = 1.dp,
-            brush = Brush.linearGradient(listOf(OutlineLight, OutlineLight))
+            brush = androidx.compose.ui.graphics.SolidColor(OutlineLight)
         )
     ) {
         if (icon != null) {

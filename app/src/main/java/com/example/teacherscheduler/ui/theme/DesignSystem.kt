@@ -17,7 +17,7 @@ object AppSpacing {
 
 object AppRadius {
     val card = 24.dp
-    val button = 22.dp
+    val button = 14.dp
     val chip = 18.dp
 }
 

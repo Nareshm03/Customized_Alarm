@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -31,16 +32,33 @@ import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.ui.compose.components.*
 import com.example.teacherscheduler.ui.theme.*
 import com.example.teacherscheduler.viewmodel.DashboardViewModel
+import com.example.teacherscheduler.viewmodel.UserViewModel
+import com.example.teacherscheduler.viewmodel.HodDashboardViewModel
+import com.example.teacherscheduler.viewmodel.HodDashboardStats
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EnhancedDashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel(),
+    hodDashboardViewModel: HodDashboardViewModel = hiltViewModel(),
     onNavigateToAddClass: () -> Unit,
     onNavigateToAddMeeting: () -> Unit,
-    onClassClick: (Long) -> Unit
+    onClassClick: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
+    onNavigateToProfile: () -> Unit = {}
 ) {
     val uiState by viewModel.dashboardState.collectAsStateWithLifecycle()
+    val isHOD by userViewModel.isHOD.collectAsStateWithLifecycle()
+    val userState by userViewModel.globalUserState.collectAsStateWithLifecycle()
+    val hodStats by hodDashboardViewModel.stats.collectAsStateWithLifecycle()
+    
+    LaunchedEffect(isHOD, userState.department) {
+        if (isHOD && userState.department.isNotEmpty()) {
+            hodDashboardViewModel.loadDashboardStats(userState.department)
+        }
+    }
     
     // Animation states
     var isVisible by remember { mutableStateOf(false) }
@@ -72,8 +90,11 @@ fun EnhancedDashboardScreen(
                 ) {
                     EnhancedDashboardHeader(
                         greeting = uiState.greeting,
-                        onNotificationClick = { },
-                        onProfileClick = { }
+                        name = userState.name,
+                        role = if (isHOD) "HOD" else "Teacher",
+                        onNotificationClick = onNavigateToNotifications,
+                        onSettingsClick = onNavigateToSettings,
+                        onNavigateToProfile = onNavigateToProfile
                     )
                 }
             }
@@ -94,6 +115,18 @@ fun EnhancedDashboardScreen(
                 }
             }
 
+            // HOD-specific section
+            if (isHOD) {
+                item {
+                    AnimatedVisibility(
+                        visible = isVisible,
+                        enter = fadeIn(animationSpec = tween(500, delayMillis = 250))
+                    ) {
+                        HODStatsSection(stats = hodStats)
+                    }
+                }
+            }
+
             // Quick Stats Row (using SoftStatChip)
             item {
                 AnimatedVisibility(
@@ -108,19 +141,19 @@ fun EnhancedDashboardScreen(
                         SoftStatChip(
                             icon = Icons.Outlined.School,
                             label = "${uiState.todayClassesCount} Classes",
-                            color = SoftUIColors.AccentLavender,
+                            color = Primary,
                             modifier = Modifier.weight(1f)
                         )
                         SoftStatChip(
                             icon = Icons.Outlined.Event,
                             label = "${uiState.upcomingMeetingsCount} Meetings",
-                            color = SoftUIColors.AccentBlue,
+                            color = Primary,
                             modifier = Modifier.weight(1f)
                         )
                         SoftStatChip(
                             icon = Icons.Outlined.CheckCircle,
                             label = "${uiState.activeToDosCount} Tasks",
-                            color = SoftUIColors.AccentMint,
+                            color = Primary,
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -160,12 +193,7 @@ fun EnhancedDashboardScreen(
                                 EnhancedClassCard(
                                     classItem = classItem,
                                     modifier = Modifier.weight(1f),
-                                    onClick = { onClassClick(classItem.id) },
-                                    accentColor = if (index % 2 == 0) SoftUIColors.AccentLavender else SoftUIColors.AccentBlue,
-                                    gradientColors = if (index % 2 == 0)
-                                        listOf(SoftUIColors.LavenderGradientStart, SoftUIColors.LavenderGradientEnd)
-                                    else
-                                        listOf(SoftUIColors.BlueGradientStart, SoftUIColors.BlueGradientEnd)
+                                    onClick = { onClassClick(classItem.id) }
                                 )
                             }
                             if (rowItems.size == 1) {
@@ -184,7 +212,7 @@ fun EnhancedDashboardScreen(
                         enter = fadeIn(animationSpec = tween(500, delayMillis = 400))
                     ) {
                         SoftEmptyStateCard(
-                            icon = Icons.Outlined.School,
+                            icon = Icons.Outlined.EventBusy,
                             title = "No Classes Today",
                             subtitle = "Enjoy your free day!"
                         )
@@ -252,62 +280,6 @@ fun EnhancedDashboardScreen(
             }
         }
 
-        // Floating Action Buttons
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            // Secondary FAB - Add Meeting
-            AnimatedVisibility(
-                visible = isVisible,
-                enter = fadeIn(animationSpec = tween(400, delayMillis = 600)) +
-                        scaleIn(animationSpec = tween(400, delayMillis = 600))
-            ) {
-                SmallFloatingActionButton(
-                    onClick = onNavigateToAddMeeting,
-                    shape = RoundedCornerShape(16.dp),
-                    containerColor = SecondaryContainer,
-                    contentColor = OnSecondaryContainer,
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = AppElevation.level1,
-                        pressedElevation = AppElevation.level2
-                    )
-                ) {
-                    Icon(
-                        Icons.Outlined.Event,
-                        contentDescription = "Add Meeting",
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-            }
-
-            // Primary FAB - Add Class
-            AnimatedVisibility(
-                visible = isVisible,
-                enter = fadeIn(animationSpec = tween(400, delayMillis = 650)) +
-                        scaleIn(animationSpec = tween(400, delayMillis = 650))
-            ) {
-                FloatingActionButton(
-                    onClick = onNavigateToAddClass,
-                    shape = RoundedCornerShape(20.dp),
-                    containerColor = SoftUIColors.AccentLavender,
-                    contentColor = Color.White,
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = AppElevation.level2,
-                        pressedElevation = 8.dp
-                    )
-                ) {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = "Add Class",
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
-        }
 
         // Loading indicator
         if (uiState.isLoading) {
@@ -316,7 +288,7 @@ fun EnhancedDashboardScreen(
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
-                    color = SoftUIColors.AccentLavender,
+                    color = Primary,
                     strokeWidth = 3.dp,
                     modifier = Modifier.size(40.dp)
                 )
@@ -331,8 +303,11 @@ fun EnhancedDashboardScreen(
 @Composable
 private fun EnhancedDashboardHeader(
     greeting: String,
+    name: String,
+    role: String,
     onNotificationClick: () -> Unit,
-    onProfileClick: () -> Unit
+    onSettingsClick: () -> Unit,
+    onNavigateToProfile: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -350,18 +325,15 @@ private fun EnhancedDashboardHeader(
                 modifier = Modifier
                     .size(52.dp)
                     .clip(CircleShape)
-                    .background(
-                        Brush.linearGradient(
-                            listOf(SoftUIColors.LavenderGradientStart, SoftUIColors.LavenderGradientEnd)
-                        )
-                    )
-                    .border(2.dp, Color.White, CircleShape),
+                    .background(PrimaryContainer)
+                    .border(2.dp, Color.White, CircleShape)
+                    .clickable { onNavigateToProfile() },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Person,
                     contentDescription = "Profile",
-                    tint = SoftUIColors.AccentLavender,
+                    tint = Primary,
                     modifier = Modifier.size(28.dp)
                 )
             }
@@ -369,15 +341,15 @@ private fun EnhancedDashboardHeader(
             Column {
                 Text(
                     text = greeting,
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 22.sp
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp
                     ),
                     color = TextPrimary
                 )
                 Text(
-                    text = "Ready for today?",
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = "$name • $role",
+                    style = MaterialTheme.typography.bodyLarge,
                     color = TextSecondary
                 )
             }
@@ -386,7 +358,6 @@ private fun EnhancedDashboardHeader(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Using SoftIconButton
             SoftIconButton(
                 icon = Icons.Outlined.Notifications,
                 onClick = onNotificationClick,
@@ -394,9 +365,212 @@ private fun EnhancedDashboardHeader(
             )
             SoftIconButton(
                 icon = Icons.Outlined.Settings,
-                onClick = onProfileClick,
+                onClick = onSettingsClick,
                 contentDescription = "Settings"
             )
+        }
+    }
+}
+
+// ============================================================================
+// HOD STATS SECTION
+// ============================================================================
+@Composable
+private fun HODStatsSection(stats: HodDashboardStats) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.AdminPanelSettings,
+                contentDescription = null,
+                tint = SoftUIColors.AccentPeach,
+                modifier = Modifier.size(20.dp)
+            )
+            Text(
+                text = "Department Overview",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = TextPrimary
+            )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            HODStatCard(
+                icon = Icons.Outlined.People,
+                title = "Teachers",
+                value = stats.totalTeachers.toString(),
+                color = SoftUIColors.AccentLavender,
+                modifier = Modifier.weight(1f)
+            )
+            HODStatCard(
+                icon = Icons.Outlined.Assignment,
+                title = "Pending",
+                value = stats.pendingTasks.toString(),
+                color = SoftUIColors.AccentPeach,
+                modifier = Modifier.weight(1f)
+            )
+            HODStatCard(
+                icon = Icons.Outlined.Notifications,
+                title = "Notices",
+                value = stats.noticesPublished.toString(),
+                color = SoftUIColors.AccentMint,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun HODStatCard(
+    icon: ImageVector,
+    title: String,
+    value: String,
+    color: Color,
+    modifier: Modifier = Modifier
+) {
+    PremiumCard(modifier = modifier) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold
+                ),
+                color = TextPrimary
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodySmall,
+                color = TextSecondary
+            )
+        }
+    }
+}
+
+// ============================================================================
+// HOD ACTIONS CARD
+// ============================================================================
+@Composable
+private fun HODActionsCard() {
+    SoftCard(
+        modifier = Modifier.fillMaxWidth(),
+        cornerRadius = 20.dp,
+        elevation = 2.dp
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.AdminPanelSettings,
+                    contentDescription = null,
+                    tint = Primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    text = "HOD Actions",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    onClick = { },
+                    shape = RoundedCornerShape(12.dp),
+                    color = Primary.copy(alpha = 0.1f)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Assignment,
+                            contentDescription = null,
+                            tint = Primary
+                        )
+                        Text(
+                            text = "Assign Task",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = TextPrimary
+                        )
+                    }
+                }
+
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    onClick = { },
+                    shape = RoundedCornerShape(12.dp),
+                    color = Primary.copy(alpha = 0.1f)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.People,
+                            contentDescription = null,
+                            tint = Primary
+                        )
+                        Text(
+                            text = "Teachers",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = TextPrimary
+                        )
+                    }
+                }
+
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    onClick = { },
+                    shape = RoundedCornerShape(12.dp),
+                    color = Primary.copy(alpha = 0.1f)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Dashboard,
+                            contentDescription = null,
+                            tint = Primary
+                        )
+                        Text(
+                            text = "Overview",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = TextPrimary
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -411,14 +585,11 @@ private fun EnhancedNextClassCard(
     onViewScheduleClick: () -> Unit,
     onClassClick: (Long) -> Unit
 ) {
-    GradientHighlightCardCustom(
+    SoftCard(
+        modifier = Modifier.fillMaxWidth(),
         onClick = { nextClass?.let { onClassClick(it.id) } },
-        gradientColors = listOf(
-            SoftUIColors.LavenderGradientStart,
-            SoftUIColors.LavenderGradientEnd,
-            Color(0xFFF0EAFF)
-        ),
-        accentColor = SoftUIColors.AccentLavender
+        cornerRadius = 16.dp,
+        elevation = 2.dp
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -435,7 +606,7 @@ private fun EnhancedNextClassCard(
                         letterSpacing = 1.sp,
                         fontWeight = FontWeight.Medium
                     ),
-                    color = SoftUIColors.AccentLavender
+                    color = Primary
                 )
 
                 Text(
@@ -489,21 +660,38 @@ private fun EnhancedNextClassCard(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
-                // Using RoundedPrimaryButton
                 RoundedPrimaryButton(
                     text = "View Schedule",
-                    onClick = onViewScheduleClick
+                    onClick = onViewScheduleClick,
+                    cornerRadius = 14.dp
                 )
             }
 
-            // Using SoftProgressBadge
-            SoftProgressBadge(
-                value = totalClassesToday.toString(),
-                label = "classes",
-                valueColor = SoftUIColors.AccentLavender
-            )
+            // Today count badge
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .size(72.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(SoftUIColors.BlueTint)
+            ) {
+                Text(
+                    text = totalClassesToday.toString(),
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 28.sp
+                    ),
+                    color = Primary
+                )
+                Text(
+                    text = "classes",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextSecondary
+                )
+            }
         }
     }
 }
@@ -516,31 +704,31 @@ private fun EnhancedClassCard(
     classItem: Class,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    accentColor: Color = SoftUIColors.AccentLavender,
-    gradientColors: List<Color> = listOf(SoftUIColors.LavenderGradientStart, SoftUIColors.LavenderGradientEnd)
+    accentColor: Color = Primary,
+    gradientColors: List<Color> = listOf(PrimaryContainer, PrimaryContainer)
 ) {
     SoftCard(
         modifier = modifier.aspectRatio(0.9f),
         onClick = onClick,
-        cornerRadius = 24.dp,
-        elevation = 4.dp
+        cornerRadius = 16.dp,
+        elevation = 2.dp
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top: Icon
+            // Top: Icon on flat tint background
             Box(
                 modifier = Modifier
                     .size(44.dp)
                     .clip(CircleShape)
-                    .background(Brush.linearGradient(gradientColors)),
+                    .background(PrimaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.School,
                     contentDescription = null,
-                    tint = accentColor,
+                    tint = Primary,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -567,7 +755,7 @@ private fun EnhancedClassCard(
                 )
             }
 
-            // Bottom: Tags and Progress (using SoftColorChip)
+            // Bottom: Tags and Subject label
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
@@ -576,11 +764,11 @@ private fun EnhancedClassCard(
                 ) {
                     SoftColorChip(
                         text = classItem.getFormattedTime(),
-                        color = accentColor
+                        color = Primary
                     )
                     SoftColorChip(
                         text = classItem.room,
-                        color = accentColor.copy(alpha = 0.7f)
+                        color = Primary
                     )
                 }
 
@@ -589,7 +777,7 @@ private fun EnhancedClassCard(
                         .fillMaxWidth()
                         .height(32.dp)
                         .clip(RoundedCornerShape(10.dp))
-                        .background(Brush.linearGradient(gradientColors)),
+                        .background(PrimaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -597,7 +785,7 @@ private fun EnhancedClassCard(
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Medium
                         ),
-                        color = accentColor,
+                        color = Primary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -616,7 +804,7 @@ private fun EnhancedMeetingCard(
 ) {
     SoftCard(
         modifier = Modifier.fillMaxWidth(),
-        cornerRadius = 20.dp,
+        cornerRadius = 16.dp,
         elevation = 2.dp
     ) {
         Row(
@@ -628,17 +816,13 @@ private fun EnhancedMeetingCard(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(RoundedCornerShape(14.dp))
-                    .background(
-                        Brush.linearGradient(
-                            listOf(SoftUIColors.BlueGradientStart, SoftUIColors.BlueGradientEnd)
-                        )
-                    ),
+                    .background(PrimaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Event,
                     contentDescription = null,
-                    tint = SoftUIColors.AccentBlue,
+                    tint = Primary,
                     modifier = Modifier.size(24.dp)
                 )
             }

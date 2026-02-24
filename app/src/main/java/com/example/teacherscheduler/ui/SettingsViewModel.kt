@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.teacherscheduler.data.Repository
-import com.example.teacherscheduler.data.remote.FirebaseService
 import com.example.teacherscheduler.model.AppSettings
-
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -19,7 +17,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     
     val settings: LiveData<AppSettings?> = repository.getSettings()
 
-    
     private val _lastSyncTime = MutableLiveData<String>()
     val lastSyncTime: LiveData<String> = _lastSyncTime
     
@@ -71,6 +68,4 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             _syncInProgress.value = false
         }
     }
-    
-
 }

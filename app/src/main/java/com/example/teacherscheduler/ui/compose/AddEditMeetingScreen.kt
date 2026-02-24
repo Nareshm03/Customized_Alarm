@@ -1,5 +1,6 @@
 package com.example.teacherscheduler.ui.compose
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,11 +16,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.teacherscheduler.model.Meeting
 import com.example.teacherscheduler.ui.compose.components.*
 import com.example.teacherscheduler.ui.theme.*
+import com.example.teacherscheduler.viewmodel.AddEditMeetingViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +48,11 @@ fun AddEditMeetingScreen(
     onCancel: () -> Unit,
     onDelete: (() -> Unit)? = null
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val viewModel: AddEditMeetingViewModel = hiltViewModel()
+
+    var isSaving by remember { mutableStateOf(false) }
     // State variables
     var title by remember { mutableStateOf(meeting?.title ?: "") }
     var withWhom by remember { mutableStateOf(meeting?.withWhom ?: "") }
@@ -104,12 +114,8 @@ fun AddEditMeetingScreen(
             ) {
                 // Header Card
                 SoftCard(
-                    cornerRadius = 20.dp,
-                    elevation = 2.dp,
-                    gradientColors = listOf(
-                        SoftUIColors.BlueGradientStart,
-                        SoftUIColors.BlueGradientEnd
-                    )
+                    cornerRadius = 16.dp,
+                    elevation = 2.dp
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -119,7 +125,7 @@ fun AddEditMeetingScreen(
                             modifier = Modifier
                                 .size(48.dp)
                                 .background(
-                                    color = SoftUIColors.AccentBlue.copy(alpha = 0.2f),
+                                    color = PrimaryContainer,
                                     shape = RoundedCornerShape(14.dp)
                                 ),
                             contentAlignment = Alignment.Center
@@ -127,7 +133,7 @@ fun AddEditMeetingScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Event,
                                 contentDescription = null,
-                                tint = SoftUIColors.AccentBlue,
+                                tint = Primary,
                                 modifier = Modifier.size(24.dp)
                             )
                         }
@@ -282,28 +288,43 @@ fun AddEditMeetingScreen(
                         onClick = {
                             // Validate and save
                             if (title.isNotBlank() && withWhom.isNotBlank()) {
-                                val newMeeting = Meeting(
-                                    id = meeting?.id ?: 0,
-                                    title = title,
-                                    withWhom = withWhom,
-                                    location = location,
-                                    notes = notes,
-                                    startDate = selectedDate,
-                                    endDate = selectedDate,
-                                    date = selectedDate,
-                                    startTime = startTime,
-                                    endTime = endTime,
-                                    notificationsEnabled = notificationsEnabled
-                                )
-                                onSave(newMeeting)
+                                isSaving = true
+                                scope.launch {
+                                    try {
+                                        val newMeeting = Meeting(
+                                            id = meeting?.id ?: System.currentTimeMillis(),
+                                            title = title,
+                                            withWhom = withWhom,
+                                            location = location,
+                                            notes = notes,
+                                            startDate = selectedDate,
+                                            endDate = selectedDate,
+                                            date = selectedDate,
+                                            startTime = startTime,
+                                            endTime = endTime,
+                                            notificationsEnabled = notificationsEnabled
+                                        )
+                                        val success = viewModel.saveMeeting(newMeeting)
+                                        isSaving = false
+                                        if (success) {
+                                            Toast.makeText(context, "Meeting saved successfully", Toast.LENGTH_SHORT).show()
+                                            onSave(newMeeting)
+                                        } else {
+                                            Toast.makeText(context, "Failed to save meeting", Toast.LENGTH_SHORT).show()
+                                        }
+                                    } catch (e: Exception) {
+                                        isSaving = false
+                                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(context, "Title and With Whom are required", Toast.LENGTH_SHORT).show()
                             }
                         },
                         icon = if (isEditing) Icons.Outlined.Save else Icons.Outlined.Add,
                         modifier = Modifier.fillMaxWidth(),
-                        gradientColors = listOf(
-                            SoftUIColors.AccentBlue,
-                            SoftUIColors.AccentBlue.copy(alpha = 0.9f)
-                        )
+                        enabled = !isSaving,
+                        cornerRadius = 14.dp
                     )
 
                     // Text-only Cancel button
@@ -330,19 +351,91 @@ fun AddEditMeetingScreen(
 
     // Date Picker Dialog
     if (showDatePicker) {
-        // TODO: Implement Material3 DatePicker
-        showDatePicker = false
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = selectedDate.time
+        )
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let {
+                        selectedDate = Date(it)
+                    }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
     }
 
-    // Time Picker Dialogs
+    // Start Time Picker Dialog
     if (showStartTimePicker) {
-        // TODO: Implement Material3 TimePicker
-        showStartTimePicker = false
+        val cal = Calendar.getInstance().apply { time = startTime }
+        val timePickerState = rememberTimePickerState(
+            initialHour = cal.get(Calendar.HOUR_OF_DAY),
+            initialMinute = cal.get(Calendar.MINUTE)
+        )
+        AlertDialog(
+            onDismissRequest = { showStartTimePicker = false },
+            title = { Text("Start Time") },
+            text = { TimePicker(state = timePickerState) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val newCal = Calendar.getInstance()
+                    newCal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                    newCal.set(Calendar.MINUTE, timePickerState.minute)
+                    newCal.set(Calendar.SECOND, 0)
+                    startTime = newCal.time
+                    showStartTimePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showStartTimePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 
+    // End Time Picker Dialog
     if (showEndTimePicker) {
-        // TODO: Implement Material3 TimePicker
-        showEndTimePicker = false
+        val cal = Calendar.getInstance().apply { time = endTime }
+        val timePickerState = rememberTimePickerState(
+            initialHour = cal.get(Calendar.HOUR_OF_DAY),
+            initialMinute = cal.get(Calendar.MINUTE)
+        )
+        AlertDialog(
+            onDismissRequest = { showEndTimePicker = false },
+            title = { Text("End Time") },
+            text = { TimePicker(state = timePickerState) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val newCal = Calendar.getInstance()
+                    newCal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                    newCal.set(Calendar.MINUTE, timePickerState.minute)
+                    newCal.set(Calendar.SECOND, 0)
+                    endTime = newCal.time
+                    showEndTimePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showEndTimePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 

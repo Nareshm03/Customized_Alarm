@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── helpers ──────────────────────────────────────────────────────────────
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Reads the caller's own user doc to check role (safe for single-doc ops)
+    function callerRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isHOD() {
+      return isSignedIn() && callerRole() == 'hod';
+    }
+
+    // ── users ─────────────────────────────────────────────────────────────────
+    // Teachers read/write own profile; HOD can read all users (for dept list)
+    match /users/{userId} {
+      allow read:  if isOwner(userId) || isHOD();
+      allow write: if isOwner(userId);
+      // HOD querying users by department+role → allow authenticated list
+      allow list:  if isSignedIn();
+    }
+
+    // ── classes ───────────────────────────────────────────────────────────────
+    // Teachers query by teacherId; HOD queries by department
+    match /classes/{classId} {
+      // Single-doc read: own class OR HOD
+      allow get:    if isSignedIn() &&
+                       (resource.data.teacherId == request.auth.uid || isHOD());
+      // List / query: any signed-in user (server filters ensure correct data)
+      allow list:   if isSignedIn();
+      allow create: if isSignedIn() &&
+                       request.resource.data.teacherId == request.auth.uid;
+      allow update, delete: if isSignedIn() &&
+                               resource.data.teacherId == request.auth.uid;
+    }
+
+    // ── meetings ──────────────────────────────────────────────────────────────
+    match /meetings/{meetingId} {
+      allow get:    if isSignedIn() &&
+                       (resource.data.teacherId == request.auth.uid || isHOD());
+      allow list:   if isSignedIn();
+      allow create: if isSignedIn() &&
+                       request.resource.data.teacherId == request.auth.uid;
+      allow update, delete: if isSignedIn() &&
+                               resource.data.teacherId == request.auth.uid;
+    }
+
+    // ── tasks ─────────────────────────────────────────────────────────────────
+    // Teachers query by teacherId; HOD queries by departmentId+status
+    match /tasks/{taskId} {
+      allow get:    if isSignedIn() &&
+                       (resource.data.teacherId == request.auth.uid ||
+                        resource.data.assignedTo  == request.auth.uid ||
+                        isHOD());
+      allow list:   if isSignedIn();
+      allow create: if isSignedIn() &&
+                       (request.resource.data.teacherId == request.auth.uid || isHOD());
+      allow update: if isSignedIn() &&
+                       (resource.data.teacherId == request.auth.uid ||
+                        resource.data.assignedTo  == request.auth.uid ||
+                        isHOD());
+      allow delete: if isSignedIn() &&
+                       (resource.data.teacherId == request.auth.uid || isHOD());
+    }
+
+    // ── notices ───────────────────────────────────────────────────────────────
+    // HOD creates/edits notices for their department; teachers read
+    match /notices/{noticeId} {
+      allow get:    if isSignedIn();
+      allow list:   if isSignedIn();
+      allow create, update: if isHOD();
+      allow delete: if isHOD();
+    }
+
+    // ── departments ───────────────────────────────────────────────────────────
+    match /departments/{departmentId} {
+      allow read: if isSignedIn();
+      allow write: if isHOD();
+
+      // Sub-collections inside a department (tasks, notices, etc.)
+      match /{subcollection}/{docId} {
+        allow read: if isSignedIn();
+        allow write: if isHOD();
+      }
+    }
+
+    // ── department_notices (alternative flat collection) ──────────────────────
+    match /department_notices/{noticeId} {
+      allow read: if isSignedIn();
+      allow write: if isHOD();
+    }
+
+  }
+}

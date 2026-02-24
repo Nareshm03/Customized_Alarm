@@ -1,0 +1,49 @@
+﻿Reusing configuration cache.
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:injectCrashlyticsMappingFileIdDebug UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:processDebugGoogleServices UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:kspDebugKotlin
+> Task :app:compileDebugKotlin
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/features/department/ui/DepartmentResourcesScreen.kt:398:31 'val Icons.Filled.InsertDriveFile: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.InsertDriveFile.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/features/department/ui/NoticeDetailScreen.kt:53:44 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/features/department/ui/NoticeDetailScreen.kt:231:13 'fun LinearProgressIndicator(progress: Float, modifier: Modifier = ..., color: Color = ..., trackColor: Color = ..., strokeCap: StrokeCap = ...): Unit' is deprecated. Use the overload that takes `progress` as a lambda.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/features/department/ui/TeacherDepartmentTasksScreen.kt:277:31 'val Icons.Filled.Assignment: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Assignment.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/features/department/ui/UploadResourceScreen.kt:81:44 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:13:8 'class GoogleSignIn : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:14:8 'class GoogleSignInClient : GoogleApi<GoogleSignInOptions!>' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:15:8 'class GoogleSignInOptions : AbstractSafeParcelable, Api.ApiOptions.Optional, ReflectedParcelable' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:24:46 'class GoogleSignInClient : GoogleApi<GoogleSignInOptions!>' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:29:20 'class GoogleSignIn : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:43:19 'class GoogleSignInOptions : AbstractSafeParcelable, Api.ApiOptions.Optional, ReflectedParcelable' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:43:47 'class GoogleSignInOptions : AbstractSafeParcelable, Api.ApiOptions.Optional, ReflectedParcelable' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/LoginActivity.kt:48:30 'class GoogleSignIn : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/MeetingsFragment.kt:93:43 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/compose/EnhancedDashboardScreen.kt:409:58 'val Icons.Outlined.Assignment: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Outlined.Assignment.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/compose/LoginScreen.kt:168:49 'val outlinedButtonBorder: BorderStroke' is deprecated. Please use the version that takes an `enabled` param to get the `BorderStroke` with the correct opacity.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/compose/NotificationsScreen.kt:82:47 'val Icons.Outlined.VolumeUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Outlined.VolumeUp.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/ui/theme/Theme.kt:60:20 'var statusBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/viewmodel/DashboardViewModelRefactored.kt:35:11 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/viewmodel/NoticeResourceViewModel.kt:23:23 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/viewmodel/NoticeResourceViewModel.kt:28:11 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///D:/Projects/FSIPD/TeacherScheduler/app/src/main/java/com/example/teacherscheduler/viewmodel/NoticeResourceViewModel.kt:66:23 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+
+BUILD SUCCESSFUL in 2m 49s
+19 actionable tasks: 2 executed, 17 up-to-date
+Configuration cache entry reused.

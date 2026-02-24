@@ -42,7 +42,7 @@ fun PremiumCard(
     )
     
     val elevation by animateDpAsState(
-        targetValue = if (isPressed) 1.dp else 3.dp,
+        targetValue = if (isPressed) 2.dp else 6.dp,
         animationSpec = spring(dampingRatio = 0.8f),
         label = "cardElevation"
     )
@@ -64,10 +64,10 @@ fun PremiumCard(
                 spotColor = softShadowColor
             )
             .clip(shape)
-            .border(1.dp, Color(0xFFECE6DF), shape)
+            .border(0.5.dp, Color(0xFFE5E5EA), shape)
             .then(
-                if (gradientColors != null && gradientColors.size >= 2) {
-                    Modifier.background(Brush.linearGradient(gradientColors))
+                if (gradientColors != null && gradientColors.isNotEmpty()) {
+                    Modifier.background(gradientColors.first())
                 } else {
                     Modifier.background(Color.White)
                 }

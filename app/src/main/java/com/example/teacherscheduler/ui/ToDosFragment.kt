@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,14 +22,16 @@ import com.example.teacherscheduler.viewmodel.ToDoViewModel
 import com.example.teacherscheduler.viewmodel.UiState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ToDosFragment : Fragment() {
     private var _binding: FragmentTodosBinding? = null
     private val binding get() = _binding!!
     private lateinit var todoAdapter: ToDoAdapter
-    private lateinit var viewModel: ToDoViewModel
+    private val viewModel: ToDoViewModel by viewModels()
     private var allToDos: List<ToDo> = emptyList()
     private var currentFilter: FilterType = FilterType.ALL
     private var deletedToDo: ToDo? = null
@@ -50,13 +52,9 @@ class ToDosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.fadeIn()
-        viewModel = ViewModelProvider(this)[ToDoViewModel::class.java]
         setupRecyclerView()
         setupSearch()
         setupFilters()
-        setupRecyclerView()
-        setupFilters()
-        setupSearch()
         setupEmptyAction()
         setupObservers()
     }
@@ -67,8 +65,8 @@ class ToDosFragment : Fragment() {
             onItemClick = { todo ->
                 showAddEditToDoActivity(todo)
             },
-            onCheckClick = { todo, isCompleted ->
-                viewModel.toggleCompletion(todo.id, isCompleted)
+            onCheckClick = { todo, _ ->
+                viewModel.toggleCompletion(todo)
             },
             onEditClick = { todo ->
                 showAddEditToDoActivity(todo)
@@ -267,4 +265,3 @@ class ToDosFragment : Fragment() {
         _binding = null
     }
 }
-

@@ -7,7 +7,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.teacherscheduler.data.local.AppDatabase
-import com.example.teacherscheduler.data.remote.FirebaseService
+import com.example.teacherscheduler.firebase.FirebaseService
 import com.example.teacherscheduler.model.AppSettings
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.model.Meeting
@@ -53,7 +53,7 @@ class Repository(context: Context) {
      * All UI should observe this flow
      */
     fun getAllActiveClasses(): Flow<List<Class>> {
-        return classDao.getAllActiveClasses()
+        return firebaseService.getClassesFlow()
     }
 
     /**
@@ -108,31 +108,39 @@ class Repository(context: Context) {
 
     // Class operations (mutations)
     suspend fun insertClass(classItem: Class): Long {
-        val roomId = classDao.insert(classItem)
-        if (classItem.notificationsEnabled) {
-            notificationHelper.scheduleClassNotifications(classItem)
+        val success = firebaseService.syncClass(classItem)
+        if (success) {
+            // Also save to local DB for offline support
+            val roomId = classDao.insert(classItem)
+            if (classItem.notificationsEnabled) {
+                notificationHelper.scheduleClassNotifications(classItem)
+            }
+            DataEventManager.emit(DataEventManager.DataEvent.ClassAdded)
+            return roomId
         }
-        scheduleSync()
-        DataEventManager.emit(DataEventManager.DataEvent.ClassAdded)
-        return roomId
+        return 0L
     }
 
     suspend fun updateClass(classItem: Class) {
-        notificationHelper.cancelClassNotifications(classItem.id)
-        classDao.update(classItem)
-        if (classItem.notificationsEnabled) {
-            notificationHelper.scheduleClassNotifications(classItem)
+        val success = firebaseService.syncClass(classItem)
+        if (success) {
+            notificationHelper.cancelClassNotifications(classItem.id)
+            classDao.update(classItem)
+            if (classItem.notificationsEnabled) {
+                notificationHelper.scheduleClassNotifications(classItem)
+            }
+            DataEventManager.emit(DataEventManager.DataEvent.ClassUpdated)
         }
-        scheduleSync()
-        DataEventManager.emit(DataEventManager.DataEvent.ClassUpdated)
     }
 
     suspend fun deleteClass(classItem: Class) {
-        notificationHelper.cancelClassNotifications(classItem.id)
-        val inactiveClass = classItem.copy(isActive = false)
-        classDao.update(inactiveClass)
-        scheduleSync()
-        DataEventManager.emit(DataEventManager.DataEvent.ClassDeleted)
+        val success = firebaseService.deleteClass(classItem.id)
+        if (success) {
+            notificationHelper.cancelClassNotifications(classItem.id)
+            val inactiveClass = classItem.copy(isActive = false)
+            classDao.update(inactiveClass)
+            DataEventManager.emit(DataEventManager.DataEvent.ClassDeleted)
+        }
     }
 
     // Sync operations (non-reactive)

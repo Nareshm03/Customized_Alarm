@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ============================================ -->
-    <!-- NEW COLOR SYSTEM - Teacher-Friendly Dark Mode -->
+    <!-- APPLE-STYLE PREMIUM COLOR SYSTEM -->
     <!-- ============================================ -->
 
-    <!-- PRIMARY COLORS (Brand) -->
-    <color name="primary_purple">#E8CFC1</color>
-    <color name="primary_purple_pressed">#D4B8A8</color>
-    <color name="primary_purple_light">#F0DDD1</color>
-
-    <!-- SOFT UI NAVIGATION COLORS -->
-    <color name="soft_nav_background">#FFFFFF</color>
-    <color name="soft_nav_selected_bg">#F5D5D8</color> <!-- Soft pink pill background -->
-    <color name="soft_nav_icon_selected">#E8CFC1</color> <!-- Warm sand accent -->
-    <color name="soft_nav_icon_unselected">#9CA3AF</color> <!-- Muted grey -->
-    <color name="soft_nav_text_selected">#E8CFC1</color>
-    <color name="soft_nav_text_unselected">#9CA3AF</color>
+    <!-- PRIMARY COLORS -->
+    <color name="primary_purple">#F4E4E6</color>
+    <color name="primary_purple_pressed">#E8D0D3</color>
+    <color name="primary_purple_light">#F9F0F1</color>
 
     <!-- BACKGROUNDS -->
-    <color name="app_background">#0F0F14</color>
-    <color name="surface_card">#1A1B23</color>
-    <color name="elevated_card">#1F2030</color>
+    <color name="app_background">#FEFEFE</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="elevated_card">#FFFFFF</color>
 
     <!-- TEXT COLORS -->
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B3B6C9</color>
-    <color name="text_muted">#7C809B</color>
+    <color name="text_primary">#2C2C2E</color>
+    <color name="text_secondary">#8E8E93</color>
+    <color name="text_muted">#C7C7CC</color>
 
-    <!-- ACCENT COLORS - Feature Specific (One accent per feature rule) -->
-    <color name="accent_classes">#2ECC71</color>
-    <color name="accent_meetings">#F5A623</color>
-    <color name="accent_todos">#4DA3FF</color>
-    <color name="accent_alerts">#FF6B6B</color>
+    <!-- ACCENT COLORS -->
+    <color name="accent_pink">#F4E4E6</color>
+    <color name="accent_beige">#F5F1ED</color>
+    <color name="accent_classes">#F4E4E6</color>
+    <color name="accent_meetings">#F4E4E6</color>
+    <color name="accent_todos">#F4E4E6</color>
+    <color name="accent_alerts">#F4E4E6</color>
 
-    <!-- ACCENT COLOR VARIANTS (For hover/pressed states) -->
-    <color name="accent_classes_pressed">#27AE60</color>
-    <color name="accent_meetings_pressed">#E09419</color>
-    <color name="accent_todos_pressed">#3B8DD6</color>
-    <color name="accent_alerts_pressed">#E85555</color>
+    <!-- ACCENT VARIANTS -->
+    <color name="accent_classes_pressed">#E8D0D3</color>
+    <color name="accent_meetings_pressed">#E8D0D3</color>
+    <color name="accent_todos_pressed">#E8D0D3</color>
+    <color name="accent_alerts_pressed">#E8D0D3</color>
+
+    <!-- NAVIGATION COLORS -->
+    <color name="soft_nav_background">#FFFFFF</color>
+    <color name="soft_nav_selected_bg">#F4E4E6</color>
+    <color name="soft_nav_icon_selected">#2C2C2E</color>
+    <color name="soft_nav_icon_unselected">#8E8E93</color>
+    <color name="soft_nav_text_selected">#2C2C2E</color>
+    <color name="soft_nav_text_unselected">#8E8E93</color>
 
     <!-- ============================================ -->
     <!-- LEGACY COMPATIBILITY COLORS -->
@@ -87,104 +89,101 @@
     <color name="notification_test_text_secondary">@color/text_secondary</color>
 
     <!-- ============================================ -->
-    <!-- THEME COLORS - LIGHT MODE -->
+    <!-- THEME COLORS -->
     <!-- ============================================ -->
-    <color name="primary_light">@color/primary_purple</color>
+    <color name="primary_light">@color/accent_pink</color>
     <color name="on_primary_light">#FFFFFF</color>
-    <color name="primary_container_light">#E8E4FF</color>
-    <color name="on_primary_container_light">@color/primary_purple_pressed</color>
-    <color name="secondary_light">@color/primary_purple_light</color>
-    <color name="on_secondary_light">#FFFFFF</color>
-    <color name="secondary_container_light">#E8E4FF</color>
-    <color name="on_secondary_container_light">#2A2435</color>
-    <color name="background_light">#FAFAFC</color>
-    <color name="on_background_light">#1A1A1F</color>
+    <color name="primary_container_light">#FFFFFF</color>
+    <color name="on_primary_container_light">@color/text_primary</color>
+    <color name="secondary_light">@color/accent_beige</color>
+    <color name="on_secondary_light">@color/text_primary</color>
+    <color name="secondary_container_light">#FFFFFF</color>
+    <color name="on_secondary_container_light">@color/text_primary</color>
+    <color name="background_light">#F5F5F7</color>
+    <color name="on_background_light">@color/text_primary</color>
     <color name="surface_light">#FFFFFF</color>
-    <color name="on_surface_light">#1A1A1F</color>
-    <color name="surface_variant_light">#E7E7EE</color>
-    <color name="on_surface_variant_light">#5A5A66</color>
-    <color name="text_primary_light">#1A1A1F</color>
-    <color name="text_secondary_light">#5A5A66</color>
-    <color name="outline_light">#A0A0B0</color>
+    <color name="on_surface_light">@color/text_primary</color>
+    <color name="surface_variant_light">#FFFFFF</color>
+    <color name="on_surface_variant_light">@color/text_secondary</color>
+    <color name="text_primary_light">@color/text_primary</color>
+    <color name="text_secondary_light">@color/text_secondary</color>
+    <color name="outline_light">@color/text_secondary</color>
 
-    <!-- ============================================ -->
-    <!-- THEME COLORS - DARK MODE (NEW SYSTEM) -->
-    <!-- ============================================ -->
-    <color name="primary_dark">@color/primary_purple</color>
-    <color name="on_primary_dark">@color/text_primary</color>
-    <color name="primary_container_dark">@color/elevated_card</color>
+    <color name="primary_dark">@color/accent_pink</color>
+    <color name="on_primary_dark">#FFFFFF</color>
+    <color name="primary_container_dark">#FFFFFF</color>
     <color name="on_primary_container_dark">@color/text_primary</color>
-    <color name="secondary_dark">@color/primary_purple_light</color>
+    <color name="secondary_dark">@color/accent_beige</color>
     <color name="on_secondary_dark">@color/text_primary</color>
-    <color name="secondary_container_dark">@color/elevated_card</color>
-    <color name="on_secondary_container_dark">@color/text_secondary</color>
-    <color name="background_dark">@color/app_background</color>
+    <color name="secondary_container_dark">#FFFFFF</color>
+    <color name="on_secondary_container_dark">@color/text_primary</color>
+    <color name="background_dark">#F5F5F7</color>
     <color name="on_background_dark">@color/text_primary</color>
-    <color name="surface_dark">@color/surface_card</color>
+    <color name="surface_dark">#FFFFFF</color>
     <color name="on_surface_dark">@color/text_primary</color>
-    <color name="surface_variant_dark">@color/elevated_card</color>
+    <color name="surface_variant_dark">#FFFFFF</color>
     <color name="on_surface_variant_dark">@color/text_secondary</color>
     <color name="text_primary_dark">@color/text_primary</color>
     <color name="text_secondary_dark">@color/text_secondary</color>
 
     <!-- Enhanced UI Colors -->
-    <color name="card_background">@color/surface_card</color>
-    <color name="card_shadow">#1A000000</color>
-    <color name="ripple_color">#1A6C5CE7</color>
-    <color name="gradient_start">@color/primary_purple</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="card_shadow">#0A000000</color>
+    <color name="ripple_color">#1AFF2D55</color>
+    <color name="gradient_start">@color/accent_pink</color>
     <color name="gradient_end">@color/primary_purple_pressed</color>
     
     <!-- Premium Button Colors -->
-    <color name="lavender_start">#E8CFC1</color>
-    <color name="lavender_end">#D8B4A0</color>
+    <color name="lavender_start">@color/accent_pink</color>
+    <color name="lavender_end">@color/primary_purple_pressed</color>
 
     <!-- ============================================ -->
     <!-- FEATURE-SPECIFIC COLORS (Using new accents) -->
     <!-- ============================================ -->
 
-    <!-- Class Colors (Green Accent) -->
-    <color name="class_color_primary">@color/accent_classes</color>
-    <color name="class_color_secondary">#234D35</color>
-    <color name="class_color_container">@color/surface_card</color>
+    <!-- Class Colors -->
+    <color name="class_color_primary">@color/accent_pink</color>
+    <color name="class_color_secondary">@color/text_secondary</color>
+    <color name="class_color_container">#FFFFFF</color>
     <color name="on_class_color_container">@color/text_primary</color>
 
-    <!-- Meeting Colors (Amber Accent) -->
-    <color name="meeting_color_primary">@color/accent_meetings</color>
-    <color name="meeting_color_secondary">#5A3F15</color>
-    <color name="meeting_color_container">@color/surface_card</color>
+    <!-- Meeting Colors -->
+    <color name="meeting_color_primary">@color/accent_pink</color>
+    <color name="meeting_color_secondary">@color/text_secondary</color>
+    <color name="meeting_color_container">#FFFFFF</color>
     <color name="on_meeting_color_container">@color/text_primary</color>
 
-    <!-- Status Colors (Using new accent system) -->
-    <color name="status_active">@color/accent_classes</color>
-    <color name="status_pending">@color/accent_meetings</color>
-    <color name="status_completed">@color/text_muted</color>
-    <color name="status_cancelled">@color/accent_alerts</color>
+    <!-- Status Colors -->
+    <color name="status_active">@color/accent_pink</color>
+    <color name="status_pending">@color/accent_beige</color>
+    <color name="status_completed">@color/text_secondary</color>
+    <color name="status_cancelled">@color/text_secondary</color>
 
     <!-- Legacy Status Colors -->
-    <color name="colorSuccess">@color/accent_classes</color>
-    <color name="colorWarning">@color/accent_meetings</color>
-    <color name="colorError">@color/accent_alerts</color>
-    <color name="colorInfo">@color/accent_todos</color>
+    <color name="colorSuccess">@color/accent_pink</color>
+    <color name="colorWarning">@color/accent_beige</color>
+    <color name="colorError">@color/accent_pink</color>
+    <color name="colorInfo">@color/accent_beige</color>
 
     <!-- Completion Status Colors -->
-    <color name="completed_background">@color/elevated_card</color>
-    <color name="completed_text">@color/accent_classes</color>
+    <color name="completed_background">#FFFFFF</color>
+    <color name="completed_text">@color/accent_pink</color>
 
-    <!-- ToDo Priority Colors (Using new accent system) -->
-    <color name="priority_low">@color/accent_classes</color>
-    <color name="priority_medium">@color/accent_meetings</color>
-    <color name="priority_high">@color/accent_alerts</color>
-    <color name="priority_urgent">@color/accent_alerts_pressed</color>
+    <!-- ToDo Priority Colors -->
+    <color name="priority_low">@color/accent_beige</color>
+    <color name="priority_medium">@color/accent_beige</color>
+    <color name="priority_high">@color/accent_pink</color>
+    <color name="priority_urgent">@color/accent_pink</color>
 
-    <!-- Timetable Colors (Subtle dark mode versions) -->
-    <color name="monday_color">#1A2533</color>
-    <color name="tuesday_color">#1F2A1F</color>
-    <color name="wednesday_color">#2A251A</color>
-    <color name="thursday_color">#2A1F2D</color>
-    <color name="friday_color">#1A2A29</color>
-    <color name="saturday_color">#2A2A1A</color>
-    <color name="sunday_color">#2A1F1F</color>
-    <color name="timetable_grid_line">@color/text_muted</color>
-    <color name="timetable_header_text">@color/text_secondary</color>
-    <color name="timetable_time_text">@color/text_muted</color>
+    <!-- Timetable Colors -->
+    <color name="monday_color">#FFFFFF</color>
+    <color name="tuesday_color">#FFFFFF</color>
+    <color name="wednesday_color">#FFFFFF</color>
+    <color name="thursday_color">#FFFFFF</color>
+    <color name="friday_color">#FFFFFF</color>
+    <color name="saturday_color">#FFFFFF</color>
+    <color name="sunday_color">#FFFFFF</color>
+    <color name="timetable_grid_line">@color/text_secondary</color>
+    <color name="timetable_header_text">@color/text_primary</color>
+    <color name="timetable_time_text">@color/text_secondary</color>
 </resources>

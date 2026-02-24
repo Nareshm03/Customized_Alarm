@@ -191,13 +191,13 @@ private fun SearchField(
         singleLine = true,
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = Color(0xFFF7F4EF),
-            unfocusedContainerColor = Color(0xFFF7F4EF),
+            focusedContainerColor = Color(0xFFF2F2F7),
+            unfocusedContainerColor = Color(0xFFF2F2F7),
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             focusedTextColor = TextPrimary,
             unfocusedTextColor = TextPrimary,
-            cursorColor = Color(0xFFD8B4A0)
+            cursorColor = Color(0xFF007AFF)
         )
     )
 }
@@ -244,7 +244,7 @@ private fun ResourceCard(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF7F4EF)),
+                    .background(Color(0xFFF2F2F7)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

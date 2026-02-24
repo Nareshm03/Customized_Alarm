@@ -119,13 +119,7 @@ fun DashboardScreen(
                             rowItems.forEachIndexed { index, classItem ->
                                 ClassGridCard(
                                     classItem = classItem,
-                                    modifier = Modifier.weight(1f),
-                                    accentColor = if (index % 2 == 0) 
-                                        SoftUIColors.AccentLavender else SoftUIColors.AccentBlue,
-                                    gradientColors = if (index % 2 == 0)
-                                        listOf(SoftUIColors.LavenderGradientStart, SoftUIColors.LavenderGradientEnd)
-                                    else
-                                        listOf(SoftUIColors.BlueGradientStart, SoftUIColors.BlueGradientEnd)
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
                             if (rowItems.size == 1) {
@@ -168,7 +162,7 @@ fun DashboardScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = Color(0xFFD8B4A0))
+                CircularProgressIndicator(color = Primary)
             }
         }
     }
@@ -192,8 +186,8 @@ private fun MinimalTopArea(
             SoftProfileAvatar(
                 size = 52.dp,
                 icon = Icons.Outlined.Person,
-                gradientColors = listOf(Color(0xFFF7F4EF), Color(0xFFFAF7F2)),
-                iconTint = Color(0xFF2B2B2B),
+                gradientColors = listOf(PrimaryContainer, PrimaryContainer),
+                iconTint = Primary,
                 borderWidth = 0.dp
             )
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -319,8 +313,8 @@ private fun NextClassHeroCard(
 private fun ClassGridCard(
     classItem: Class,
     modifier: Modifier = Modifier,
-    accentColor: Color = SoftUIColors.AccentLavender,
-    gradientColors: List<Color> = listOf(SoftUIColors.LavenderGradientStart, SoftUIColors.LavenderGradientEnd)
+    accentColor: Color = Primary,
+    gradientColors: List<Color> = listOf(PrimaryContainer, PrimaryContainer)
 ) {
     PremiumCard(
         modifier = modifier.aspectRatio(0.85f)
@@ -333,13 +327,13 @@ private fun ClassGridCard(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF7F4EF)),
+                    .background(PrimaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.School,
                     contentDescription = null,
-                    tint = Color(0xFF2B2B2B),
+                    tint = Primary,
                     modifier = Modifier.size(20.dp)
                 )
             }

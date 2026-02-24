@@ -24,6 +24,7 @@ import com.example.teacherscheduler.model.ToDo
 import com.example.teacherscheduler.ui.compose.components.*
 import com.example.teacherscheduler.ui.theme.*
 import com.example.teacherscheduler.viewmodel.ToDoViewModel
+import com.example.teacherscheduler.viewmodel.UserViewModel
 import com.example.teacherscheduler.viewmodel.ToDosData
 import com.example.teacherscheduler.viewmodel.UiState
 import java.text.SimpleDateFormat
@@ -33,15 +34,23 @@ import java.util.*
 @Composable
 fun ToDosScreen(
     viewModel: ToDoViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel(),
     onToDoClick: (Long) -> Unit,
     onAddToDo: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isHOD by userViewModel.isHOD.collectAsStateWithLifecycle()
+    var showDepartmentTasks by remember { mutableStateOf(false) }
 
-    val (todos, pendingCount, overdueCount) = when (uiState) {
+    val (todos, pendingCount, overdueCount) = when (val state = uiState) {
         is UiState.Success -> {
-            val data = (uiState as UiState.Success<ToDosData>).data
-            Triple(data.todos, data.pendingCount, data.overdueCount)
+            val data = state.data
+            val filteredTodos = if (isHOD && showDepartmentTasks) {
+                data.todos.filter { it.isDepartmentTask }
+            } else {
+                data.todos.filter { !it.isDepartmentTask || it.assignedTo.isNotEmpty() }
+            }
+            Triple(filteredTodos, data.pendingCount, data.overdueCount)
         }
         else -> Triple(emptyList(), 0, 0)
     }
@@ -49,12 +58,29 @@ fun ToDosScreen(
     Scaffold(
         containerColor = BackgroundPrimary,
         floatingActionButton = {
-            IconCircleButton(
-                icon = Icons.Default.Add,
-                onClick = onAddToDo,
-                contentDescription = "Add Task",
-                size = 56.dp
-            )
+            if (isHOD) {
+                FloatingActionButton(
+                    onClick = onAddToDo,
+                    containerColor = SoftUIColors.AccentPeach,
+                    contentColor = Color.White
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = null)
+                        Text("Assign Task")
+                    }
+                }
+            } else {
+                IconCircleButton(
+                    icon = Icons.Default.Add,
+                    onClick = onAddToDo,
+                    contentDescription = "Add Task",
+                    size = 56.dp
+                )
+            }
         }
     ) { padding ->
         LazyColumn(
@@ -70,13 +96,57 @@ fun ToDosScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             item {
-                Text(
-                    text = "Tasks",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Medium
-                    ),
-                    color = TextPrimary
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Tasks",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
+                        color = TextPrimary
+                    )
+                    if (isHOD) {
+                        SoftChip(
+                            text = "HOD",
+                            selected = true,
+                            selectedBackgroundColor = SoftUIColors.AccentPeach,
+                            selectedTextColor = Color.White
+                        )
+                    }
+                }
+            }
+
+            if (isHOD) {
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        FilterChip(
+                            selected = !showDepartmentTasks,
+                            onClick = { showDepartmentTasks = false },
+                            label = { Text("My Tasks") },
+                            modifier = Modifier.weight(1f),
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = Primary,
+                                selectedLabelColor = Color.White
+                            )
+                        )
+                        FilterChip(
+                            selected = showDepartmentTasks,
+                            onClick = { showDepartmentTasks = true },
+                            label = { Text("Department Tasks") },
+                            modifier = Modifier.weight(1f),
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = SoftUIColors.AccentPeach,
+                                selectedLabelColor = Color.White
+                            )
+                        )
+                    }
+                }
             }
 
             item {
@@ -124,7 +194,8 @@ fun ToDosScreen(
                 ) { todo ->
                     ToDoCard(
                         todo = todo,
-                        onToggle = { viewModel.toggleCompletion(todo.id, !todo.isCompleted) },
+                        isHOD = isHOD,
+                        onToggle = { viewModel.toggleCompletion(todo) },
                         onClick = { onToDoClick(todo.id) }
                     )
                 }
@@ -163,6 +234,7 @@ private fun StatCard(
 @Composable
 private fun ToDoCard(
     todo: ToDo,
+    isHOD: Boolean,
     onToggle: () -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -180,8 +252,8 @@ private fun ToDoCard(
                 checked = todo.isCompleted,
                 onCheckedChange = { onToggle() },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = Color(0xFFD8B4A0),
-                    uncheckedColor = Color(0xFFECE6DF)
+                    checkedColor = Color(0xFF34C759),
+                    uncheckedColor = Color(0xFFC7C7CC)
                 )
             )
 
@@ -189,14 +261,28 @@ private fun ToDoCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(
-                    text = todo.title,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        textDecoration = if (todo.isCompleted) TextDecoration.LineThrough else null
-                    ),
-                    color = if (todo.isCompleted) TextSecondary else TextPrimary
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = todo.title,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Medium,
+                            textDecoration = if (todo.isCompleted) TextDecoration.LineThrough else null
+                        ),
+                        color = if (todo.isCompleted) TextSecondary else TextPrimary,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    if (todo.isDepartmentTask) {
+                        SoftChip(
+                            text = "Dept",
+                            selected = true,
+                            selectedBackgroundColor = SoftUIColors.AccentPeach.copy(alpha = 0.2f),
+                            selectedTextColor = SoftUIColors.AccentPeach
+                        )
+                    }
+                }
                 
                 if (todo.description.isNotEmpty()) {
                     Text(
@@ -229,6 +315,14 @@ private fun ToDoCard(
                             else -> TextSecondary
                         }
                     )
+                    
+                    if (isHOD && todo.assignedToName.isNotEmpty()) {
+                        Text(
+                            text = "→ ${todo.assignedToName}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = TextSecondary
+                        )
+                    }
                 }
             }
         }

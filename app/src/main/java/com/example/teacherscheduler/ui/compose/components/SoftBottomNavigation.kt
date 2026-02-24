@@ -65,8 +65,8 @@ fun SoftBottomNavigation(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
-                .padding(horizontal = 8.dp, vertical = 12.dp),
+                .height(84.dp)
+                .padding(horizontal = 8.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -104,14 +104,14 @@ private fun SoftBottomNavItem(
 
     // Animate icon color
     val iconColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFF2B2B2B) else Color(0xFF9E9E9E),
+        targetValue = if (selected) Color(0xFF2C2C2E) else Color(0xFF8E8E93),
         animationSpec = tween(durationMillis = 200),
         label = "iconColor"
     )
 
     // Animate label color
     val labelColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFF2B2B2B) else Color(0xFF9E9E9E),
+        targetValue = if (selected) Color(0xFF2C2C2E) else Color(0xFF8E8E93),
         animationSpec = tween(durationMillis = 200),
         label = "labelColor"
     )
@@ -145,7 +145,7 @@ private fun SoftBottomNavItem(
                     .fillMaxWidth(0.9f)
                     .height(56.dp)
                     .clip(RoundedCornerShape(28.dp))
-                    .background(Color(0xFFEFE4DD))
+                    .background(Color(0xFFF4E4E6))
             )
         }
 
@@ -153,7 +153,9 @@ private fun SoftBottomNavItem(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier
+                .padding(vertical = 6.dp)
+                .heightIn(min = 52.dp)
         ) {
             // Icon
             Icon(
@@ -163,15 +165,15 @@ private fun SoftBottomNavItem(
                 modifier = Modifier.size(24.dp)
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
-            // Label - always visible but smaller
+            // Label - always visible
             Text(
                 text = item.label,
                 style = MaterialTheme.typography.labelSmall.copy(
-                    fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
-                    fontSize = 11.sp,
-                    letterSpacing = 0.3.sp
+                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
+                    fontSize = 12.sp,
+                    letterSpacing = 0.1.sp
                 ),
                 color = labelColor,
                 maxLines = 1,
@@ -244,13 +246,13 @@ private fun CompactNavItem(
     )
 
     val iconColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFF2B2B2B) else Color(0xFF9E9E9E),
+        targetValue = if (selected) Color(0xFF007AFF) else Color(0xFF8E8E93),
         animationSpec = tween(durationMillis = 200),
         label = "compactIconColor"
     )
 
     val labelColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFF2B2B2B) else Color(0xFF9E9E9E),
+        targetValue = if (selected) Color(0xFF007AFF) else Color(0xFF8E8E93),
         animationSpec = tween(durationMillis = 200),
         label = "compactLabelColor"
     )
@@ -271,14 +273,17 @@ private fun CompactNavItem(
         AnimatedVisibility(
             visible = selected,
             enter = fadeIn(tween(300)) + scaleIn(tween(300), initialScale = 0.85f),
-            exit = fadeOut(tween(200)) + scaleOut(tween(200), targetScale = 0.85f)
+            exit = fadeOut(tween(200)) + scaleOut(
+                animationSpec = tween(200),
+                targetScale = 0.85f
+            )
         ) {
             Box(
                 modifier = Modifier
                     .height(40.dp)
                     .widthIn(min = 80.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(Color(0xFFEFE4DD))
+                    .background(Color(0xFFF4E4E6))
             )
         }
 
@@ -317,4 +322,3 @@ private fun CompactNavItem(
         }
     }
 }
-

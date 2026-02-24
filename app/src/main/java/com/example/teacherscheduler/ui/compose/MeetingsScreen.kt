@@ -41,12 +41,20 @@ fun MeetingsScreen(
         else -> emptyList()
     }
 
-    val filteredMeetings = if (searchQuery.isEmpty()) {
-        meetings
-    } else {
-        meetings.filter {
-            it.title.contains(searchQuery, ignoreCase = true) ||
-            it.location.contains(searchQuery, ignoreCase = true)
+    LaunchedEffect(searchQuery) {
+        // Trigger search when query changes
+        // The filteredMeetings will automatically update due to remember
+    }
+
+    val filteredMeetings = remember(meetings, searchQuery) {
+        if (searchQuery.isEmpty()) {
+            meetings
+        } else {
+            meetings.filter {
+                it.title.contains(searchQuery, ignoreCase = true) ||
+                it.location.contains(searchQuery, ignoreCase = true) ||
+                it.notes.contains(searchQuery, ignoreCase = true)
+            }
         }
     }
 
@@ -161,13 +169,13 @@ private fun SearchField(
         singleLine = true,
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = Color(0xFFF7F4EF),
-            unfocusedContainerColor = Color(0xFFF7F4EF),
+            focusedContainerColor = Color(0xFFF2F2F7),
+            unfocusedContainerColor = Color(0xFFF2F2F7),
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             focusedTextColor = TextPrimary,
             unfocusedTextColor = TextPrimary,
-            cursorColor = Color(0xFFD8B4A0)
+            cursorColor = Color(0xFF007AFF)
         )
     )
 }
@@ -191,13 +199,13 @@ private fun MeetingCard(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF7F4EF)),
+                    .background(Color(0xFFE3F2FD)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Event,
                     contentDescription = null,
-                    tint = Color(0xFF2B2B2B),
+                    tint = Color(0xFF007AFF),
                     modifier = Modifier.size(20.dp)
                 )
             }

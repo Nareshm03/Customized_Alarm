@@ -1,5 +1,6 @@
 package com.example.teacherscheduler.ui.compose
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,11 +16,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.teacherscheduler.model.Class
 import com.example.teacherscheduler.ui.compose.components.*
 import com.example.teacherscheduler.ui.theme.*
+import com.example.teacherscheduler.util.HapticFeedback
+import com.example.teacherscheduler.util.rememberHapticFeedback
+import com.example.teacherscheduler.viewmodel.AddEditClassViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +50,14 @@ fun AddEditClassScreen(
     onCancel: () -> Unit,
     onDelete: (() -> Unit)? = null
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val viewModel: AddEditClassViewModel = hiltViewModel()
+    val haptic = rememberHapticFeedback()
+    
+    var isSaving by remember { mutableStateOf(false) }
+    var showError by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
     // State variables
     var subject by remember { mutableStateOf(classItem?.subject ?: "") }
     var department by remember { mutableStateOf(classItem?.department ?: "") }
@@ -105,12 +120,8 @@ fun AddEditClassScreen(
             ) {
                 // Header Card
                 SoftCard(
-                    cornerRadius = 20.dp,
-                    elevation = 2.dp,
-                    gradientColors = listOf(
-                        SoftUIColors.LavenderGradientStart,
-                        SoftUIColors.LavenderGradientEnd
-                    )
+                    cornerRadius = 16.dp,
+                    elevation = 2.dp
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -120,7 +131,7 @@ fun AddEditClassScreen(
                             modifier = Modifier
                                 .size(48.dp)
                                 .background(
-                                    color = SoftUIColors.AccentLavender.copy(alpha = 0.2f),
+                                    color = PrimaryContainer,
                                     shape = RoundedCornerShape(14.dp)
                                 ),
                             contentAlignment = Alignment.Center
@@ -128,7 +139,7 @@ fun AddEditClassScreen(
                             Icon(
                                 imageVector = Icons.Outlined.School,
                                 contentDescription = null,
-                                tint = SoftUIColors.AccentLavender,
+                                tint = Primary,
                                 modifier = Modifier.size(24.dp)
                             )
                         }
@@ -160,7 +171,7 @@ fun AddEditClassScreen(
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
-                            color = SoftUIColors.AccentLavender
+                            color = Primary
                         )
 
                         // Subject Field
@@ -202,7 +213,7 @@ fun AddEditClassScreen(
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
-                            color = SoftUIColors.AccentLavender
+                            color = Primary
                         )
 
                         // Date Selector
@@ -247,7 +258,7 @@ fun AddEditClassScreen(
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
-                            color = SoftUIColors.AccentLavender
+                            color = Primary
                         )
 
                         // Notifications Toggle
@@ -312,31 +323,85 @@ fun AddEditClassScreen(
                     RoundedPrimaryButton(
                         text = if (isEditing) "Save Changes" else "Create Class",
                         onClick = {
-                            // Validate and save
-                            if (subject.isNotBlank() && department.isNotBlank()) {
-                                val newClass = Class(
-                                    id = classItem?.id ?: 0,
-                                    subject = subject,
-                                    department = department,
-                                    roomNumber = roomNumber,
-                                    startDate = selectedDate,
-                                    endDate = selectedDate,
-                                    startTime = startTime,
-                                    endTime = endTime,
-                                    notificationsEnabled = notificationsEnabled,
-                                    isRecurring = isRecurring
-                                )
-                                onSave(newClass)
+                            // Validate
+                            when {
+                                subject.isBlank() -> {
+                                    errorMessage = "Subject is required"
+                                    showError = true
+                                }
+                                department.isBlank() -> {
+                                    errorMessage = "Department is required"
+                                    showError = true
+                                }
+                                roomNumber.isBlank() -> {
+                                    errorMessage = "Room number is required"
+                                    showError = true
+                                }
+                                else -> {
+                                    haptic(HapticFeedback.HapticType.HEAVY_CLICK)
+                                    isSaving = true
+                                    scope.launch {
+                                        try {
+                                            val newClass = Class(
+                                                id = classItem?.id ?: System.currentTimeMillis(),
+                                                subject = subject,
+                                                department = department,
+                                                roomNumber = roomNumber,
+                                                startDate = selectedDate,
+                                                endDate = selectedDate,
+                                                startTime = startTime,
+                                                endTime = endTime,
+                                                notificationsEnabled = notificationsEnabled,
+                                                isRecurring = isRecurring,
+                                                daysOfWeek = if (isRecurring) {
+                                                    selectedDays.map { day ->
+                                                        when (day) {
+                                                            "Mon" -> Calendar.MONDAY
+                                                            "Tue" -> Calendar.TUESDAY
+                                                            "Wed" -> Calendar.WEDNESDAY
+                                                            "Thu" -> Calendar.THURSDAY
+                                                            "Fri" -> Calendar.FRIDAY
+                                                            "Sat" -> Calendar.SATURDAY
+                                                            "Sun" -> Calendar.SUNDAY
+                                                            else -> Calendar.MONDAY
+                                                        }
+                                                    }
+                                                } else emptyList()
+                                            )
+                                            
+                                            val success = viewModel.saveClass(newClass)
+                                            isSaving = false
+                                            
+                                            if (success) {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Class saved successfully",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                onSave(newClass)
+                                            } else {
+                                                errorMessage = "Failed to save class. Please check your connection."
+                                                showError = true
+                                            }
+                                        } catch (e: Exception) {
+                                            isSaving = false
+                                            errorMessage = "Error: ${e.message}"
+                                            showError = true
+                                        }
+                                    }
+                                }
                             }
                         },
                         icon = if (isEditing) Icons.Outlined.Save else Icons.Outlined.Add,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !isSaving && subject.isNotBlank() && department.isNotBlank() && roomNumber.isNotBlank()
                     )
 
                     // Text-only Cancel button
                     TextButton(
                         onClick = onCancel,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !isSaving
                     ) {
                         Text(
                             text = "Cancel",
@@ -344,6 +409,20 @@ fun AddEditClassScreen(
                                 fontWeight = FontWeight.Medium
                             ),
                             color = TextSecondary
+                        )
+                    }
+                }
+
+                // Loading indicator
+                if (isSaving) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            color = Primary,
+                            strokeWidth = 3.dp,
+                            modifier = Modifier.size(32.dp)
                         )
                     }
                 }
@@ -356,20 +435,99 @@ fun AddEditClassScreen(
 
     // Date Picker Dialog
     if (showDatePicker) {
-        // TODO: Implement Material3 DatePicker
-        // For now using a placeholder
-        showDatePicker = false
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = selectedDate.time
+        )
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let {
+                        selectedDate = Date(it)
+                    }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
     }
 
-    // Time Picker Dialogs
+    // Start Time Picker Dialog
     if (showStartTimePicker) {
-        // TODO: Implement Material3 TimePicker
-        showStartTimePicker = false
+        val cal = Calendar.getInstance().apply { time = startTime }
+        val timePickerState = rememberTimePickerState(
+            initialHour = cal.get(Calendar.HOUR_OF_DAY),
+            initialMinute = cal.get(Calendar.MINUTE)
+        )
+        AlertDialog(
+            onDismissRequest = { showStartTimePicker = false },
+            title = { Text("Start Time") },
+            text = { TimePicker(state = timePickerState) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val newCal = Calendar.getInstance()
+                    newCal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                    newCal.set(Calendar.MINUTE, timePickerState.minute)
+                    newCal.set(Calendar.SECOND, 0)
+                    startTime = newCal.time
+                    showStartTimePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showStartTimePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 
+    // End Time Picker Dialog
     if (showEndTimePicker) {
-        // TODO: Implement Material3 TimePicker
-        showEndTimePicker = false
+        val cal = Calendar.getInstance().apply { time = endTime }
+        val timePickerState = rememberTimePickerState(
+            initialHour = cal.get(Calendar.HOUR_OF_DAY),
+            initialMinute = cal.get(Calendar.MINUTE)
+        )
+        AlertDialog(
+            onDismissRequest = { showEndTimePicker = false },
+            title = { Text("End Time") },
+            text = { TimePicker(state = timePickerState) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val newCal = Calendar.getInstance()
+                    newCal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                    newCal.set(Calendar.MINUTE, timePickerState.minute)
+                    newCal.set(Calendar.SECOND, 0)
+                    endTime = newCal.time
+                    showEndTimePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showEndTimePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    // Error Display
+    if (showError) {
+        LaunchedEffect(showError) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            showError = false
+        }
     }
 }
 
@@ -433,7 +591,7 @@ private fun SoftTextField(
                     Icon(
                         imageVector = leadingIcon,
                         contentDescription = null,
-                        tint = SoftUIColors.AccentLavender
+                        tint = Primary
                     )
                 }
             } else null,
@@ -443,11 +601,11 @@ private fun SoftTextField(
                 focusedContainerColor = SoftUIColors.ChipBackground,
                 unfocusedContainerColor = SoftUIColors.ChipBackground,
                 disabledContainerColor = SoftUIColors.ChipBackground,
-                focusedBorderColor = SoftUIColors.AccentLavender.copy(alpha = 0.5f),
+                focusedBorderColor = Primary.copy(alpha = 0.5f),
                 unfocusedBorderColor = Color.Transparent,
                 focusedTextColor = TextPrimary,
                 unfocusedTextColor = TextPrimary,
-                cursorColor = SoftUIColors.AccentLavender
+                cursorColor = Primary
             ),
             textStyle = MaterialTheme.typography.bodyLarge
         )
@@ -498,7 +656,7 @@ private fun SoftSelectButton(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = SoftUIColors.AccentLavender,
+                        tint = Primary,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
@@ -551,7 +709,7 @@ private fun SoftToggleRow(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = SoftUIColors.AccentLavender,
+                    tint = Primary,
                     modifier = Modifier.size(20.dp)
                 )
                 Column {
@@ -575,7 +733,7 @@ private fun SoftToggleRow(
                 onCheckedChange = onCheckedChange,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.White,
-                    checkedTrackColor = SoftUIColors.AccentLavender,
+                    checkedTrackColor = Primary,
                     uncheckedThumbColor = Color.White,
                     uncheckedTrackColor = OutlineLight,
                     uncheckedBorderColor = OutlineLight

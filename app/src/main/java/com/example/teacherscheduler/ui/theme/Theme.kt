@@ -24,12 +24,20 @@ import androidx.core.view.WindowCompat
  */
 
 private val PremiumLightColorScheme = lightColorScheme(
-    background = Color(0xFFF7F4EF),
+    background = Color(0xFFF2F2F7),         // iOS system grey 6
     surface = Color.White,
-    primary = Color(0xFFE8CFC1),
-    onPrimary = Color(0xFF2B2B2B),
-    onBackground = Color(0xFF2B2B2B),
-    onSurface = Color(0xFF2B2B2B)
+    primary = Color(0xFF007AFF),             // iOS blue
+    onPrimary = Color.White,
+    onBackground = Color(0xFF1C1C1E),
+    onSurface = Color(0xFF1C1C1E),
+    primaryContainer = Color(0xFFE8F0FE),
+    onPrimaryContainer = Color(0xFF1A1A1A),
+    secondaryContainer = Color(0xFFE8F8EE),
+    onSecondaryContainer = Color(0xFF1A1A1A),
+    outline = Color(0xFFC7C7CC),
+    outlineVariant = Color(0xFFD1D1D6),
+    surfaceVariant = Color(0xFFF2F2F7),
+    error = Color(0xFFFF3B30)
 )
 
 // Custom shapes for the app - Large rounded corners
@@ -49,7 +57,7 @@ fun TeacherSchedulerTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Color(0xFFF7F4EF).toArgb()
+            window.statusBarColor = Color(0xFFF2F2F7).toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
         }
     }

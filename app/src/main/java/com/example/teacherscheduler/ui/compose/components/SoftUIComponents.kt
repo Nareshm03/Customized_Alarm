@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -49,53 +50,60 @@ import com.example.teacherscheduler.ui.theme.*
 // COLOR DEFINITIONS
 // ============================================================================
 object SoftUIColors {
-    // Gradient colors - Warm Sand palette
-    val WarmGradientStart = Color(0xFFF3E8E2)
-    val WarmGradientEnd = Color(0xFFE8CFC1)
-    val PinkGradientStart = Color(0xFFF5D5D8)
-    val PinkGradientEnd = Color(0xFFE8CFC1)
-    val BlueGradientStart = Color(0xFFE0F2FE)
-    val BlueGradientEnd = Color(0xFFE6F4F9)
-    val MintGradientStart = Color(0xFFE8FDF5)
-    val MintGradientEnd = Color(0xFFD4EDDA)
-    val PeachGradientStart = Color(0xFFF3E8E2)
-    val PeachGradientEnd = Color(0xFFE8CFC1)
-    val CoralGradientStart = Color(0xFFFFF5F5)
-    val CoralGradientEnd = Color(0xFFFFE8E8)
-    val RoseGradientStart = Color(0xFFF5D5D8)
-    val RoseGradientEnd = Color(0xFFE8CFC1)
-    val SkyGradientStart = Color(0xFFF0FAFF)
-    val SkyGradientEnd = Color(0xFFE0F4FF)
+    // ── Single accent: iOS Blue ──────────────────────────────────────────
+    val AccentPrimary = Color(0xFF007AFF)
+    val AccentSecondary = Color(0xFF34C759)   // success only
+    val AccentBlue = AccentPrimary
+    val AccentMint = AccentSecondary
+    val AccentPeach = Color(0xFFFF9500)
+    val AccentCoral = Color(0xFFFF3B30)
+    val AccentRose = Color(0xFFFF2D55)
+    val AccentSky = Color(0xFF5AC8FA)
 
-    // Accent colors - Warm Sand palette
-    val AccentPrimary = Color(0xFFE8CFC1)
-    val AccentSecondary = Color(0xFFD8B4A0)
-    val AccentLavender = Color(0xFFE8CFC1) // Warm sand (replaces lavender)
-    val LavenderGradientStart = Color(0xFFF3E8E2) // Warm sand gradient
-    val LavenderGradientEnd = Color(0xFFE8CFC1) // Warm sand gradient
-    val AccentBlue = Color(0xFF7C8FD9)
-    val AccentMint = Color(0xFF6BCB9A)
-    val AccentPeach = Color(0xFFE88B70)
-    val AccentCoral = Color(0xFFE57373)
-    val AccentRose = Color(0xFFE091A3)
-    val AccentSky = Color(0xFF6AB0E5)
+    // Backward-compat alias — NO purple, maps to primary blue
+    val AccentLavender = AccentPrimary
 
-    // Button colors - Warm Sand
-    val ButtonBackground = Color(0xFFF5D5D8)
-    val ButtonBackgroundPressed = Color(0xFFE8CFC1)
-    val ButtonText = Color(0xFF2B2B2B)
+    // ── Tint backgrounds (no heavy gradients) ───────────────────────────
+    val BlueTint = Color(0xFFE8F0FE)          // light blue tint for chips/icons
+    val GreenTint = Color(0xFFE8F8EE)
+    val OrangeTint = Color(0xFFFFF3E0)
 
-    // Surface colors
+    // Legacy gradient names → flat tints (kept for callers that still pass lists)
+    val WarmGradientStart = BlueTint
+    val WarmGradientEnd = BlueTint
+    val BlueGradientStart = BlueTint
+    val BlueGradientEnd = BlueTint
+    val MintGradientStart = GreenTint
+    val MintGradientEnd = GreenTint
+    val PeachGradientStart = OrangeTint
+    val PeachGradientEnd = OrangeTint
+    val PinkGradientStart = BlueTint
+    val PinkGradientEnd = BlueTint
+    val CoralGradientStart = BlueTint
+    val CoralGradientEnd = BlueTint
+    val RoseGradientStart = BlueTint
+    val RoseGradientEnd = BlueTint
+    val SkyGradientStart = BlueTint
+    val SkyGradientEnd = BlueTint
+    val LavenderGradientStart = BlueTint
+    val LavenderGradientEnd = BlueTint
+
+    // ── Button colors ───────────────────────────────────────────────────
+    val ButtonBackground = Color(0xFF007AFF)
+    val ButtonBackgroundPressed = Color(0xFF0062CC)
+    val ButtonText = Color(0xFFFFFFFF)
+
+    // ── Surface colors ──────────────────────────────────────────────────
     val CardBackground = Color(0xFFFFFFFF)
-    val ChipBackground = Color(0xFFF3E8E2)
-    val ChipBackgroundSelected = Color(0xFFF5D5D8)
-    val SoftGrey = Color(0xFFF3E8E2)
-    val LightNeutral = Color(0xFFF3E8E2)
+    val ChipBackground = Color(0xFFF2F2F7)
+    val ChipBackgroundSelected = Color(0xFFE8F0FE)
+    val SoftGrey = Color(0xFFF2F2F7)
+    val LightNeutral = Color(0xFFE5E5EA)
 
-    // Shadow colors - Warm toned
-    val SoftShadow = Color(0x0A8B7355)
-    val MediumShadow = Color(0x14926B4A)
-    val CardShadow = Color(0x0F8B7355)
+    // ── Shadow colors ───────────────────────────────────────────────────
+    val SoftShadow = Color(0x0A000000)
+    val MediumShadow = Color(0x14000000)
+    val CardShadow = Color(0x0F000000)
 }
 
 // ============================================================================
@@ -214,7 +222,7 @@ fun GradientHighlightCard(
                 spotColor = SoftUIColors.SoftShadow
             )
             .clip(shape)
-            .background(Brush.linearGradient(gradientColors))
+            .background(gradientColors.firstOrNull() ?: SoftUIColors.CardBackground)
             .then(
                 if (onClick != null) {
                     Modifier.clickable(
@@ -348,38 +356,24 @@ fun RoundedPrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     icon: ImageVector? = null,
-    gradientColors: List<Color> = listOf(
-        SoftUIColors.ButtonBackground,
-        SoftUIColors.ButtonBackground
-    ),
-    cornerRadius: Dp = AppRadius.button,
-    contentPadding: PaddingValues = PaddingValues(horizontal = AppSpacing.screenHorizontal, vertical = 14.dp)
+    cornerRadius: Dp = 14.dp,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 24.dp)
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    val backgroundColor by animateColorAsState(
-        targetValue = when {
-            !enabled -> OutlineLight
-            isPressed -> SoftUIColors.ButtonBackgroundPressed
-            else -> SoftUIColors.ButtonBackground
-        },
-        animationSpec = tween(SoftAnimations.pressDuration),
-        label = "buttonBg"
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed && enabled) 0.96f else 1f,
+        animationSpec = tween(150),
+        label = "buttonScale"
     )
-
-    val shape = RoundedCornerShape(cornerRadius)
 
     Box(
         modifier = modifier
-            .shadow(
-                elevation = if (enabled) Elevation.level3 else Elevation.level0,
-                shape = shape,
-                ambientColor = SoftUIColors.SoftShadow,
-                spotColor = SoftUIColors.SoftShadow
-            )
-            .clip(shape)
-            .background(backgroundColor)
+            .height(52.dp)
+            .scale(scale)
+            .clip(RoundedCornerShape(cornerRadius))
+            .background(if (enabled) Color(0xFF007AFF) else Color(0xFFD1D1D6))
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -398,17 +392,16 @@ fun RoundedPrimaryButton(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
-                    tint = if (enabled) SoftUIColors.ButtonText else TextTertiary
+                    tint = if (enabled) Color.White else Color(0xFF9E9E9E)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
             Text(
                 text = text,
                 style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 0.5.sp
+                    fontWeight = FontWeight.SemiBold
                 ),
-                color = if (enabled) SoftUIColors.ButtonText else TextTertiary
+                color = if (enabled) Color.White else Color(0xFF9E9E9E)
             )
         }
     }
@@ -461,7 +454,7 @@ fun RoundedSecondaryButton(
             )
             .padding(1.dp)
             .background(
-                Brush.linearGradient(listOf(borderColor, borderColor)),
+                borderColor,
                 shape = shape
             )
             .padding(1.dp)
@@ -522,22 +515,22 @@ fun SoftChip(
     onClick: (() -> Unit)? = null,
     icon: ImageVector? = null,
     backgroundColor: Color = SoftUIColors.ChipBackground,
-    selectedBackgroundColor: Color = SoftUIColors.AccentLavender.copy(alpha = 0.15f),
+    selectedBackgroundColor: Color = SoftUIColors.AccentPrimary.copy(alpha = 0.15f),
     textColor: Color = TextSecondary,
-    selectedTextColor: Color = SoftUIColors.AccentLavender,
+    selectedTextColor: Color = SoftUIColors.AccentPrimary,
     cornerRadius: Dp = AppRadius.chip
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
     val animatedBackgroundColor by animateColorAsState(
         targetValue = if (selected) selectedBackgroundColor else backgroundColor,
-        animationSpec = SoftAnimations.stateTransition as AnimationSpec<Color>,
+        animationSpec = tween(durationMillis = 250, easing = EaseInOutCubic),
         label = "chipBg"
     )
 
     val animatedTextColor by animateColorAsState(
         targetValue = if (selected) selectedTextColor else textColor,
-        animationSpec = SoftAnimations.stateTransition as AnimationSpec<Color>,
+        animationSpec = tween(durationMillis = 250, easing = EaseInOutCubic),
         label = "chipText"
     )
 
@@ -747,7 +740,7 @@ fun SoftSectionHeader(
             text = title,
             style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp
+                fontSize = 20.sp
             ),
             color = TextPrimary
         )
@@ -756,7 +749,7 @@ fun SoftSectionHeader(
                 Text(
                     text = actionText,
                     style = MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.SemiBold
                     ),
                     color = accentColor
                 )
@@ -907,7 +900,7 @@ fun SoftFloatingActionButton(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    containerColor: Color = SoftUIColors.AccentLavender,
+    containerColor: Color = SoftUIColors.AccentPrimary,
     contentColor: Color = Color.White,
     size: Dp = 56.dp,
     iconSize: Dp = 24.dp,
@@ -934,19 +927,12 @@ fun SoftFloatingActionButton(
             .scale(scale)
             .shadow(
                 elevation = animatedElevation,
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(16.dp),
                 ambientColor = SoftUIColors.SoftShadow,
                 spotColor = SoftUIColors.SoftShadow
             )
-            .clip(RoundedCornerShape(20.dp))
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        containerColor,
-                        containerColor.copy(alpha = 0.9f)
-                    )
-                )
-            )
+            .clip(RoundedCornerShape(16.dp))
+            .background(containerColor)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -973,7 +959,7 @@ fun SoftSmallFloatingActionButton(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     containerColor: Color = SoftUIColors.ChipBackgroundSelected,
-    contentColor: Color = SoftUIColors.AccentLavender,
+    contentColor: Color = SoftUIColors.AccentPrimary,
     size: Dp = 44.dp,
     iconSize: Dp = 20.dp
 ) {
@@ -1049,7 +1035,7 @@ fun SoftProfileAvatar(
             .size(size)
             .scale(scale)
             .clip(CircleShape)
-            .background(Brush.linearGradient(gradientColors))
+            .background(gradientColors.firstOrNull() ?: SoftUIColors.BlueTint)
             .then(
                 if (borderWidth > 0.dp) {
                     Modifier.border(borderWidth, borderColor, CircleShape)
@@ -1118,7 +1104,7 @@ fun SoftGridCard(
                 modifier = Modifier
                     .size(44.dp)
                     .clip(CircleShape)
-                    .background(Brush.linearGradient(iconGradientColors)),
+                    .background(iconGradientColors.firstOrNull() ?: SoftUIColors.BlueTint),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -1176,7 +1162,7 @@ fun SoftGridCard(
                             .fillMaxWidth()
                             .height(32.dp)
                             .clip(RoundedCornerShape(10.dp))
-                            .background(Brush.linearGradient(bottomGradientColors)),
+                            .background(bottomGradientColors.firstOrNull() ?: SoftUIColors.BlueTint),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -1217,11 +1203,37 @@ fun SoftListCard(
     trailingText: String? = null,
     trailingChipSelected: Boolean = true
 ) {
-    SoftCard(
-        modifier = modifier.fillMaxWidth(),
-        cornerRadius = 20.dp,
-        elevation = Elevation.level1,
-        onClick = onClick
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.98f else 1f,
+        animationSpec = tween(150),
+        label = "listCardScale"
+    )
+    
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .scale(scale)
+            .shadow(
+                elevation = if (isPressed) 2.dp else 4.dp,
+                shape = RoundedCornerShape(20.dp),
+                ambientColor = SoftUIColors.SoftShadow,
+                spotColor = SoftUIColors.SoftShadow
+            )
+            .clip(RoundedCornerShape(20.dp))
+            .background(SoftUIColors.CardBackground)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = ripple(color = SoftUIColors.AccentLavender.copy(alpha = 0.1f)),
+                        onClick = onClick
+                    )
+                } else Modifier
+            )
+            .padding(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -1233,7 +1245,7 @@ fun SoftListCard(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(RoundedCornerShape(14.dp))
-                    .background(Brush.linearGradient(iconGradientColors)),
+                    .background(iconGradientColors.firstOrNull() ?: SoftUIColors.BlueTint),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -1278,4 +1290,86 @@ fun SoftListCard(
             }
         }
     }
+}
+
+// ============================================================================
+// SOFT SECTION
+// ============================================================================
+
+/**
+ * SoftSection - A section container with title and content
+ */
+@Composable
+fun SoftSection(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.SemiBold
+            ),
+            color = TextPrimary
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            content = content
+        )
+    }
+}
+
+// ============================================================================
+// SOFT CONTENT CARD
+// ============================================================================
+
+/**
+ * SoftContentCard - A simple white card with rounded corners
+ */
+@Composable
+fun SoftContentCard(
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    cornerRadius: Dp = 20.dp,
+    contentPadding: PaddingValues = PaddingValues(16.dp),
+    content: @Composable BoxScope.() -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) SoftAnimations.pressScale else 1f,
+        animationSpec = tween(SoftAnimations.pressDuration),
+        label = "contentCardScale"
+    )
+
+    Box(
+        modifier = modifier
+            .scale(scale)
+            .shadow(
+                elevation = Elevation.level1,
+                shape = RoundedCornerShape(cornerRadius),
+                ambientColor = SoftUIColors.SoftShadow,
+                spotColor = SoftUIColors.SoftShadow
+            )
+            .clip(RoundedCornerShape(cornerRadius))
+            .background(SoftUIColors.CardBackground)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            )
+            .padding(contentPadding),
+        content = content
+    )
 }

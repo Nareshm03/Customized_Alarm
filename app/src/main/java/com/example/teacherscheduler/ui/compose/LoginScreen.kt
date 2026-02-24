@@ -22,7 +22,7 @@ import com.example.teacherscheduler.ui.theme.*
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
+    onLoginSuccess: (String, String) -> Unit,
     onRegisterClick: () -> Unit = {},
     onGoogleSignIn: () -> Unit = {}
 ) {
@@ -136,7 +136,7 @@ fun LoginScreen(
                         text = if (isLoading) "Signing in..." else "Sign In",
                         onClick = {
                             isLoading = true
-                            onLoginSuccess()
+                            onLoginSuccess(email, password)
                         },
                         enabled = !isLoading && email.isNotEmpty() && password.isNotEmpty(),
                         modifier = Modifier.fillMaxWidth()

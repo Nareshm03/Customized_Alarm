@@ -64,7 +64,14 @@ class DashboardViewModelRefactored @Inject constructor(
             todayClasses = todayClasses,
             upcomingMeetings = upcomingMeetings,
             nextEventTitle = nextEvent?.first ?: "No upcoming events",
-            nextEventTime = nextEvent?.let { formatTime(it.second) } ?: ""
+            nextEventTime = nextEvent?.let { formatTime(it.second) } ?: "",
+            todayHours = calculateTodayHours(todayClasses),
+            weekClassesCount = 0,
+            weekMeetingsCount = 0,
+            weekHours = 0.0,
+            urgentToDos = emptyList(),
+            insights = emptyList(),
+            productivityScore = 0
         )
     }.map<DashboardData, UiState<DashboardData>> { data ->
         UiState.Success(data)
@@ -116,6 +123,13 @@ class DashboardViewModelRefactored @Inject constructor(
         return format.format(date)
     }
     
+    private fun calculateTodayHours(classes: List<Class>): Double {
+        return classes.sumOf { classItem ->
+            val duration = (classItem.endTime.time - classItem.startTime.time) / (1000.0 * 60 * 60)
+            duration
+        }
+    }
+
     fun deleteClass(classItem: Class) {
         viewModelScope.launch {
             repository.deleteClass(classItem)

@@ -29,19 +29,6 @@ import com.example.teacherscheduler.ui.theme.*
  * - Large spacing (24dp outer, 16dp between sections, 12dp inside cards)
  * - Section-based layout with clear hierarchy
  * - Modern minimal style inspired by premium iOS productivity apps
- *
- * Typography:
- * - Greeting → Large headline
- * - Section titles → Medium weight
- * - Body → Regular
- * - Avoid overusing bold
- *
- * Spacing Constants:
- * - Outer padding: 24dp
- * - Top spacing: 32dp
- * - Section spacing: 16dp
- * - Card inner padding: 12-16dp
- * - Card corner radius: 24dp
  */
 
 // ============================================================================
@@ -68,12 +55,6 @@ object SoftLayoutDimens {
 
 /**
  * SoftScreenContainer - Base container for all screens
- *
- * Features:
- * - White/soft background
- * - Proper top spacing (32dp)
- * - 24dp horizontal padding
- * - Fade-in animation on entry
  */
 @Composable
 fun SoftScreenContainer(
@@ -165,13 +146,7 @@ fun SoftScrollableScreen(
 // ============================================================================
 
 /**
- * SoftMinimalTopBar - Clean minimal top bar (no heavy colors)
- *
- * Features:
- * - Transparent/white background
- * - Simple title
- * - Optional back button
- * - No heavy colored bars
+ * SoftMinimalTopBar - Clean minimal top bar
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -223,11 +198,6 @@ fun SoftMinimalTopBar(
 
 /**
  * SoftSection - A section with title and content
- *
- * Features:
- * - Subtle section title (medium weight)
- * - Proper spacing
- * - Optional "See More" action
  */
 @Composable
 fun SoftSection(
@@ -241,38 +211,12 @@ fun SoftSection(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(SoftLayoutDimens.sectionTitleSpacing)
     ) {
-        // Section Header
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
-                ),
-                color = TextPrimary
-            )
+        SoftSectionTitle(
+            title = title,
+            actionText = actionText,
+            onActionClick = onActionClick
+        )
 
-            if (actionText != null && onActionClick != null) {
-                TextButton(
-                    onClick = onActionClick,
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    Text(
-                        text = actionText,
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        color = SoftUIColors.AccentLavender
-                    )
-                }
-            }
-        }
-
-        // Section Content
         Column(
             verticalArrangement = Arrangement.spacedBy(SoftLayoutDimens.cardSpacing),
             content = content
@@ -298,8 +242,8 @@ fun SoftSectionTitle(
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium.copy(
-                fontWeight = FontWeight.Medium,
-                fontSize = 16.sp
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp
             ),
             color = TextPrimary
         )
@@ -311,27 +255,18 @@ fun SoftSectionTitle(
             ) {
                 Text(
                     text = actionText,
-                    style = MaterialTheme.typography.labelMedium.copy(
+                    style = MaterialTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.Medium
                     ),
-                    color = SoftUIColors.AccentLavender
+                    color = Primary
                 )
             }
         }
     }
 }
 
-// ============================================================================
-// GREETING HEADER
-// ============================================================================
-
 /**
  * SoftGreetingHeader - Large greeting headline
- *
- * Features:
- * - Large headline text
- * - Optional subtitle
- * - Profile avatar option
  */
 @Composable
 fun SoftGreetingHeader(
@@ -381,13 +316,7 @@ fun SoftGreetingHeader(
 // ============================================================================
 
 /**
- * SoftContentCard - Large rounded card with proper spacing
- *
- * Features:
- * - 24dp corner radius
- * - Soft shadow
- * - White background
- * - 16dp internal padding
+ * SoftContentCard - Large rounded card
  */
 @Composable
 fun SoftContentCard(
@@ -443,6 +372,7 @@ fun SoftListItemCard(
     trailing: @Composable (() -> Unit)? = null
 ) {
     SoftContentCard(
+        backgroundColor = Color.White,
         modifier = modifier,
         onClick = onClick
     ) {
@@ -451,7 +381,6 @@ fun SoftListItemCard(
             horizontalArrangement = Arrangement.spacedBy(SoftLayoutDimens.itemSpacing),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon
             if (icon != null) {
                 Box(
                     modifier = Modifier
@@ -469,7 +398,6 @@ fun SoftListItemCard(
                 }
             }
 
-            // Content
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(SoftLayoutDimens.textSpacing)
@@ -491,7 +419,6 @@ fun SoftListItemCard(
                 }
             }
 
-            // Trailing
             if (trailing != null) {
                 trailing()
             }
@@ -504,7 +431,7 @@ fun SoftListItemCard(
 // ============================================================================
 
 /**
- * SoftEmptyStateView - Clean empty state with minimal design
+ * SoftEmptyStateView - Clean empty state
  */
 @Composable
 fun SoftEmptyStateView(
@@ -523,7 +450,6 @@ fun SoftEmptyStateView(
     ) {
         Spacer(modifier = Modifier.height(48.dp))
 
-        // Icon
         if (icon != null) {
             Box(
                 modifier = Modifier
@@ -541,7 +467,6 @@ fun SoftEmptyStateView(
             }
         }
 
-        // Title
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium.copy(
@@ -550,7 +475,6 @@ fun SoftEmptyStateView(
             color = TextSecondary
         )
 
-        // Subtitle
         if (subtitle != null) {
             Text(
                 text = subtitle,
@@ -559,7 +483,6 @@ fun SoftEmptyStateView(
             )
         }
 
-        // Action
         if (action != null) {
             Spacer(modifier = Modifier.height(8.dp))
             action()
